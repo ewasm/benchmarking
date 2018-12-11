@@ -6,7 +6,7 @@ Our current method of benchmarking is built on our testing infrastructure. We us
 ```
 precompiles/		- contains everything to compile all precompiles
   c_undefined.syms	- list of ethereum helper functions, used when compiling C files
-  sha256_vectors.dat	- list of sha256 test vectors: inputs and corresponding outputs
+  sha256.dat		- list of sha256 test vectors: inputs and corresponding outputs
   sha256_c_1.c		- a version of sha256 written in C
   sha256_c_2.c		- another version of sha256 written in C
   ...
