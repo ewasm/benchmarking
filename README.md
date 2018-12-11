@@ -10,7 +10,7 @@ precompiles/		- contains everything to compile all precompiles
   sha256_c_1.c		- a version of sha256 written in C
   sha256_c_2.c		- another version of sha256 written in C
   ...
-benchmarks/		- contains all filled test cases, one for each precompile, ready to be benchmarked
+filled/			- contains all filled test cases, one for each precompile, ready to be benchmarked
   sha256_c_1.json	- filled test case, ready to test and benchmark
   sha256_c_2.json	- filled test case, ready to test and benchmark
   ...
