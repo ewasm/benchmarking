@@ -60,63 +60,8 @@ git clone https://github.com/ewasm/benchmarking.git
 Run the benchmarks. This will call testeth on each test, and print runtimes to file `runtime_data.csv`.
 
 ```sh
-# we assume the following is done from the parent directory of this benchmarking repo
-
-# make sure the following paths are correct for your system
-REPOS_DIR=/home/user/repos/benchmarking
-TEST_DIR=$REPOS_DIR/tests
-TESTETH_EXEC=$REPOS_DIR/aleth/bin/testeth
-HERA_SO=$REPOS_DIR/hera-benchmarking/build/src/libhera.so
-BENCHMARKING_DIR=$REPOS_DIR/benchmarking
-
-cd $BENCHMARKING_DIR
-
-# prepare all files for testeth to execute, each file corresponds to a precompile
-cp $BENCHMARKING_DIR/filled/*.json $TEST_DIR/GeneralStateTests/stEWASMTests/
-
-# the engines to use, can comment some out with #
-engines=(
-  binaryen
-  wabt
-  wavm
-)
-
-# the tests to run, can comment some out with #
-tests=(
-  sha256_1
-  sha256_2
-)
-
-# finally, loop over each test and engine
-for testcase in "${tests[@]}"; do
-  printf "\n" >> runtime_data.csv
-  printf "\n\n\nBENCHMARKING %s\n" $testcase
-  for engine in "${engines[@]}"; do
-    printf "\n\nBENCHMARKING %s in %s\n" $testcase $engine
-
-    # prepare file to output to
-    printf "\n%s, %s\t" $testcase $engine >> runtime_data.csv
-    # for wavm benchmarks, prepare to append compile and invokation times
-    if [ "$engine" = "wavm" ]; then
-      printf "\n%s, %s\t" $testcase wavm_compile >> runtime_data_wavm_compile.csv
-      printf "\n%s, %s\t" $testcase wavm_invoke >> runtime_data_wavm_invoke.csv
-    fi
-
-    printf "\nBENCHMARKING %s in %s\n" $testcase $engine
-    ETHEREUM_TEST_PATH=$TEST_DIR $TESTETH_EXEC -t GeneralStateTests/stEWASMTests -- --vm $HERA_SO --evmc engine=$engine --singlenet "Byzantium" --singletest $testcase
-
-    # for wavm benchmarks, append compile and invokation times from other files
-    if [ "$engine" = "wavm" ]; then
-      printf "\n" >> runtime_data.csv
-      tail runtime_data_wavm_compile.csv -n 1 >> runtime_data.csv
-      rm runtime_data_wavm_compile.csv
-      printf "\n" >> runtime_data.csv
-      tail runtime_data_wavm_invoke.csv -n 1 >> runtime_data.csv
-      rm runtime_data_wavm_invoke.csv
-    fi
-
-  done
-done
+# NOTE: edit the top of run_benchmarks.sh to make sure the paths are correct
+bash run_benchmarks.sh
 ```
 
 In file `runtime_data.csv`, the extra time for each test corresponds to the ewasm contract which calls the precompile for each input and stores the output. This is the first instantiation-time and the last run-time, perhaps we will automatically delete if it becomes a problem.
@@ -157,53 +102,7 @@ make -j4
 Compile each precompile and prepare benchmark file for each precompile.
 
 ```sh
-# Fill these in with your own system
-REPOS_DIR=/home/user/repos/benchmarking
-TEST_DIR=$REPOS_DIR/tests
-TESTETH_EXEC=$REPOS_DIR/aleth/bin/testeth
-HERA_SO=$REPOS_DIR/hera-benchmarking/build/src/libhera.so
-PYWEBASSEMBLY_DIR=$REPOS_DIR/pywebassembly
-BINARYEN_DIR=$REPOS_DIR/binaryen
-BENCHMARKING_DIR=$REPOS_DIR/benchmarking
-WASMCEPTION_DIR=$REPOS_DIR/wasmception
-
-# compile each precompile
-cd $BENCHMARKING_DIR
-$WASMCEPTION_DIR/dist/bin/clang --target=wasm32-unknown-unknown-wasm --sysroot=$WASMCEPTION_DIR/sysroot -O3 -g -o sha256_c_1.wasm -nostartfiles -Wl,--allow-undefined-file=$BENCHMARKING_DIR/precompiles/c_undefined.syms,--demangle,--no-entry,--no-threads -Wl,--export=_main -fvisibility=hidden $BENCHMARKING_DIR/precompiles/sha256_c_1.c
-$WASMCEPTION_DIR/dist/bin/clang --target=wasm32-unknown-unknown-wasm --sysroot=$WASMCEPTION_DIR/sysroot -O3 -g -o sha256_c_2.wasm -nostartfiles -Wl,--allow-undefined-file=$BENCHMARKING_DIR/precompiles/c_undefined.syms,--demangle,--no-entry,--no-threads -Wl,--export=_main -fvisibility=hidden $BENCHMARKING_DIR/precompiles/sha256_c_2.c
-
-# For C-language precompiles, use PyWebAssembly to clean them up
-cd $PYWEBASSEMBLY_DIR/examples/
-python3 ewasmify.py $BENCHMARKING_DIR/sha256_c_1.wasm
-python3 ewasmify.py $BENCHMARKING_DIR/sha256_c_2.wasm
-
-# use binaryen to convert each .wasm to .wat
-cd $BENCHMARKING_DIR
-$BINARYEN_DIR/build/bin/wasm-dis sha256_c_1_ewasmified.wasm > sha256_c_1.wat
-$BINARYEN_DIR/build/bin/wasm-dis sha256_c_2_ewasmified.wasm > sha256_c_2.wat
-
-# create a filler for each .wat precompile
-cd $BENCHMARKING_DIR
-python3 ewasm_precompile_filler_generator.py sha256_c_1 sha256_c_1.wat precompiles/sha256.dat
-python3 ewasm_precompile_filler_generator.py sha256_c_2 sha256_c_2.wat precompiles/sha256.dat
-
-# put fillers into the fillers directory
-cp *.yml $TEST_DIR/src/GeneralStateTestsFiller/stEWASMTests/
-
-# create dummy lllc which may be needed by testeth
-printf '#!/usr/bin/env bash\necho 1' > lllc
-chmod +x lllc
-PATH=$PATH:.
-
-# fill each test
-ETHEREUM_TEST_PATH=$TEST_DIR $TESTETH_EXEC -t GeneralStateTests/stEWASMTests -- --filltests --vm $HERA_SO --evmc engine=binaryen --singlenet "Byzantium" --singletest sha256_c_1
-ETHEREUM_TEST_PATH=$TEST_DIR $TESTETH_EXEC -t GeneralStateTests/stEWASMTests -- --filltests --vm $HERA_SO --evmc engine=binaryen --singlenet "Byzantium" --singletest sha256_c_2
-
-# save filled tests into our repo for others to use
-cp $TEST_DIR/GeneralStateTests/stEWASMTests/sha256_c_1.json $BENCHMARKING_DIR/filled/
-cp $TEST_DIR/GeneralStateTests/stEWASMTests/sha256_c_2.json $BENCHMARKING_DIR/filled/
-
-# clean up
-rm *.wasm *.wat *.yml lllc
+# NOTE: edit the top of fill_benchmarks.sh to make sure the paths are correct
+bash fill_benchmarks.sh
 ```
 
