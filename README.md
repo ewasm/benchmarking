@@ -4,7 +4,7 @@ This repository contains instructions for benchmarking ewasm precompiles.
 Our current method of benchmarking is built on our testing infrastructure. We use `testeth` to run a test case for each precompile, and clock its runtime. The current directory structure is as follows.
 
 ```
-precompiles/		- contains everything to compile all precompiles
+source/			- contains everything to compile all precompiles
   c_undefined.syms	- list of ethereum helper functions, used when compiling C files
   sha256.dat		- list of sha256 test vectors: inputs and corresponding outputs
   sha256_c_1.c		- a version of sha256 written in C
@@ -14,7 +14,7 @@ filled/			- contains all filled test cases, one for each precompile, ready to be
   sha256_c_1.json	- filled test case, ready to test and benchmark
   sha256_c_2.json	- filled test case, ready to test and benchmark
   ...
-benchmark_results/	- contains uploaded runtime_data.csv benchmark file from various people
+results/		- contains uploaded runtime_data.csv benchmark file from various people
   20181211_paul.txt	- the runtimes.csv from running tests
   ...
 ewasm_precompile_filler_generator.py	- takes input .wat precompile and .dat file of test vectors, outputs a test filler

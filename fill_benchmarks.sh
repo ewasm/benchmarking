@@ -10,8 +10,8 @@ WASMCEPTION_DIR=$REPOS_DIR/wasmception
 
 # compile each precompile
 cd $BENCHMARKING_DIR
-$WASMCEPTION_DIR/dist/bin/clang --target=wasm32-unknown-unknown-wasm --sysroot=$WASMCEPTION_DIR/sysroot -O3 -g -o sha256_c_1.wasm -nostartfiles -Wl,--allow-undefined-file=$BENCHMARKING_DIR/precompiles/c_undefined.syms,--demangle,--no-entry,--no-threads -Wl,--export=_main -fvisibility=hidden $BENCHMARKING_DIR/precompiles/sha256_c_1.c
-$WASMCEPTION_DIR/dist/bin/clang --target=wasm32-unknown-unknown-wasm --sysroot=$WASMCEPTION_DIR/sysroot -O3 -g -o sha256_c_2.wasm -nostartfiles -Wl,--allow-undefined-file=$BENCHMARKING_DIR/precompiles/c_undefined.syms,--demangle,--no-entry,--no-threads -Wl,--export=_main -fvisibility=hidden $BENCHMARKING_DIR/precompiles/sha256_c_2.c
+$WASMCEPTION_DIR/dist/bin/clang --target=wasm32-unknown-unknown-wasm --sysroot=$WASMCEPTION_DIR/sysroot -O3 -g -o sha256_c_1.wasm -nostartfiles -Wl,--allow-undefined-file=$BENCHMARKING_DIR/source/c_undefined.syms,--demangle,--no-entry,--no-threads -Wl,--export=_main -fvisibility=hidden $BENCHMARKING_DIR/source/sha256_c_1.c
+$WASMCEPTION_DIR/dist/bin/clang --target=wasm32-unknown-unknown-wasm --sysroot=$WASMCEPTION_DIR/sysroot -O3 -g -o sha256_c_2.wasm -nostartfiles -Wl,--allow-undefined-file=$BENCHMARKING_DIR/source/c_undefined.syms,--demangle,--no-entry,--no-threads -Wl,--export=_main -fvisibility=hidden $BENCHMARKING_DIR/source/sha256_c_2.c
 
 # For C-language precompiles, use PyWebAssembly to clean them up
 cd $PYWEBASSEMBLY_DIR/examples/
@@ -25,8 +25,8 @@ $BINARYEN_DIR/build/bin/wasm-dis sha256_c_2_ewasmified.wasm > sha256_c_2.wat
 
 # create a filler for each .wat precompile
 cd $BENCHMARKING_DIR
-python3 ewasm_precompile_filler_generator.py sha256_c_1 sha256_c_1.wat precompiles/sha256.dat
-python3 ewasm_precompile_filler_generator.py sha256_c_2 sha256_c_2.wat precompiles/sha256.dat
+python3 ewasm_precompile_filler_generator.py sha256_c_1 sha256_c_1.wat source/sha256.dat
+python3 ewasm_precompile_filler_generator.py sha256_c_2 sha256_c_2.wat source/sha256.dat
 
 # put fillers into the fillers directory
 cp *.yml $TEST_DIR/src/GeneralStateTestsFiller/stEWASMTests/
