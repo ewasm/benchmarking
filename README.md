@@ -23,7 +23,7 @@ ewasm_precompile_filler_generator.py	- takes input .wat precompile and .dat file
 
 
 
-# Run Benchmarks
+# Fill Benchmarks
 
 First, setup tools.
 
