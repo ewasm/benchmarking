@@ -23,7 +23,7 @@ ewasm_precompile_filler_generator.py	- takes input .wat precompile and .dat file
 
 
 
-# Fill Benchmarks
+# Run Benchmarks
 
 First, setup tools.
 
@@ -72,7 +72,7 @@ In file `runtime_data.csv`, the extra time for each test corresponds to the ewas
 
 
 
-# Create Benchmarks
+# Fill Benchmarks
 
 This is unnecessary to run benchmarks. But to recreate benchmarks.
 
