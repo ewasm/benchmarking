@@ -6,14 +6,15 @@ To run try eg:
 python3 testcase_generator.py sha256 main.wat sha256.dat
 where:
   sha256 means that it will output sha256Filler.yml.
-  sha256.dat is test cases which are a list with space delimited inputs and outputs.
+  sha256.dat is test cases which are a newline delimited list with space delimited input and output.
+    0x... 0x...
     0x... 0x...
   main.wat is the binaryen-produced wat file which takes input message from the dat file, and returns message to compare against the dat file.
 
 
 current limitations:
- - Can handle at most 256 test cases. To get around this, must have storage keys in little-endian, since wasm will reverse it when it is written to memory
- - Can handle whatever the memory size is, this could potentially be set automatically based on test case sizes
+ - For testing, the output must be 256 bits, since that is what fits in a storage location. This can be generalized when needed. But lets keep it simple for now.
+ - It can handle at most 256 test cases. For more, we must reverse bytes of each storage key to be little-endian, since wasm will reverse them when they are written to memory.
 
 """
 
@@ -57,8 +58,18 @@ def generate_test_filler(test_name, wat_filename, test_cases_filename):
          (import "ethereum" "call"         (func $call (param i64 i32 i32 i32 i32) (result i32)))
          (import "ethereum" "returnDataCopy" (func $returnDataCopy (param i32 i32 i32)))
          ;;(import "debug" "printStorageHex" (func $printStorageHex (param i32)))
-         ;;(import "debug" "printMemHex" (func $printMemHex (param i32 i32)))
-         (memory 1)
+         ;;(import "debug" "printMemHex" (func $printMemHex (param i32 i32)))""")
+
+  # compute number of Wasm memory pages needed
+  total_memory_bytes = 0
+  for test_case in test_cases:
+    test_case = test_case[0][2:]
+    total_memory_bytes += len(test_case)//2
+  memory_pages_needed = total_memory_bytes//(2**16)+1
+  f.write("""
+         (memory """+str(memory_pages_needed)+""") """)
+  # write address of contract containing the precompile
+  f.write("""
          (data (i32.const 0) "\\b9\\4f\\53\\74\\fc\\e5\\ed\\bc\\8e\\2a\\86\\97\\c1\\53\\31\\67\\7e\\6e\\bf\\0b")
 """)
   # init data segment with each test case input
