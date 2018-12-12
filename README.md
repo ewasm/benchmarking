@@ -18,6 +18,8 @@ results/		- contains uploaded runtime_data.csv benchmark file from various peopl
   20181211_paul.txt	- the runtimes.csv from running tests
   ...
 ewasm_precompile_filler_generator.py	- takes input .wat precompile and .dat file of test vectors, outputs a test filler
+fill_benchmarks.sh  - for each precompile, compile it, create a test filler, and fill it
+run_benchmarks.sh   - for each precompile, run it's filled test on each WebAssembly engine and and print runtimes to file
 ```
 
 
@@ -25,7 +27,7 @@ ewasm_precompile_filler_generator.py	- takes input .wat precompile and .dat file
 
 # Run Benchmarks
 
-First, setup tools.
+First setup tools.
 
 ```sh
 # get hera version with benchmarking enabled
@@ -74,9 +76,9 @@ In file `runtime_data.csv`, the extra time for each test corresponds to the ewas
 
 # Fill Benchmarks
 
-This is unnecessary to run benchmarks. But to recreate benchmarks.
+This is unnecessary to run benchmarks. Use to refill benchmarks or add a new benchmark.
 
-Setup tools.
+First setup tools.
 
 ```sh
 # get hera, tests, and testeth as described above
@@ -99,7 +101,7 @@ cmake ..
 make -j4
 ```
 
-Compile each precompile and prepare benchmark file for each precompile.
+Compile each precompile, create test filler, fill the test, and save the filled tests.
 
 ```sh
 # NOTE: edit the top of fill_benchmarks.sh to make sure the paths are correct
