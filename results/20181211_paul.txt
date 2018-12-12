@@ -1,0 +1,13 @@
+
+
+sha256_1, binaryen	
+sha256_1, wabt	
+sha256_1, wavm	
+sha256_1, wavm_compile	
+sha256_1, wavm_invoke	
+
+sha256_2, binaryen	
+sha256_2, wabt	
+sha256_2, wavm	
+sha256_2, wavm_compile	
+sha256_2, wavm_invoke	
