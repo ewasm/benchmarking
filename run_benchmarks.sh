@@ -21,6 +21,7 @@ engines=(
 tests=(
   sha256_1
   sha256_2
+  sha256_3
 )
 
 # create dummy lllc which may be needed by testeth
