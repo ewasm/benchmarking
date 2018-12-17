@@ -33,6 +33,19 @@ void useGas(i64 amount);
 void finish(i32ptr* dataOffset, i32 dataLength);
 
 
+// custom memcpy
+void* memcpy(void* restrict destination, const void* restrict source, size_t len) {
+  uint8_t* destination_ptr = (uint8_t*) destination;
+  uint8_t* source_ptr = (uint8_t*) source;
+  while (len-- > 0) {
+    *destination_ptr++ = *source_ptr++;
+  }
+  return destination;
+}
+
+
+
+
 
 // from librhash/byteorder.h
 
@@ -328,10 +341,10 @@ void _main(){
   callDataCopy( (i32ptr*)in, 0, length ); //get data to hash into memory
   unsigned char out[32];
 
-  sha256_ctx *ctx;
-  //rhash_sha256_init(ctx);
-  rhash_sha256_update(ctx, in, length);
-  rhash_sha256_final(ctx, out);
+  sha256_ctx ctx;
+  rhash_sha256_init(&ctx);
+  rhash_sha256_update(&ctx, in, length);
+  rhash_sha256_final(&ctx, out);
 
   finish((i32ptr*)out,32);
 
