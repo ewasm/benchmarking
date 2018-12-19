@@ -92,23 +92,24 @@ def generate_test_filler(test_name, wat_filename, test_cases_filename):
   # wasm code to execute each test case
   byte_location_of_test_case = 128
   for i,test_case in enumerate(test_cases):
-    test_case = test_case[0][2:]
+    test_case_input = test_case[0][2:]
+    test_case_output = test_case[1][2:]
     f.write("""
 
 
           ;; call the precompile at address b94...f0b and send value 0 Eth
           ;;                      gas           addrOffset     valOffset      dataOffset     dataLength
-          (drop (call $call (i64.const 200000) (i32.const 0) (i32.const 32) (i32.const """+str(byte_location_of_test_case)+""") (i32.const """+ str(len(test_case)//2) +""")))
+          (drop (call $call (i64.const 200000) (i32.const 0) (i32.const 32) (i32.const """+str(byte_location_of_test_case)+""") (i32.const """+ str(len(test_case_input)//2) +""")))
           ;; get return data
           ;;                     resultOffset   dataOffset    length
-          (call $returnDataCopy (i32.const 64) (i32.const 0) (i32.const 32))
+          (call $returnDataCopy (i32.const 64) (i32.const 0) (i32.const """+ str(len(test_case_output)//2) +"""))
           ;; store result in storage
           (i32.store8 (i32.const 127) (i32.const """+str(i)+"""))
           ;;                     pathOffset     valueOffset
           (call $storageStore (i32.const 96) (i32.const 64))
           ;;(call $printMemHex (i32.const 96) (i32.const 32))
           ;;(call $printStorageHex (i32.const 96))""")
-    byte_location_of_test_case += len(test_case)//2
+    byte_location_of_test_case += len(test_case_input)//2
   # finish writing wasm code to call each test case
   f.write("""
          )
@@ -148,7 +149,7 @@ def generate_test_filler(test_name, wat_filename, test_cases_filename):
 
   # print correct output to be checked against
   for i,test_case in enumerate(test_cases):
-    f.write("            " + str(i) + ": '" + test_case[1] + "'")
+    f.write("            " + str(i) + ": '" + test_case[1] + "0"*(64-(len(test_case[1])-2)) + "'")
     if i!=len(test_cases)-1:
       f.write(",\n")
   # print final yml stuff
