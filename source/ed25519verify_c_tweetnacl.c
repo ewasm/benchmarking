@@ -1,21 +1,6 @@
 /*
 
-using supercop
- - has both ref and ref10 implementations
-   Ref written in c, very slow
-   djb's Ref10 written in c, decent performance
-
-directories which mention 25519
-  crypto_dh
-  crypto_scalarmult
-  crypto_sign
-
-other possibilities
- - see https://stackoverflow.com/questions/19147619/what-implementions-of-ed25519-exist
- - libsodium has ref10, maybe simpler
- - with little memory used: http://www.dlbeer.co.nz/oss/c25519.html
- - HACL
- - TweetNaCl
+using TweetNaCl
 
 */
 
