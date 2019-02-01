@@ -12,4 +12,3 @@ Current limitations:
  * There is no way to leave comments in the test vector files.
 
 These limitations can be fixed in `ewasm_precompile_filler_generator.py` when needed.
-
