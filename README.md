@@ -4,15 +4,15 @@ This repository contains instructions for benchmarking ewasm precompiles.
 Our current method of benchmarking is built on our testing infrastructure. We use `testeth` to run a test case for each precompile, and clock its runtime. The current directory structure is as follows.
 
 ```
-source/			- contains everything to compile all precompiles
+C_ewasm_contracts/	- contains all C contracts to be benchmarked
   c_undefined.syms	- list of ethereum helper functions, used when compiling C files
+  sha256_nacl.c		- sha256 implementation from nacl library
+  ...
+test_vectors/		- contains allt test vectors
   sha256.dat		- list of sha256 test vectors: inputs and corresponding outputs
-  sha256_c_1.c		- a version of sha256 written in C
-  sha256_c_2.c		- another version of sha256 written in C
   ...
 filled/			- contains all filled test cases, one for each precompile, ready to be benchmarked
-  sha256_c_1.json	- filled test case, ready to test and benchmark
-  sha256_c_2.json	- filled test case, ready to test and benchmark
+  sha256_nacl.json	- filled test case, ready to test and benchmark
   ...
 results/		- contains uploaded runtime_data.csv benchmark file from various people
   20181211_paul.txt	- the runtimes.csv from running tests
@@ -92,6 +92,11 @@ make	# Warning: this compiles llvm, llvm tools, a C library, and a C++ library. 
 # for C precompiles, we are currently using pywebassembly to clean up the wasm
 cd ..
 git clone https://github.com/poemm/pywebassembly.git
+
+# for Rust precompiles, get tools needed to compile
+sudo apt install rustc
+sudo apt install cargo
+cargo install chisel
 
 # binaryen is used to convert each .wasm to .wat
 git clone https://github.com/WebAssembly/binaryen.git	# warning 90 MB, can also download precompiled binaries which are 15 MB

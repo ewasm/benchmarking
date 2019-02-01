@@ -1,11 +1,11 @@
 {
-    "sha256_c_3" : {
+    "sha256_bcon" : {
         "_info" : {
             "comment" : "",
             "filledwith" : "testeth 1.5.0-alpha.7",
             "lllcversion" : "Error getting LLLC Version",
-            "source" : "src/GeneralStateTestsFiller/stEWASMTests/sha256_c_3Filler.yml",
-            "sourceHash" : "2cb24d276a3f01d370fcbc4a78615ffb68b86470c7093bd56877e85b74642a5b"
+            "source" : "src/GeneralStateTestsFiller/stEWASMTests/sha256_bconFiller.yml",
+            "sourceHash" : "6342cd661a70993a8560a877d4abc3b8680c9b068f29a2771ddec11a5b79a116"
         },
         "env" : {
             "currentCoinbase" : "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",

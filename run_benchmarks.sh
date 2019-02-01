@@ -19,9 +19,22 @@ engines=(
 
 # the tests to run, can comment some out with #
 tests=(
-  sha256_1
-  sha256_2
-  sha256_3
+  ed25519verify_tweetnacl
+  keccak256_rhash
+  sha256_nacl
+  sha256_bcon
+  sha256_rhash
+  blake2
+  bls12pairing
+  ecadd
+  ecmul
+  ecpairing
+  ed25519
+  identity
+  keccak256
+  ripemd160
+  sha1
+  sha256
 )
 
 # create dummy lllc which may be needed by testeth
@@ -29,7 +42,7 @@ printf '#!/usr/bin/env bash\necho 1' > lllc
 chmod +x lllc
 PATH=$PATH:.
 
-# finally, loop over each test and engine
+# loop over each test and engine
 for testcase in "${tests[@]}"; do
   printf "\n" >> runtime_data.csv
   printf "\n\n\nBENCHMARKING %s\n" $testcase

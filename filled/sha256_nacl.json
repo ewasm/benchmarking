@@ -1,11 +1,11 @@
 {
-    "sha256_c_1" : {
+    "sha256_nacl" : {
         "_info" : {
             "comment" : "",
             "filledwith" : "testeth 1.5.0-alpha.7",
             "lllcversion" : "Error getting LLLC Version",
-            "source" : "src/GeneralStateTestsFiller/stEWASMTests/sha256_c_1Filler.yml",
-            "sourceHash" : "79aa4d8602a3cab451b06fff0afdf4ab89d5b97495f7bb65d4e593afaf271455"
+            "source" : "src/GeneralStateTestsFiller/stEWASMTests/sha256_naclFiller.yml",
+            "sourceHash" : "a2bdb94e354888b29a920f2eb6568b49a83c86988969b009ae1eb1e31c663528"
         },
         "env" : {
             "currentCoinbase" : "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",
