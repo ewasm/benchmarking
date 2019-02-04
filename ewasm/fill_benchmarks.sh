@@ -5,7 +5,7 @@ TESTETH_EXEC=$REPOS_DIR/aleth/bin/testeth
 HERA_SO=$REPOS_DIR/hera-benchmarking/build/src/libhera.so
 PYWEBASSEMBLY_DIR=$REPOS_DIR/pywebassembly
 BINARYEN_DIR=$REPOS_DIR/binaryen
-BENCHMARKING_DIR=$REPOS_DIR/benchmarking
+BENCHMARKING_DIR=$REPOS_DIR/benchmarking/ewasm
 WASMCEPTION_DIR=$REPOS_DIR/wasmception
 EWASM_PRECOMPILES_DIR=$REPOS_DIR/ewasm-precompiles/
 
@@ -31,6 +31,7 @@ CEwasmContracts=(
   ["sha256_nacl"]=sha256.dat
   ["sha256_bcon"]=sha256.dat
   ["sha256_rhash"]=sha256.dat
+  ["polynomial_evaluation_32bit"]=polynomial_evaluation_32bit.dat
 )
 
 # iterate over each C ewasm contract, compile, and generate test filler *Filler.yml, fill the json, save it, clean up
