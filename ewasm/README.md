@@ -31,7 +31,7 @@ First setup tools.
 
 ```sh
 # get hera version with benchmarking enabled
-git clone https://github.com/ewasm/hera.git hera-benchmarking	#TODO: this does not include benchmarking yet
+git clone https://github.com/ewasm/hera.git -b benchmarking hera-benchmarking	#TODO: this does not include benchmarking yet
 cd hera-benchmarking
 git submodule update --init
 mkdir build && cd build
@@ -88,15 +88,20 @@ git clone https://github.com/yurydelendik/wasmception.git
 cd wasmception
 make	# Warning: this compiles llvm, llvm tools, a C library, and a C++ library. Requires lots of internet bandwidth, RAM, disk-space, and one hour compiling on a mid-level laptop.
 # make note of the end of the output, should be something like --sysroot=/home/user/repos/benchmarking/wasmception/sysroot
+cd ..
+
+# for wrc20 contracts
+git clone https://github.com/poemm/wrc20-examples -b C_handwritten_and_tester
 
 # for C precompiles, we are currently using pywebassembly to clean up the wasm
-cd ..
 git clone https://github.com/poemm/pywebassembly.git
 
 # for Rust precompiles, get tools needed to compile
 sudo apt install rustc
 sudo apt install cargo
 cargo install chisel
+# and get precompiles
+git clone https://github.com/ewasm/ewasm-precompiles.git
 
 # binaryen is used to convert each .wasm to .wat
 git clone https://github.com/WebAssembly/binaryen.git	# warning 90 MB, can also download precompiled binaries which are 15 MB
