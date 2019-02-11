@@ -1,4 +1,9 @@
 
+
+
+# WARNING: SCRIPTS ARE CURRENTLY BROKEN SINCE DEPENDENCIES ARE CHANGING. WILL REMOVE THIS WARNING WHEN EVERYTHING IS STABILIZED.
+
+
 This repository contains instructions for benchmarking ewasm precompiles.
 
 Our current method of benchmarking is built on our testing infrastructure. We use `testeth` to run a test case for each precompile, and clock its runtime. The current directory structure is as follows.
