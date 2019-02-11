@@ -31,7 +31,7 @@ First setup tools.
 
 ```sh
 # get hera version with benchmarking enabled
-git clone https://github.com/ewasm/hera.git -b benchmarking hera-benchmarking	#TODO: this does not include benchmarking yet
+git clone https://github.com/ewasm/hera.git -b benchmarking hera-benchmarking
 cd hera-benchmarking
 git submodule update --init
 mkdir build && cd build

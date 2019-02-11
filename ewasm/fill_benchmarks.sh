@@ -2,8 +2,8 @@
 REPOS_DIR=/home/user/repos/benchmarking
 TEST_DIR=$REPOS_DIR/tests
 TESTETH_EXEC=$REPOS_DIR/aleth/bin/testeth
-#HERA_SO=$REPOS_DIR/hera-benchmarking/build/src/libhera.so
-HERA_SO=/home/user/repos/ethereum/hera_benchmarking/build2/src/libhera.so
+HERA_SO=$REPOS_DIR/hera-benchmarking/build/src/libhera.so
+#HERA_SO=/home/user/repos/ethereum/hera_benchmarking/build2/src/libhera.so
 PYWEBASSEMBLY_DIR=$REPOS_DIR/pywebassembly
 BINARYEN_DIR=$REPOS_DIR/binaryen
 BENCHMARKING_DIR=$REPOS_DIR/benchmarking/ewasm
@@ -140,9 +140,7 @@ done
 # clean up #
 ############
 
-mv *.wasm wasm/
-mv *.yml fillers/
-rm *.wat lllc
+rm *.wasm *.wat *.yml lllc
 
 
 
