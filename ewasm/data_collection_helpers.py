@@ -9,10 +9,16 @@ def get_runtimes_from_stderr_textfile(infile,engine,testcase,outfile):
   instantiation_times = []
   invocation_times = []
   for line in fin:
-    if line[0:15] == "Execution time:":
+    # old way
+    #if line[0:15] == "Execution time:":
+    #  words = line.split() #split on whitespace
+    #  instantiation_times.append(int(words[5]))
+    #  invocation_times.append(int(words[2])-int(words[5]))
+    #line should look like: Time [us]: 609 = 390 + 219
+    if line[0:10] == "Time [us]:":
       words = line.split() #split on whitespace
-      instantiation_times.append(int(words[5]))
-      invocation_times.append(int(words[2])-int(words[5]))
+      instantiation_times.append(int(words[4]))
+      invocation_times.append(int(words[6]))
       #fout_instantiation.write(", "+words[5])
       #fout_invocation.write(", "+str(int(words[2])-int(words[5])))
   # nested call runtimes are overwritten because of clumsy design in hera, and our generated scripts have nested calls
