@@ -1,11 +1,11 @@
 {
-    "ed25519" : {
+    "ed25519_rust" : {
         "_info" : {
             "comment" : "",
             "filledwith" : "testeth 1.5.0-alpha.7",
             "lllcversion" : "Error getting LLLC Version",
-            "source" : "src/GeneralStateTestsFiller/stEWASMTests/ed25519Filler.yml",
-            "sourceHash" : "ab0fcf58aaa974ec4ed6a8bbd906bb13944e399de60d7255abf9dfe50059e085"
+            "source" : "src/GeneralStateTestsFiller/stEWASMTests/ed25519_rustFiller.yml",
+            "sourceHash" : "614b123878403a8fc21253e8ce827dbf57d607628bb5b56aac523ad0e147534c"
         },
         "env" : {
             "currentCoinbase" : "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",

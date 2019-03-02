@@ -1,11 +1,11 @@
 {
-    "ripemd160" : {
+    "ripemd160_rust" : {
         "_info" : {
             "comment" : "",
             "filledwith" : "testeth 1.5.0-alpha.7",
             "lllcversion" : "Error getting LLLC Version",
-            "source" : "src/GeneralStateTestsFiller/stEWASMTests/ripemd160Filler.yml",
-            "sourceHash" : "68a940213fc21148b68b9ad6c38d4adae71349adcf1bc04f4b3eea9ee5b52df6"
+            "source" : "src/GeneralStateTestsFiller/stEWASMTests/ripemd160_rustFiller.yml",
+            "sourceHash" : "8f92f314843bced3527d65fa5021e0c1a1ab74da74a84a0dd4b59f1a07533883"
         },
         "env" : {
             "currentCoinbase" : "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",

@@ -1,11 +1,11 @@
 {
-    "identity" : {
+    "identity_rust" : {
         "_info" : {
             "comment" : "",
             "filledwith" : "testeth 1.5.0-alpha.7",
             "lllcversion" : "Error getting LLLC Version",
-            "source" : "src/GeneralStateTestsFiller/stEWASMTests/identityFiller.yml",
-            "sourceHash" : "59651efb9c0d08229728d022e456923e725f8980a29b36d7d6f5f2bb76c92c87"
+            "source" : "src/GeneralStateTestsFiller/stEWASMTests/identity_rustFiller.yml",
+            "sourceHash" : "59fc5708f4935c40971d6c137cf110582eb02ce9269caa59a028622bb6e8a5e3"
         },
         "env" : {
             "currentCoinbase" : "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",

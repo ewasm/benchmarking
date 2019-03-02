@@ -1,11 +1,11 @@
 {
-    "keccak256" : {
+    "keccak256_rust" : {
         "_info" : {
             "comment" : "",
             "filledwith" : "testeth 1.5.0-alpha.7",
             "lllcversion" : "Error getting LLLC Version",
-            "source" : "src/GeneralStateTestsFiller/stEWASMTests/keccak256Filler.yml",
-            "sourceHash" : "5d16f8f256e9599e14f97ba8ffa6e910d3510e91e7357d35b0c6664b1e7d4cbe"
+            "source" : "src/GeneralStateTestsFiller/stEWASMTests/keccak256_rustFiller.yml",
+            "sourceHash" : "0e72b8b31a5be41b9fa6eaaf338f5ee4837521cc887bd74a12dd910f7c74e90d"
         },
         "env" : {
             "currentCoinbase" : "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",

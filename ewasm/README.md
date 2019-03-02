@@ -1,12 +1,12 @@
 
 
 
-# WARNING: SCRIPTS ARE CURRENTLY BROKEN SINCE DEPENDENCIES ARE CHANGING. WILL REMOVE THIS WARNING WHEN EVERYTHING IS STABILIZED.
+# WARNING: SCRIPTS WORK ON MARCH 2, 2019, BUT `data_collection_helpers.py` WILL BREAK AS THIS PULL REQUEST CHANGES https://github.com/ewasm/hera/pull/486 . WHEN IT BREAKS, THE FIX IS TO EDIT HOW THE OUTPUT FORMAT OF RUNTIMES IS PARSED. WE WILL REMOVE THIS WARNING WHEN EVERYTHING IS STABILIZED.
 
 
 This repository contains instructions for benchmarking ewasm precompiles.
 
-Our current method of benchmarking is built on our testing infrastructure. We use `testeth` to run a test case for each precompile, and clock its runtime. The current directory structure is as follows.
+Our current method of benchmarking is built on our testing infrastructure. We run a test case for each precompile, and clock its runtime. Any client which can execute tests can be benchmarked, but we only provide instructions for `testeth`/`aleth`. The current directory structure is as follows.
 
 ```
 C_ewasm_contracts/	- contains all C contracts to be benchmarked
@@ -20,11 +20,12 @@ filled/			- contains all filled test cases, one for each precompile, ready to be
   sha256_nacl.json	- filled test case, ready to test and benchmark
   ...
 results/		- contains uploaded runtime_data.csv benchmark file from various people
-  20181211_paul.txt	- the runtimes.csv from running tests
+  20190302_poemm.txt	- copy of runtimes.txt from running tests
   ...
 ewasm_precompile_filler_generator.py	- takes input .wat precompile and .dat file of test vectors, outputs a test filler
 fill_benchmarks.sh  - for each precompile, compile it, create a test filler, and fill it
 run_benchmarks.sh   - for each precompile, run it's filled test on each WebAssembly engine and and print runtimes to file
+data_collection_helpers.py	- called by run_benchmarks to parse runtimes of each test and print them to a file.
 ```
 
 
@@ -56,23 +57,16 @@ cd ..
 # get ewasm tests, testeth operates on this repo, we will copy test cases into here for benchmarking
 git clone https://github.com/ewasm/tests.git	# warning: over 100 MB
 
-# create dummy lllc which may be needed by testeth
-printf '#!/usr/bin/env bash\necho 1' > lllc
-chmod +x lllc
-PATH=$PATH:.
-
 # and, of course, this repo
 git clone https://github.com/ewasm/benchmarking.git
 ```
 
-Run the benchmarks. This will call testeth on each test, and print runtimes to file `runtime_data.csv`.
+Run the benchmarks. This will call testeth on each test, and print runtimes to file `runtime.txt`.
 
 ```sh
 # NOTE: edit the top of run_benchmarks.sh to make sure the paths are correct
 bash run_benchmarks.sh
 ```
-
-In file `runtime_data.csv`, the extra time for each test corresponds to the ewasm contract which calls the precompile for each input and stores the output. This is the first instantiation-time and the last run-time, perhaps we will automatically delete if it becomes a problem.
 
 
 

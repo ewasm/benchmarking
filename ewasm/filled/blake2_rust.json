@@ -1,11 +1,11 @@
 {
-    "blake2" : {
+    "blake2_rust" : {
         "_info" : {
             "comment" : "",
             "filledwith" : "testeth 1.5.0-alpha.7",
             "lllcversion" : "Error getting LLLC Version",
-            "source" : "src/GeneralStateTestsFiller/stEWASMTests/blake2Filler.yml",
-            "sourceHash" : "c89ee280c1b5ee25568cbc5b193134b089361d86c68470f53574c992c28b13a1"
+            "source" : "src/GeneralStateTestsFiller/stEWASMTests/blake2_rustFiller.yml",
+            "sourceHash" : "0d02dcc5131ffbef4123b17c3218fefce05af3ec30693bac0f23f3b295d81fb7"
         },
         "env" : {
             "currentCoinbase" : "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",

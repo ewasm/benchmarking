@@ -1,11 +1,11 @@
 {
-    "bls12pairing" : {
+    "bls12pairing_rust" : {
         "_info" : {
             "comment" : "",
             "filledwith" : "testeth 1.5.0-alpha.7",
             "lllcversion" : "Error getting LLLC Version",
-            "source" : "src/GeneralStateTestsFiller/stEWASMTests/bls12pairingFiller.yml",
-            "sourceHash" : "919d0fee20b73e50892d914addd0bdd897b91eda627e351d04b3ee0fb503ebfe"
+            "source" : "src/GeneralStateTestsFiller/stEWASMTests/bls12pairing_rustFiller.yml",
+            "sourceHash" : "6a7b846c7427542958d869a807ef1ac8f1ab9a2b9768211df9104c59181ce1df"
         },
         "env" : {
             "currentCoinbase" : "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",

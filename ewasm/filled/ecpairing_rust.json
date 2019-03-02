@@ -1,11 +1,11 @@
 {
-    "ecpairing" : {
+    "ecpairing_rust" : {
         "_info" : {
             "comment" : "",
             "filledwith" : "testeth 1.5.0-alpha.7",
             "lllcversion" : "Error getting LLLC Version",
-            "source" : "src/GeneralStateTestsFiller/stEWASMTests/ecpairingFiller.yml",
-            "sourceHash" : "be34034cf779bc1fde0f17b66e9dedcfcf753c196e56e5f081469b1234293923"
+            "source" : "src/GeneralStateTestsFiller/stEWASMTests/ecpairing_rustFiller.yml",
+            "sourceHash" : "7c016ee25d285d9744dc6db1dab717876f7a43bd30ce0777a0c7aa5e5e55de02"
         },
         "env" : {
             "currentCoinbase" : "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",

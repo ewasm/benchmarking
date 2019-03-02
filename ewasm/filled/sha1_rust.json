@@ -1,11 +1,11 @@
 {
-    "sha1" : {
+    "sha1_rust" : {
         "_info" : {
             "comment" : "",
             "filledwith" : "testeth 1.5.0-alpha.7",
             "lllcversion" : "Error getting LLLC Version",
-            "source" : "src/GeneralStateTestsFiller/stEWASMTests/sha1Filler.yml",
-            "sourceHash" : "442fa25ac63fa285406c69bba1dd48fe954ac9b2b109f1c491a17c333a21cf67"
+            "source" : "src/GeneralStateTestsFiller/stEWASMTests/sha1_rustFiller.yml",
+            "sourceHash" : "5ee652c508c1d451379ca51189a597cc8d11f9eca95f1af12f581216ffe78997"
         },
         "env" : {
             "currentCoinbase" : "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",

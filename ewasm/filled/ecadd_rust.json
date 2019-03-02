@@ -1,11 +1,11 @@
 {
-    "ecadd" : {
+    "ecadd_rust" : {
         "_info" : {
             "comment" : "",
             "filledwith" : "testeth 1.5.0-alpha.7",
             "lllcversion" : "Error getting LLLC Version",
-            "source" : "src/GeneralStateTestsFiller/stEWASMTests/ecaddFiller.yml",
-            "sourceHash" : "fbf0bab08c6138d56bc1647129fc65c14b0d5277071bedfa10f965311cd27a0e"
+            "source" : "src/GeneralStateTestsFiller/stEWASMTests/ecadd_rustFiller.yml",
+            "sourceHash" : "219e3e48c0b6b83647a2be7227c7514906ebb82f8586d6d7110d0e5bafdce439"
         },
         "env" : {
             "currentCoinbase" : "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",

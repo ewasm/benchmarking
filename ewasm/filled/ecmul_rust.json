@@ -1,11 +1,11 @@
 {
-    "ecmul" : {
+    "ecmul_rust" : {
         "_info" : {
             "comment" : "",
             "filledwith" : "testeth 1.5.0-alpha.7",
             "lllcversion" : "Error getting LLLC Version",
-            "source" : "src/GeneralStateTestsFiller/stEWASMTests/ecmulFiller.yml",
-            "sourceHash" : "61fabf159ff8cc490eea0fbecc991f1bd9dab2ba730e406918d9709c456aaf63"
+            "source" : "src/GeneralStateTestsFiller/stEWASMTests/ecmul_rustFiller.yml",
+            "sourceHash" : "31ff4b498f9263b8f55b81794430c5c3997736d6f12881dd80f069853bd6f70d"
         },
         "env" : {
             "currentCoinbase" : "0x2adc25665018aa1fe0e6bc666dac8fc2697ff9ba",

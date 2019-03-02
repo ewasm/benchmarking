@@ -12,7 +12,7 @@ WRC20_DIR=$REPOS_DIR/wrc20-examples
 
 
 # for debugging, print out commands as they are executed, also useful to monitor
-#set -x
+set -x
 
 
 # fill dependency of testeth with dummy
@@ -126,12 +126,13 @@ cd $BENCHMARKING_DIR
 for testcase in "${!RustEwasmPrecompiles[@]}"; do
   echo
   echo Benchmark $testcase
-  $BINARYEN_DIR/build/bin/wasm-dis ewasm_precompile_$testcase.wasm > $testcase.wat
-  python3 ewasm_precompile_filler_generator.py $testcase $testcase.wat test_vectors/${RustEwasmPrecompiles[$testcase]}
-  cp ${testcase}Filler.yml $TEST_DIR/src/GeneralStateTestsFiller/stEWASMTests/
-  ETHEREUM_TEST_PATH=$TEST_DIR $TESTETH_EXEC -t GeneralStateTests/stEWASMTests -- --filltests --vm $HERA_SO --evmc engine=binaryen --singlenet "Byzantium" --singletest $testcase
-  cp $TEST_DIR/GeneralStateTests/stEWASMTests/$testcase.json $BENCHMARKING_DIR/filled/
-  rm $TEST_DIR/GeneralStateTests/stEWASMTests/$testcase.json
+  cp $EWASM_PRECOMPILES_DIR/target/wasm32-unknown-unknown/release/ewasm_precompile_${testcase}.wasm ${testcase}_rust.wasm
+  $BINARYEN_DIR/build/bin/wasm-dis ${testcase}_rust.wasm > ${testcase}_rust.wat
+  python3 ewasm_precompile_filler_generator.py ${testcase}_rust ${testcase}_rust.wat test_vectors/${RustEwasmPrecompiles[$testcase]}
+  cp ${testcase}_rustFiller.yml $TEST_DIR/src/GeneralStateTestsFiller/stEWASMTests/
+  ETHEREUM_TEST_PATH=$TEST_DIR $TESTETH_EXEC -t GeneralStateTests/stEWASMTests -- --filltests --vm $HERA_SO --evmc engine=binaryen --singlenet "Byzantium" --singletest ${testcase}_rust
+  cp $TEST_DIR/GeneralStateTests/stEWASMTests/${testcase}_rust.json $BENCHMARKING_DIR/filled/
+  rm $TEST_DIR/GeneralStateTests/stEWASMTests/${testcase}_rust.json
 done
 
 
