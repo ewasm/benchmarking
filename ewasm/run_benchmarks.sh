@@ -1,10 +1,13 @@
 # make sure the following paths are correct for your system
-REPOS_DIR=/home/user/repos/benchmarking
+REPOS_DIR=/home/user/repos/benchmarking2
 TEST_DIR=$REPOS_DIR/tests
 TESTETH_EXEC=$REPOS_DIR/aleth/bin/testeth
-HERA_SO=$REPOS_DIR/hera-benchmarking/build/src/libhera.so
-#HERA_SO=/home/user/repos/ethereum/hera_benchmarking/build2/src/libhera.so
+HERA_SO=$REPOS_DIR/hera/build/src/libhera.so
 BENCHMARKING_DIR=$REPOS_DIR/benchmarking/ewasm
+
+
+#set -x
+
 
 cd $BENCHMARKING_DIR
 
@@ -30,11 +33,11 @@ tests=(
   sha256_rhash
   polynomial_evaluation_32bit
   blake2
-  bls12pairing
-  ecadd
-  ecmul
-  ecpairing
-  ecrecover
+  #bls12pairing		# need more tests
+  #ecadd		# returns zeros for everything, need to check tests
+  #ecmul		# returns zeros for everything, need to check tests
+  #ecpairing		# very fast, something is wrong
+  #ecrecover		# no test cases
   ed25519
   identity
   keccak256
@@ -55,33 +58,19 @@ for testcase in "${tests[@]}"; do
   for engine in "${engines[@]}"; do
     printf "\n\nBENCHMARKING %s in %s\n" $testcase $engine
 
-    # prepare file to output to
-    #printf "\n%s, %s\t" $testcase $engine >> runtime_data.csv
-    # for wavm benchmarks, prepare to append compile and invokation times
-    #if [ "$engine" = "wavm" ]; then
-    #  printf "\n%s, %s\t" $testcase wavm_compile >> runtime_data_wavm_compile.csv
-    #  printf "\n%s, %s\t" $testcase wavm_invoke >> runtime_data_wavm_invoke.csv
-    #fi
-
     # execute benchmark
-    printf "\nBENCHMARKING %s in %s\n" $testcase $engine
-    ETHEREUM_TEST_PATH=$TEST_DIR $TESTETH_EXEC -t GeneralStateTests/stEWASMTests -- --vm $HERA_SO --evmc engine=$engine benchmark=true --singlenet "Byzantium" --singletest $testcase 2> stderr.txt
 
-    # collect timing data from stderr.txt and append to runtimes.txt
-    # (In Python since it is easier than bash. Anyway who cares.)
-    python3 data_collection_helpers.py stderr.txt $engine $testcase runtimes.txt
-    # cleanup
-    rm stderr.txt
+    # there are two ways to get runtime data, read from stderr or read from hera_benchmarks.log
+    # comment the cases in/out as you wish
+    # python script takes runtimes and appends them to runtimes.txt
 
-    # for wavm benchmarks, append compile and invokation times from other files
-    #if [ "$engine" = "wavm" ]; then
-    #  printf "\n" >> runtime_data.csv
-    #  tail runtime_data_wavm_compile.csv -n 1 >> runtime_data.csv
-    #  rm runtime_data_wavm_compile.csv
-    #  printf "\n" >> runtime_data.csv
-    #  tail runtime_data_wavm_invoke.csv -n 1 >> runtime_data.csv
-    #  rm runtime_data_wavm_invoke.csv
-    #fi
+    ETHEREUM_TEST_PATH=$TEST_DIR $TESTETH_EXEC -t GeneralStateTests/stEWASMTests -- --vm $HERA_SO --evmc engine=$engine benchmark=true --singlenet "Byzantium" --singletest $testcase
+    python3 data_collection_helpers.py hera_benchmarks.log $engine $testcase runtimes.txt
+    rm hera_benchmarks.log
+
+    #ETHEREUM_TEST_PATH=$TEST_DIR $TESTETH_EXEC -t GeneralStateTests/stEWASMTests -- --vm $HERA_SO --evmc engine=$engine benchmark=true --singlenet "Byzantium" --singletest $testcase 2> stderr.txt
+    #python3 data_collection_helpers.py stderr.txt $engine $testcase runtimes.txt
+    #rm stderr.txt
 
   done
 done

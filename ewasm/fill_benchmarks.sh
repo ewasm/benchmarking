@@ -1,18 +1,21 @@
 # Fill these in with your own system
-REPOS_DIR=/home/user/repos/benchmarking
+REPOS_DIR=/home/user/repos/benchmarking2
 TEST_DIR=$REPOS_DIR/tests
 TESTETH_EXEC=$REPOS_DIR/aleth/bin/testeth
-HERA_SO=$REPOS_DIR/hera-benchmarking/build/src/libhera.so
-#HERA_SO=/home/user/repos/ethereum/hera_benchmarking/build2/src/libhera.so
+HERA_SO=$REPOS_DIR/hera/build/src/libhera.so
 PYWEBASSEMBLY_DIR=$REPOS_DIR/pywebassembly
 BINARYEN_DIR=$REPOS_DIR/binaryen
 BENCHMARKING_DIR=$REPOS_DIR/benchmarking/ewasm
-WASMCEPTION_DIR=$REPOS_DIR/wasmception
+WASMCEPTION_DIR=$REPOS_DIR/wasmception2
 EWASM_PRECOMPILES_DIR=$REPOS_DIR/ewasm-precompiles
 WRC20_DIR=$REPOS_DIR/wrc20-examples
 
 
-# prepare stuff
+# for debugging, print out commands as they are executed, also useful to monitor
+#set -x
+
+
+# fill dependency of testeth with dummy
 cd $BENCHMARKING_DIR
 # create dummy lllc which may be needed by testeth
 printf '#!/usr/bin/env bash\necho 1' > lllc
@@ -20,10 +23,11 @@ chmod +x lllc
 PATH=$PATH:.
 
 
+
+
 #########
 # WRC20 #
 #########
-
 
 declare -A WRC20Contracts
 WRC20Contracts=(
@@ -38,7 +42,6 @@ cp $WRC20_DIR/C/wrc20_ewasmified.wasm wrc20_C.wasm
 cp $WRC20_DIR/handwritten/wrc20_handwritten_faster_transfer.wasm .
 cp $WRC20_DIR/handwritten/wrc20_handwritten_faster_get_balance.wasm .
 
-
 for testcase in ${!WRC20Contracts[@]}; do
   $BINARYEN_DIR/build/bin/wasm-dis $testcase.wasm > $testcase.wat
   python3 $WRC20_DIR/tester/generate_wrc20_filler.py $testcase.wat $WRC20_DIR/tester/header.txt $WRC20_DIR/tester/${WRC20Contracts[$testcase]}
@@ -47,8 +50,6 @@ for testcase in ${!WRC20Contracts[@]}; do
   cp $TEST_DIR/GeneralStateTests/stEWASMTests/$testcase.json $BENCHMARKING_DIR/filled/
   rm $TEST_DIR/GeneralStateTests/stEWASMTests/$testcase.json
 done
-
-
 
 
 
@@ -111,7 +112,7 @@ RustEwasmPrecompiles=(
   ["ecadd"]=ecadd.dat
   ["ecmul"]=ecmul.dat
   ["ecpairing"]=ecpairing.dat
-  ["ecrecover"]=ecrecover.dat
+  	#["ecrecover"]=ecrecover.dat	# no test vectors
   ["ed25519"]=ed25519.dat
   ["identity"]=identity.dat
   ["keccak256"]=keccak256.dat

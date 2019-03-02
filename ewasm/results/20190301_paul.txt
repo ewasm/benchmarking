@@ -1,0 +1,145 @@
+
+
+binaryen wrc20_C instantiation_time 321,359,314,358
+binaryen wrc20_C invocation_time 123,99,81,53
+
+wabt wrc20_C instantiation_time 559,178,156,154
+wabt wrc20_C invocation_time 110,49,34,27
+
+wavm wrc20_C instantiation_time 35130,16207,17867,16018
+wavm wrc20_C invocation_time 307,205,198,200
+
+binaryen wrc20_handwritten_faster_transfer instantiation_time 250,232,209,157
+binaryen wrc20_handwritten_faster_transfer invocation_time 154,79,71,63
+
+wabt wrc20_handwritten_faster_transfer instantiation_time 493,151,132,134
+wabt wrc20_handwritten_faster_transfer invocation_time 123,42,39,34
+
+wavm wrc20_handwritten_faster_transfer instantiation_time 33014,14096,14757,13878
+wavm wrc20_handwritten_faster_transfer invocation_time 311,201,191,213
+
+binaryen wrc20_handwritten_faster_get_balance instantiation_time 299,185,189,188
+binaryen wrc20_handwritten_faster_get_balance invocation_time 136,95,59,55
+
+wabt wrc20_handwritten_faster_get_balance instantiation_time 491,150,133,130
+wabt wrc20_handwritten_faster_get_balance invocation_time 115,69,33,28
+
+wavm wrc20_handwritten_faster_get_balance instantiation_time 32457,13805,13734,13566
+wavm wrc20_handwritten_faster_get_balance invocation_time 296,194,192,182
+
+binaryen ed25519verify_tweetnacl instantiation_time 2762,2693,2613,2597
+binaryen ed25519verify_tweetnacl invocation_time 1620853,1619505,1761703,1626397
+
+wabt ed25519verify_tweetnacl instantiation_time 1598,1254,1227,1216
+wabt ed25519verify_tweetnacl invocation_time 1399370,1406062,1394904,1399327
+
+wavm ed25519verify_tweetnacl instantiation_time 297524,293359,289817,291955
+wavm ed25519verify_tweetnacl invocation_time 5605,5539,5496,5508
+
+binaryen keccak256_rhash instantiation_time 696,621,616,583
+binaryen keccak256_rhash invocation_time 611,518,513,535
+
+wabt keccak256_rhash instantiation_time 681,306,292,284
+wabt keccak256_rhash invocation_time 617,466,449,453
+
+wavm keccak256_rhash instantiation_time 63096,54071,53798,52787
+wavm keccak256_rhash invocation_time 344,238,261,249
+
+binaryen sha256_nacl instantiation_time 2680,2460,2498,2491,2385
+binaryen sha256_nacl invocation_time 457,285,293,463,6666
+
+wabt sha256_nacl instantiation_time 978,948,956,941,933
+wabt sha256_nacl invocation_time 327,242,242,393,5352
+
+wavm sha256_nacl instantiation_time 488872,470739,468601,477640,472971
+wavm sha256_nacl invocation_time 406,371,370,391,396
+
+binaryen sha256_bcon instantiation_time 636,502,500,500,548
+binaryen sha256_bcon invocation_time 411,328,335,609,11253
+
+wabt sha256_bcon instantiation_time 698,307,292,286,282
+wabt sha256_bcon invocation_time 460,294,297,559,8592
+
+wavm sha256_bcon instantiation_time 62703,51988,53831,55427,54462
+wavm sha256_bcon invocation_time 347,266,242,248,567
+
+binaryen sha256_rhash instantiation_time 1325,1289,1231,1245,1271
+binaryen sha256_rhash invocation_time 348,248,250,396,4933
+
+wabt sha256_rhash instantiation_time 737,548,539,538,545
+wabt sha256_rhash invocation_time 378,217,244,365,4783
+
+wavm sha256_rhash instantiation_time 154795,148173,146843,154841,153704
+wavm sha256_rhash invocation_time 404,305,300,297,339
+
+binaryen polynomial_evaluation_32bit instantiation_time 420
+binaryen polynomial_evaluation_32bit invocation_time 188
+
+wabt polynomial_evaluation_32bit instantiation_time 605
+wabt polynomial_evaluation_32bit invocation_time 251
+
+wavm polynomial_evaluation_32bit instantiation_time 37053
+wavm polynomial_evaluation_32bit invocation_time 330
+
+binaryen blake2 instantiation_time 4019,4050,3656,4117,3832,3657
+binaryen blake2 invocation_time 878,1322,1570,1021,1055,1982
+
+wabt blake2 instantiation_time 2077,1475,1293,1260,1268,1248
+wabt blake2 invocation_time 492,1301,1101,633,755,1527
+
+wavm blake2 instantiation_time 339494,328041,326527,333602,338624,329920
+wavm blake2 invocation_time 523,446,442,441,456,451
+
+binaryen ed25519 instantiation_time 8288
+binaryen ed25519 invocation_time 271105
+
+wabt ed25519 instantiation_time 3525
+wabt ed25519 invocation_time 215483
+
+wavm ed25519 instantiation_time 1056056
+wavm ed25519 invocation_time 1713
+
+binaryen identity instantiation_time 2272,2168
+binaryen identity invocation_time 137,795
+
+wabt identity instantiation_time 1315,544
+wabt identity invocation_time 126,717
+
+wavm identity instantiation_time 99226,89659
+wavm identity invocation_time 380,904
+
+binaryen keccak256 instantiation_time 3428,3027,3234,3175
+binaryen keccak256 invocation_time 596,1219,1222,831
+
+wabt keccak256 instantiation_time 1785,1029,1006,988
+wabt keccak256 invocation_time 519,1127,1113,667
+
+wavm keccak256 instantiation_time 254112,239362,243011,239556
+wavm keccak256 invocation_time 473,365,401,394
+
+binaryen ripemd160 instantiation_time 4638
+binaryen ripemd160 invocation_time 1378
+
+wabt ripemd160 instantiation_time 2296
+wabt ripemd160 invocation_time 1228
+
+wavm ripemd160 instantiation_time 369494
+wavm ripemd160 invocation_time 546
+
+binaryen sha1 instantiation_time 3580,3223,3490,3768,3824,3947,4336
+binaryen sha1 invocation_time 469,1232,1269,1018,1665,4760,3774
+
+wabt sha1 instantiation_time 1940,1097,1167,1076,1075,1073,1061
+wabt sha1 invocation_time 347,981,977,623,1029,2767,3064
+
+wavm sha1 instantiation_time 270392,256544,259640,260574,258742,258249,257600
+wavm sha1 invocation_time 544,443,436,407,398,437,459
+
+binaryen sha256 instantiation_time 3968,3434,3409,3573,4073
+binaryen sha256 invocation_time 648,1264,1325,1086,11677
+
+wabt sha256 instantiation_time 2044,1238,1244,1242,1206
+wabt sha256 invocation_time 484,1090,1082,844,8145
+
+wavm sha256 instantiation_time 319034,301545,301794,306046,305756
+wavm sha256 invocation_time 546,456,450,460,463

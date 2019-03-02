@@ -32,15 +32,15 @@ run_benchmarks.sh   - for each precompile, run it's filled test on each WebAssem
 
 # Run Benchmarks
 
-First setup tools.
+First setup tools. Do this manually step-by-step, since some user-intervention is required.
 
 ```sh
 # get hera version with benchmarking enabled
-git clone https://github.com/ewasm/hera.git -b benchmarking hera-benchmarking
-cd hera-benchmarking
+git clone https://github.com/ewasm/hera.git -b benchmarking
+cd hera
 git submodule update --init
 mkdir build && cd build
-cmake -DBUILD_SHARED_LIBS=ON -DHERA_WAVM=ON -DHERA_WABT=ON ..
+cmake -DBUILD_SHARED_LIBS=ON -DHERA_DEBUGGING=OFF -DHERA_WAVM=ON -DHERA_WABT=ON ..
 # might need dependency: sudo apt-get install zlib1g-dev
 make -j4
 cd ../..
@@ -48,8 +48,9 @@ cd ../..
 # get testeth
 mkdir aleth
 cd aleth
-wget https://github.com/ethereum/aleth/releases/download/v1.5.0-alpha.7/aleth-1.5.0-alpha.7-linux-x86_64.tar.gz
-tar -xvzf aleth-1.5.0-alpha.7-linux-x86_64.tar.gz
+# visit https://github.com/ethereum/aleth/releases/ and copy the tarball url for your system (linux or darwin)
+wget <tarball url> 
+tar -xvzf *.tar.gz
 cd ..
 
 # get ewasm tests, testeth operates on this repo, we will copy test cases into here for benchmarking
@@ -91,6 +92,7 @@ First setup tools.
 # for C precompiles, we are currently using wasmception to compile to wasm
 git clone https://github.com/yurydelendik/wasmception.git
 cd wasmception
+git reset --hard ef469a2bb71c73d8c25e2393fb8dd041177cf5aa	# new wasmception outputs wasm with imports like __syscall1, so use old wasmception for now
 make	# Warning: this compiles llvm, llvm tools, a C library, and a C++ library. Requires lots of internet bandwidth, RAM, disk-space, and one hour compiling on a mid-level laptop.
 # make note of the end of the output, should be something like --sysroot=/home/user/repos/benchmarking/wasmception/sysroot
 cd ..
@@ -110,10 +112,12 @@ git clone https://github.com/ewasm/ewasm-precompiles.git
 
 # binaryen is used to convert each .wasm to .wat
 git clone https://github.com/WebAssembly/binaryen.git	# warning 90 MB, can also download precompiled binaries which are 15 MB
+git reset --hard 8e19c94cf6c1d7609eaede0a30121bfbdc7efecc	# newer versions of binaryen cause errors, use older version for now
 cd binaryen
 mkdir build && cd build
 cmake ..
 make -j4
+cd ../..
 ```
 
 Compile each precompile, create test filler, fill the test, and save the filled tests.
