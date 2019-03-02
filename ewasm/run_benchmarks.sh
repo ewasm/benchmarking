@@ -33,16 +33,16 @@ tests=(
   sha256_rhash
   polynomial_evaluation_32bit
   blake2
-  #bls12pairing		# need more tests
+  #bls12pairing		# need more tests, only have one trivial test case
   #ecadd		# returns zeros for everything, need to check tests
   #ecmul		# returns zeros for everything, need to check tests
-  #ecpairing		# very fast, something is wrong
+  #ecpairing		# very fast, returns zeros for everything, something is wrong
   #ecrecover		# no test cases
   ed25519
   identity
   keccak256
   ripemd160
-  sha1
+  #sha1			# returns zeros for everything, something is wrong
   sha256
 )
 
