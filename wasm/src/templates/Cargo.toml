@@ -1,6 +1,5 @@
 [workspace]
 
 members = [
-    "ecadd",
-	"ed25519"
+{{ args }}
 ]

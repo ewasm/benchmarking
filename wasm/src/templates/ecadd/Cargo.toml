@@ -1,8 +1,11 @@
 [package]
-name = "ecadd_benchmark"
-version = "0.1.0"
-authors = ["ewasm"]
-edition = "2018"
+name = "{{args}}"
+version = "0.1.2"
+authors = ["Alex Beregszaszi <alex@rtfs.hu>"]
+license = "Apache-2.0"
+repository = "https://github.com/ewasm/ewasm-precompiles"
+description = "Ethereum ECMUL precompile in Rust"
+publish = false
 
 [dependencies]
 ewasm_api = "0.5"
