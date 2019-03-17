@@ -23,7 +23,7 @@ engines=(
 
 # the tests to run, can comment some out with #
 tests=(
-  blake2
+  blake2_rust
   #bls12pairing_rust	# need more tests, only have one trivial test case
   #ecadd_rust		# returns zeros for everything, need to check tests
   #ecmul_rust		# returns zeros for everything, need to check tests

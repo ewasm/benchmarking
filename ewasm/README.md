@@ -93,6 +93,8 @@ cd ..
 
 # for wrc20 contracts
 git clone https://github.com/poemm/wrc20-examples -b C_handwritten_and_tester
+# Edit the Makefiles so that LLVM_BUILD_DIR=/path/to/wasmception/build/llvm
+
 
 # for C precompiles, we are currently using pywebassembly to clean up the wasm
 git clone https://github.com/poemm/pywebassembly.git
