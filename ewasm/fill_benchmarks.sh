@@ -35,8 +35,8 @@ WRC20Contracts=(
   ["wrc20_C"]=footer2.txt
   ["wrc20_handwritten_faster_transfer"]=footer3.txt
   ["wrc20_handwritten_faster_get_balance"]=footer1.txt
-#)
-fi
+)
+#fi
 
 cd $WRC20_DIR
 git pull
@@ -70,6 +70,7 @@ CEwasmContracts=(
   ["ed25519verify_tweetnacl"]=ed25519verify.dat
   ["keccak256_rhash"]=keccak256.dat
   ["sha1_rhash"]=sha1.dat
+  ["sha1_rhash_small"]=sha1.dat
   ["sha256_nacl"]=sha256.dat
   ["sha256_bcon"]=sha256.dat
   ["sha256_rhash"]=sha256.dat

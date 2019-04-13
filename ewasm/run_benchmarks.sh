@@ -39,6 +39,7 @@ tests=(
   polynomial_evaluation_32bit
   ripemd160_rust
   sha1_rhash
+  sha1_rhash_small
   #sha1_rust		# returns zeros for everything, something is wrong
   sha256_rust
   sha256_nacl
