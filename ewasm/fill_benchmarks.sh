@@ -35,8 +35,8 @@ WRC20Contracts=(
   ["wrc20_C"]=footer2.txt
   ["wrc20_handwritten_faster_transfer"]=footer3.txt
   ["wrc20_handwritten_faster_get_balance"]=footer1.txt
-)
-#fi
+#)
+fi
 
 cd $WRC20_DIR
 git pull
@@ -65,11 +65,11 @@ done
 declare -A CEwasmContracts
 #if [ 1 -eq 0 ]; then
 CEwasmContracts=(
+  ["blake2b_ref"]=blake2.dat
+  ["blake2b_ref_small"]=blake2.dat
   ["ed25519verify_tweetnacl"]=ed25519verify.dat
   ["keccak256_rhash"]=keccak256.dat
   ["sha1_rhash"]=sha1.dat
-  ["blake2b_ref"]=blake2.dat
-  ["blake2b_ref_small"]=blake2.dat
   ["sha256_nacl"]=sha256.dat
   ["sha256_bcon"]=sha256.dat
   ["sha256_rhash"]=sha256.dat
