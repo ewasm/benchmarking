@@ -30,11 +30,14 @@ PATH=$PATH:.
 #########
 
 declare -A WRC20Contracts
+#if [ 1 -eq 0 ]; then
 WRC20Contracts=(
   ["wrc20_C"]=footer2.txt
   ["wrc20_handwritten_faster_transfer"]=footer3.txt
   ["wrc20_handwritten_faster_get_balance"]=footer1.txt
 )
+#fi
+
 cd $WRC20_DIR
 git pull
 cd $BENCHMARKING_DIR
@@ -60,14 +63,19 @@ done
 
 # C language ewasm contracts, and their test vectors, can comment some out with #
 declare -A CEwasmContracts
+#if [ 1 -eq 0 ]; then
 CEwasmContracts=(
   ["ed25519verify_tweetnacl"]=ed25519verify.dat
   ["keccak256_rhash"]=keccak256.dat
+  ["sha1_rhash"]=sha1.dat
+  ["blake2b_ref"]=blake2.dat
+  ["blake2b_ref_small"]=blake2.dat
   ["sha256_nacl"]=sha256.dat
   ["sha256_bcon"]=sha256.dat
   ["sha256_rhash"]=sha256.dat
   ["polynomial_evaluation_32bit"]=polynomial_evaluation_32bit.dat
 )
+#fi
 
 # iterate over each C ewasm contract, compile, and generate test filler *Filler.yml, fill the json, save it, clean up
 cd $BENCHMARKING_DIR
@@ -106,13 +114,14 @@ cp $EWASM_PRECOMPILES_DIR/target/wasm32-unknown-unknown/release/*.wasm .
 
 # Rust precompiles in ewasm/ewasm-precompiles repository, along with their test vectors, can comment some out with #
 declare -A RustEwasmPrecompiles
+#if [ 1 -eq 0 ]; then
 RustEwasmPrecompiles=(
   ["blake2"]=blake2.dat
   ["bls12pairing"]=bls12pairing.dat
   ["ecadd"]=ecadd.dat
   ["ecmul"]=ecmul.dat
   ["ecpairing"]=ecpairing.dat
-  	#["ecrecover"]=ecrecover.dat	# no test vectors
+  #["ecrecover"]=ecrecover.dat	# no test vectors
   ["ed25519"]=ed25519.dat
   ["identity"]=identity.dat
   ["keccak256"]=keccak256.dat
@@ -120,6 +129,7 @@ RustEwasmPrecompiles=(
   ["sha1"]=sha1.dat
   ["sha256"]=sha256.dat
 )
+#fi
 
 # iterate over each Rust Ewasm contract and generate test filler *Filler.yml
 cd $BENCHMARKING_DIR

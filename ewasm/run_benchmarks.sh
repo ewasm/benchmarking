@@ -24,26 +24,29 @@ engines=(
 # the tests to run, can comment some out with #
 tests=(
   blake2_rust
+  blake2b_ref
+  blake2b_ref_small
   #bls12pairing_rust	# need more tests, only have one trivial test case
   #ecadd_rust		# returns zeros for everything, need to check tests
   #ecmul_rust		# returns zeros for everything, need to check tests
   #ecpairing_rust	# very fast, returns zeros for everything, something is wrong
   #ecrecover_rust	# no test cases
-  ed25519_rust
-  ed25519verify_tweetnacl
-  identity_rust
-  keccak256_rhash
-  keccak256_rust
-  polynomial_evaluation_32bit
-  ripemd160_rust
-  #sha1_rust		# returns zeros for everything, something is wrong
-  sha256_rust
-  sha256_nacl
-  sha256_bcon
-  sha256_rhash
-  wrc20_C
-  wrc20_handwritten_faster_transfer
-  wrc20_handwritten_faster_get_balance
+  #ed25519_rust
+  #ed25519verify_tweetnacl
+  #identity_rust
+  #keccak256_rhash
+  #keccak256_rust
+  #polynomial_evaluation_32bit
+  #ripemd160_rust
+  sha1_rust		# returns zeros for everything, something is wrong
+  sha1_rhash		# returns zeros for everything, something is wrong
+  #sha256_rust
+  #sha256_nacl
+  #sha256_bcon
+  #sha256_rhash
+  #wrc20_C
+  #wrc20_handwritten_faster_transfer
+  #wrc20_handwritten_faster_get_balance
 )
 
 # create dummy lllc which may be needed by testeth
