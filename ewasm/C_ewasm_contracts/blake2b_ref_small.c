@@ -20,10 +20,10 @@ this file has chunks copied from:
   
 compile with (first get install wasmception and pywebassembly, see benchmarking README):
 WASMCEPTION_DIR=/home/user/repos/benchmarking2/wasmception2
-$WASMCEPTION_DIR/dist/bin/clang --target=wasm32-unknown-unknown-wasm --sysroot=$WASMCEPTION_DIR/sysroot -O3 -g -o blake2b_ref.wasm -nostartfiles -Wl,--allow-undefined-file=c_undefined.syms,--demangle,--no-entry,--no-threads -Wl,--export=_main -fvisibility=hidden blake2b_ref_small.c
+$WASMCEPTION_DIR/dist/bin/clang --target=wasm32-unknown-unknown-wasm --sysroot=$WASMCEPTION_DIR/sysroot -O3 -g -o blake2b_ref_small.wasm -nostartfiles -Wl,--allow-undefined-file=c_undefined.syms,--demangle,--no-entry,--no-threads -Wl,--export=_main -fvisibility=hidden blake2b_ref_small.c
 PYTHONPATH="${PYTHONPATH}:/home/user/repos/benchmarking2/pywebassembly/"
 export PYTHONPATH
-python3 /home/user/repos/benchmarking2/pywebassembly/examples/ewasmify.py blake2b_ref.wasm
+python3 /home/user/repos/benchmarking2/pywebassembly/examples/ewasmify.py blake2b_ref_small.wasm
 
 
 */
