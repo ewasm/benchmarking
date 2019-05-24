@@ -1,6 +1,19 @@
 # EVM benchmarks (2019-05-23)
 
-[TOC]
+- [Introduction](#introduction)
+- [Benchmarks](#benchmarks)
+  * [sha1](#sha1)
+  * [blake2b](#blake2b)
+  * [bn128mul](#bn128mul)
+  * [bn256mulG2](#bn256mulg2)
+- [Methodology details](#methodology-details)
+  * [which EVM implementations are benchmarked and how?](#which-evm-implementations-are-benchmarked-and-how)
+  * [Where can I find the EVM bytecode that was benchmarked?](#where-can-i-find-the-evm-bytecode-that-was-benchmarked)
+  * [What machine and OS was used to run the benchmarks?](#what-machine-and-os-was-used-to-run-the-benchmarks)
+  * [More about evmone and cita-vm](#more-about-evmone-and-cita-vm)
+    + [cita-vm:](#cita-vm-)
+    + [evmone:](#evmone-)
+
 
 # Introduction
 
