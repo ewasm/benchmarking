@@ -17,7 +17,7 @@
 
 # Introduction
 
-These benchmarks were prepared by the Ewasm team. This section on EVM is an excerpt from a forthcoming benchmarking report (which is not published yet but will be soon(TM)), made available for the purpose of discussion around [EIP-2045: Fractional gas costs](https://github.com/ethereum/EIPs/pull/2045).
+These benchmarks were prepared by the Ewasm team. This section on EVM is an excerpt from a forthcoming benchmarking report (which is not published yet but will be soon(TM)), made available for the purpose of discussion around [EIP-2045: Particle gas costs](https://eips.ethereum.org/EIPS/eip-2045).
 
 The results below show [evmone](https://github.com/chfast/evmone/) setting new speed records, demonstrating the performance attainable by executing EVM bytecode in an optimized interpreter.
 
