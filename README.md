@@ -94,9 +94,7 @@ model name      : Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz
 
 ### cita-vm:
 
-Cita-vm is a rust implementation based on parity-evm.
-
-From the [readme](https://github.com/cryptape/cita-vm/blob/master/README.md):
+Cita-vm is a rust implementation. From the [readme](https://github.com/cryptape/cita-vm/blob/master/README.md):
 > Fast EVM implementation for CITA. Tuned for high performance, up to 5x faster than parity.
 
 See other benchmarks in the [cita-vm readme](https://github.com/cryptape/cita-vm#Performance-comparison-with-parity-and-geth).
