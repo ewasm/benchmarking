@@ -1,0 +1,4 @@
+rusttinykeccak:
+  file: "target/wasm32-unknown-unknown/release/rusttinykeccak.wasm"
+  snip:
+    preset: "ewasm"

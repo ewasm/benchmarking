@@ -1,0 +1,16 @@
+[package]
+name = "rusttinykeccak"
+version = "0.1.0"
+authors = ["Alex Beregszaszi <alex@rtfs.hu>"]
+edition = "2018"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+tiny-keccak = "1.5.0"
+
+[profile.release]
+lto = true
+debug = false
