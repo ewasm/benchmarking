@@ -1,8 +1,62 @@
 # Benchmarks
 
-This repository contains instructions for benchmarking ewasm contracts and standalone wasm modules. Directory descriptions follow.
+This repository contains instructions for benchmarking evm implementations, ewasm contracts and standalone wasm modules. Directory descriptions follow.
 
 ```
+evm/            - contains benchmarks for different evm implementations (geth, parity, cita-vm, evmone)
 ewasm/          - contains benchmarks and tests for ewasm contracts in ewasm engines.
 wasm/           - contains benchmarks for wasm modules in standalone wasm engines.
 ```
+
+
+## EVM
+
+Directory `/evm` contains a list of the current benchmarked evm implementations:
+
+```
+evm/
+  cita-vm/
+  evmone/
+  geth/
+  parity/
+```
+
+Build each one of the evm implementations:
+
+```
+$ cd evm/geth && docker build . -t geth-bench
+$ cd ../parity && docker build . -t parity-bench
+$ cd ../evmone && docker build . -t evmone-bench
+$ cd ../cita-vm && docker build . -t cita-vm-bench
+```
+
+Run EVM benchmarks:
+
+```
+$ cd evm/
+$ ./scripts/run_bench.sh
+```
+
+The previous command will create a new directory `evmraceresults`, containing the following files:
+
+- evm_benchmarks.csv - consolidated benchmarks
+- evm_benchmarks_evmone.csv - evmone benchmarks
+- evm_benchmarks_parity.csv - parity benchmarks
+- evm_benchmarks_geth.csv - geth benchmarks
+- evm_benchmarks_cita-vm.csv - cita vm benchmarks
+
+Run precompiles benchmarks:
+
+- Geth:
+
+```
+$ cd evm/
+$ ./scripts/run_precompiles_bench.py geth 
+```
+
+- Parity
+```
+$ cd evm/
+$ ./scripts/run_precompiles_bench.py parity
+```
+

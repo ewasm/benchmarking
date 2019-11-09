@@ -33,7 +33,6 @@ def create_project(precompile, test):
     except OSError as exc:
         if exc.errno != errno.ENOENT:
             raise
-        pass
 
     test_dir = 'build/'+precompile+'/'+test_name
 
@@ -57,7 +56,6 @@ def create_cargo_workspace(items):
 def main():
     ecadd_tests = None
     ecmul_tests = None
-    inputs = {}
 
     with open('src/tests/ecadd.json') as f:
         ecadd_tests = json.load(f)
