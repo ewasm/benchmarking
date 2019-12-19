@@ -187,7 +187,8 @@ def bench_evm(evm_name, input, codefilepath, shift_suffix):
         
         evm_result['engine'] = 'parity-evm'
         evm_result['test_name'] = test_name
-        evm_result['gas_used'] = parity_bench_result['time']
+        evm_result['total_time'] = parity_bench_result['time']
+        evm_result['gas_used'] = parity_bench_result['gas_used']
 
     if evm_name == "geth":
         geth_bench_cmd = get_geth_cmd(codefilepath, calldata, expected)
