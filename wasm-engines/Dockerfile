@@ -175,7 +175,6 @@ RUN rustup target add wasm32-unknown-unknown
 RUN mkdir /benchrunner
 COPY project /benchrunner/project
 COPY main.py /benchrunner
-COPY test.py /benchrunner
 
 
 # copy scripts to generate standalone wasm modules
