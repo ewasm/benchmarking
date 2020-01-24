@@ -156,12 +156,12 @@ COPY node-timer.js ./node/node-timer.js
 #RUN cd wag && go build ./cmd/ethereum/...
 
 # install wamr
-RUN git clone https://github.com/bytecodealliance/wasm-micro-runtime.git --branch benchmark
+RUN git clone https://github.com/hugo-dc/wasm-micro-runtime.git --branch benchmark
 RUN cd wasm-micro-runtime/product-mini/platforms/linux && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
 
 # install wasm3
-RUN git clone https://github.com/wasm3/wasm3.git --branch benchmark
+RUN git clone https://github.com/hugo-dc/wasm3.git --branch benchmark
 RUN cd wasm3 && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
 ## install dependencies for standalone wasm prep
