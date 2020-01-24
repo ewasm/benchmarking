@@ -156,23 +156,13 @@ COPY node-timer.js ./node/node-timer.js
 #RUN cd wag && go build ./cmd/ethereum/...
 
 # install wamr
-RUN mkdir /patch
-
-COPY wamr.patch /patch
-RUN git clone https://github.com/bytecodealliance/wasm-micro-runtime.git
-#RUN cd wasm-micro-runtime && git checkout 89f152cdea8a56c2e646fe0406cda7e6183afc23
-RUN patch -s -p0 < /patch/wamr.patch
-#RUN cd wasm-micro-runtime/core/iwasm/products/linux && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
+RUN git clone https://github.com/bytecodealliance/wasm-micro-runtime.git --branch benchmark
 RUN cd wasm-micro-runtime/product-mini/platforms/linux && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
 
 # install wasm3
-COPY wasm3.patch /patch
-RUN git clone https://github.com/wasm3/wasm3.git
-RUN cd wasm3 && git checkout 565b585697291a864d127f3cd3c383cebd80ab1e
-RUN patch -s -p0 < /patch/wasm3.patch
+RUN git clone https://github.com/wasm3/wasm3.git --branch benchmark
 RUN cd wasm3 && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
-
 
 ## install dependencies for standalone wasm prep
 RUN pip3 install jinja2 pandas
