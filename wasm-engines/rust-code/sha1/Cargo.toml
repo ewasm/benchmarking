@@ -1,0 +1,30 @@
+[package]
+name = "ewasm-bench-sha1"
+version = "0.1.0"
+license = "Apache-2.0"
+description = "Ethereum SHA1 benchmark in Rust"
+publish = false
+edition = "2018"
+
+[dependencies]
+sha1 = "0.6"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wee_alloc = "0.4.2"
+
+[lib]
+name = "sha1_wasm"
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[[bin]]
+name = "sha1_native"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = 3
+debug = false
+lto = true
+debug-assertions = false
+overflow-checks = false
+panic = "abort"
