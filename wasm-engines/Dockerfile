@@ -179,7 +179,6 @@ COPY main.py /benchrunner
 
 # copy scripts to generate standalone wasm modules
 RUN mkdir /benchprep
-COPY main.py /benchprep
 COPY benchnativerust_prepwasm.py /benchprep
 COPY nanodurationpy.py /benchprep
 COPY rust-code /benchprep/rust-code
