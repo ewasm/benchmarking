@@ -52,7 +52,9 @@ vm_descriptors = {
 
     "asmble" : VMDescriptor("/engines/asmble/bin/asmble", "invoke -in {wasm_file_path} {function_name} -defmaxmempages 20000"),
 
-    "wamr" : VMDescriptor("/engines/wasm-micro-runtime/product-mini/platforms/linux/build/iwasm", "-f {function_name} {wasm_file_path}"),
+    "wamr-interp" : VMDescriptor("/engines/wasm-micro-runtime/product-mini/platforms/linux/build_interp/iwasm", "-f {function_name} {wasm_file_path}"),
+    "wamr-jit" : VMDescriptor("/engines/wasm-micro-runtime/product-mini/platforms/linux/build/iwasm", "-f {function_name} {wasm_file_path}"),
+    "wamr-aot" : VMDescriptor("/engines/wasm-micro-runtime/wamr_aot.sh", "{function_name} {wasm_file_path}"), 
 
     "wasm3" : VMDescriptor("/engines/wasm3/build/wasm3", "--func {function_name} {wasm_file_path}"),
 
