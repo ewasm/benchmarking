@@ -155,10 +155,17 @@ COPY node-timer.js ./node/node-timer.js
 #RUN git clone --single-branch --branch runtime-design https://github.com/gballet/wag.git
 #RUN cd wag && go build ./cmd/ethereum/...
 
-# install wamr
+# install wamr (interpreter, aot, jit)
 RUN git clone https://github.com/hugo-dc/wasm-micro-runtime.git --branch benchmark
-RUN cd wasm-micro-runtime/product-mini/platforms/linux && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
-
+RUN cd wasm-micro-runtime && git pull origin benchmark
+## Build LLVM
+RUN cd wasm-micro-runtime/product-mini/platforms/linux && ./build_llvm.sh 
+## Build JIT
+RUN cd wasm-micro-runtime/product-mini/platforms/linux && ./build_jit.sh 
+## Build Interpreter
+RUN cd wasm-micro-runtime/product-mini/platforms/linux && mkdir build_interp && cd build_interp && cmake -DWAMR_BUILD_INTERP=1 .. -DCMAKE_BUILD_TYPE=Release .. && make
+## Build Compiler
+RUN cd wasm-micro-runtime/wamr-compiler && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
 # install wasm3
 RUN git clone https://github.com/hugo-dc/wasm3.git --branch benchmark
@@ -175,6 +182,7 @@ RUN rustup target add wasm32-unknown-unknown
 RUN mkdir /benchrunner
 COPY project /benchrunner/project
 COPY main.py /benchrunner
+COPY wamr_aot.sh /engines/wasm-micro-runtime/
 
 
 # copy scripts to generate standalone wasm modules

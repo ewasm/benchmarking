@@ -142,8 +142,12 @@ class WasmVMBencher:
             result_record = self.do_wasmi_test(cmd)
         elif vm == "wabt":
             result_record = self.do_wabt_test(cmd)
-        elif vm == "wamr":
-            result_record = self.do_wamr_test(cmd)
+        elif vm == "wamr-interp":
+            result_record = self.do_wamr_interp_test(cmd)
+        elif vm == "wamr-jit":
+            result_record = self.do_wamr_jit_test(cmd)
+        elif vm == "wamr-aot":
+            result_record = self.do_wamr_aot_test(cmd)
         elif vm == "wasm3":
             result_record = self.do_wasm3_test(cmd)
         else:
@@ -319,7 +323,7 @@ class WasmVMBencher:
         }
         return self.doCompilerTest(vm_cmd, time_parse_info)
 
-    def do_wamr_test(self, vm_cmd):
+    def do_wamr_interp_test(self, vm_cmd):
         """
         Instantiation time: 0.001776
 
@@ -332,6 +336,45 @@ class WasmVMBencher:
           'exec_regex': "execution time: ([\w\.]+)"
         }
         return self.doCompilerTest(vm_cmd, time_parse_info)
+
+    def do_wamr_jit_test(self, vm_cmd):
+        """
+        Instantiation time: 0.001776
+
+        execution time: 0.003867
+        """
+        time_parse_info = {
+          'compile_line_num' : 0,
+          'exec_line_num' : -1,
+          'compile_regex': "Instantiation time: ([\w\.]+)",
+          'exec_regex': "execution time: ([\w\.]+)"
+        }
+        return self.doCompilerTest(vm_cmd, time_parse_info)
+
+    def do_wamr_aot_test(self, vm_cmd):
+        """
+        Runtime load time: 0.046319s
+        Create AoT compiler with:
+          target:        x86_64
+          target cpu:    skylake
+          cpu features:  
+          opt level:     3
+          output format: AoT file
+        Compilation time: 0.245519s
+        Compile success, file wasm.aot was generated.
+        Instantiation time: 0.000866s
+
+        execution time: 0.000105s
+        """
+        time_parse_info = {
+          'compile_line_num' : 7,
+          'exec_line_num' : -1,
+          'compile_regex': "Compilation time: ([\w\.]+)",
+          'exec_regex': "execution time: ([\w\.]+)"
+        }
+        return self.doCompilerTest(vm_cmd, time_parse_info)
+
+
 
     def do_wasm3_test(self, vm_cmd):
         """
