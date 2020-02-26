@@ -4,7 +4,12 @@ FROM ubuntu:18.04
 RUN apt-get clean
 RUN apt-get update
 RUN apt-get install -y software-properties-common git sudo build-essential wget curl nano \
-    autoconf automake cmake libtool llvm-6.0 make ninja-build unzip zlib1g-dev texinfo
+    autoconf automake libtool llvm-6.0 make ninja-build unzip zlib1g-dev texinfo libssl-dev
+
+# Install CMake
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4.tar.gz
+RUN tar -xzvf cmake-3.16.4.tar.gz
+RUN cd cmake-3.16.4 && ./bootstrap && make && make install
 
 # install python 2.7
 RUN apt-get install -y python2.7
@@ -20,6 +25,12 @@ RUN wget https://bootstrap.pypa.io/get-pip.py && python3.7 get-pip.py
 # Install Go 1.11 (update 2019-03-16: now installs go 1.12)
 RUN add-apt-repository ppa:longsleep/golang-backports && apt-get update && apt-get install -y golang-go
 
+# enable go modules: https://github.com/golang/go/wiki/Modules
+RUN export GO111MODULE=on
+
+RUN sudo apt-get clean autoclean
+RUN sudo apt-get autoremove -y
+
 # Install Clang 8 (needed for life -polymerase)
 RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
     apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main" && \
@@ -27,14 +38,6 @@ RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
 
 RUN ln -s /usr/bin/clang-8 /usr/bin/clang && \
     ln -s /usr/bin/clang++-8 /usr/bin/clang++
-
-
-RUN apt-get clean autoclean
-RUN apt-get autoremove -y
-
-
-# enable go modules: https://github.com/golang/go/wiki/Modules
-RUN export GO111MODULE=on
 
 WORKDIR /engines
 
@@ -171,6 +174,19 @@ RUN cd wasm-micro-runtime/wamr-compiler && mkdir build && cd build && cmake -DCM
 RUN git clone https://github.com/hugo-dc/wasm3.git --branch benchmark
 RUN cd wasm3 && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
+# Update gcc/g++
+RUN apt install -y gcc-8
+RUN apt install -y g++-8
+
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 10
+RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 10
+
+
+# install fizzy
+RUN git clone https://github.com/hugo-dc/fizzy.git --single-branch --branch bench-fizzy
+RUN cd fizzy && mkdir build && cd build && cmake -DFIZZY_TESTING=ON .. && cmake --build .
+
+
 ## install dependencies for standalone wasm prep
 RUN pip3 install jinja2 pandas
 
@@ -183,7 +199,7 @@ RUN mkdir /benchrunner
 COPY project /benchrunner/project
 COPY main.py /benchrunner
 COPY wamr_aot.sh /engines/wasm-micro-runtime/
-
+COPY fizzy.sh /engines/fizzy/
 
 # copy scripts to generate standalone wasm modules
 RUN mkdir /benchprep
