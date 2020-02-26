@@ -150,6 +150,8 @@ class WasmVMBencher:
             result_record = self.do_wamr_aot_test(cmd)
         elif vm == "wasm3":
             result_record = self.do_wasm3_test(cmd)
+        elif vm == "fizzy":
+            result_record = self.do_fizzy_test(cmd)
         else:
             result_record = self.doElapsedTest(cmd)
 
@@ -388,6 +390,34 @@ class WasmVMBencher:
           'exec_line_num' : -1,
           'compile_regex' : "Instantiation time: ([\w\.]+)",
           'exec_regex' : "execution time: ([\w\.]+)"
+        }
+        return self.doCompilerTest(vm_cmd, time_parse_info)
+
+    def do_fizzy_test(self, vm_cmd):
+        """
+        2020-02-26 03:37:35
+        Running /engines/fizzy/build/bin/fizzy-bench
+        Run on (4 X 3100 MHz CPU s)
+        CPU Caches:
+          L1 Data 32K (x2)
+          L1 Instruction 32K (x2)
+          L2 Unified 256K (x2)
+          L3 Unified 3072K (x1)
+        Load Average: 0.54, 0.65, 0.76
+        ***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+        --------------------------------------------------------------------------------------
+        Benchmark                            Time             CPU   Iterations UserCounters...
+        --------------------------------------------------------------------------------------
+        fizzy/parse/testcase            159223ns       158598ns         4375 rate=1.50602G/s size=238.852k
+        fizzy/instantiate/testcase       30759ns        30557ns        23588
+        fizzy/execute/testcase/test    2274841ns      2263767ns          315
+        """
+
+        time_parse_info = {
+                'compile_line_num' : -2,
+                'exec_line_num' : -1,
+                'compile_regex' : "fizzy\/instantiate\/testcase\s+([\w\.]+)",
+                'exec_regex': "fizzy\/execute\/testcase\/test\s+([\w\.]+)"
         }
         return self.doCompilerTest(vm_cmd, time_parse_info)
 

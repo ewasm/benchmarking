@@ -13,7 +13,7 @@ echo $'\n' >> testcase.inputs   # 6. Expected memory
 # Copy wasm file
 cp $2 ./testcase.wasm
 
-/engines/fizzy/build/bin/fizzy-bench --benchmark_color=false ./
+/engines/fizzy/build/bin/fizzy-bench --benchmark_color=false ./ | sed 's/\([0-9][0-9]*\)\s\([nm]s\)/\1\2/g'
 
 rm *wasm
 
