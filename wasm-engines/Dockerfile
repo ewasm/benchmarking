@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:19.04
 
 # System deps
 RUN apt-get clean
@@ -15,12 +15,9 @@ RUN cd cmake-3.16.4 && ./bootstrap && make && make install
 RUN apt-get install -y python2.7
 
 # install python 3.7
-RUN apt-add-repository ppa:deadsnakes/ppa && apt-get update
 RUN apt-get install -y python3.7
+RUN apt-get install -y python3-distutils
 RUN wget https://bootstrap.pypa.io/get-pip.py && python3.7 get-pip.py
-# linking /usr/bin/python3 to /usr/bin/python3.7 will break add-apt-reposity
-# RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 1
-
 
 # Install Go 1.11 (update 2019-03-16: now installs go 1.12)
 RUN add-apt-repository ppa:longsleep/golang-backports && apt-get update && apt-get install -y golang-go
@@ -32,9 +29,7 @@ RUN sudo apt-get clean autoclean
 RUN sudo apt-get autoremove -y
 
 # Install Clang 8 (needed for life -polymerase)
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-    apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main" && \
-    apt-get update && apt-get install -y clang-8 lldb-8 lld-8
+RUN apt install -y clang-8 lldb-8 lld-8
 
 RUN ln -s /usr/bin/clang-8 /usr/bin/clang && \
     ln -s /usr/bin/clang++-8 /usr/bin/clang++
@@ -51,7 +46,6 @@ RUN cd life && go build
 RUN git clone --single-branch --branch bench-times https://github.com/cdetrio/wagon
 RUN cd wagon/cmd/wasm-run && go build
 
-
 # install rust
 RUN curl https://sh.rustup.rs -sSf | \
     sh -s -- --default-toolchain stable -y && . $HOME/.cargo/env
@@ -59,12 +53,15 @@ ENV PATH=/root/.cargo/bin:$PATH
 
 RUN rustup default 1.31.0
 
-
 # install wasmi
 RUN git clone --single-branch --branch bench-time https://github.com/cdetrio/wasmi.git --recursive
-#RUN cd wasmi && cargo build --release
 RUN cd wasmi && cargo test --release
 
+# Use old gcc/g++ for wavm (needed by wavm)
+RUN apt install -y gcc-7
+RUN apt install -y g++-7
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 10
+RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 10
 
 # install wavm
 RUN git clone --single-branch --branch bench-compile-time https://github.com/cdetrio/WAVM
@@ -175,12 +172,13 @@ RUN git clone https://github.com/hugo-dc/wasm3.git --branch benchmark
 RUN cd wasm3 && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
 # Update gcc/g++
-RUN apt install -y gcc-8
-RUN apt install -y g++-8
+RUN update-alternatives --remove-all gcc
+RUN update-alternatives --remove-all g++
+RUN apt install -y gcc-9
+RUN apt install -y g++-9
 
-RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 10
-RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 10
-
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 1
+RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 1
 
 # install fizzy
 RUN git clone https://github.com/hugo-dc/fizzy.git --single-branch --branch bench-fizzy
@@ -192,7 +190,6 @@ RUN pip3 install jinja2 pandas
 
 # rust wasm32 target for compiling wasm
 RUN rustup target add wasm32-unknown-unknown
-
 
 # copy benchmarking scripts
 RUN mkdir /benchrunner
