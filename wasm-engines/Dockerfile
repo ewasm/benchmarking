@@ -181,7 +181,7 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 1
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 1
 
 # install fizzy
-RUN git clone https://github.com/hugo-dc/fizzy.git --single-branch --branch bench-fizzy
+RUN git clone https://github.com/wasmx/fizzy.git
 RUN cd fizzy && mkdir build && cd build && cmake -DFIZZY_TESTING=ON .. && cmake --build .
 
 
