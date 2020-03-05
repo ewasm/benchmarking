@@ -32,7 +32,7 @@ WABT_BENCH_WORKING_DIR = "/engines/wabt-bench-dirs"
 WABT_BENCH_INFOS = [
   {
     'bench_name': 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs',
-    'engine_name': 'wabt-with-bigums',
+    'engine_name': 'wabt-with-bignums',
     'wabt_bin_path': '/engines/wabt-secp/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/scout.ts-secp/',
     'yaml_file_rel_path': 'secpsigverify.yaml'
@@ -46,7 +46,7 @@ WABT_BENCH_INFOS = [
   },
   {
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'wabt-with-bigums',
+    'engine_name': 'wabt-with-bignums',
     'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
@@ -60,14 +60,14 @@ WABT_BENCH_INFOS = [
   },
   {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-    'engine_name': 'wabt-with-bigums',
+    'engine_name': 'wabt-with-bignums',
     'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/daiquiri/',
     'yaml_file_rel_path': 'tests/tests-mimc-bn.yml'
   },
   {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-    'engine_name': 'wabt-no-bigums',
+    'engine_name': 'wabt-no-bignums',
     'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/daiquiri/',
     'yaml_file_rel_path': 'tests/tests-mimc.yml'
@@ -87,21 +87,21 @@ WABT_BENCH_INFOS = [
 SCOUTCPP_BENCH_INFOS = [
   {
     'bench_name': 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs',
-    'engine_name': 'scout-cpp-with-bigums',
+    'engine_name': 'scoutcpp-with-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-secp/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/scout.ts-secp/',
     'yaml_file_path': 'secpsigverify.yaml'
   },
   {
     'bench_name': 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs',
-    'engine_name': 'scout-cpp-no-bignums',
+    'engine_name': 'scoutcpp-no-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-secp/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/scout.ts-secp/',
     'yaml_file_path': 'secpsigverify_nobignums.yaml'
   },
   {
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'scoutcpp-with-bigums',
+    'engine_name': 'scoutcpp-with-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_path': 'bn128pairing_bignums.yaml'
@@ -115,14 +115,14 @@ SCOUTCPP_BENCH_INFOS = [
   },
   {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-    'engine_name': 'scoutcpp-with-bigums',
+    'engine_name': 'scoutcpp-with-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/daiquiri/',
     'yaml_file_path': 'tests/tests-mimc-bn.yml'
   },
   {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-    'engine_name': 'scoutcpp-no-bigums',
+    'engine_name': 'scoutcpp-no-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/daiquiri/',
     'yaml_file_path': 'tests/tests-mimc.yml'
@@ -137,6 +137,7 @@ SCOUTCPP_BENCH_INFOS = [
 # these v8 benchmarks demonstrate using websnark's implementations of bigints
 # and modular arithmetic as the polyfill.
 
+# TODO: add v8-interpreter
 V8_BENCH_INFOS = [
   {
     'bench_name': 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs',
