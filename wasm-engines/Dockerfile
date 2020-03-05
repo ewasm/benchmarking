@@ -156,7 +156,7 @@ COPY node-timer.js ./node/node-timer.js
 #RUN cd wag && go build ./cmd/ethereum/...
 
 # install wamr (interpreter, aot, jit)
-RUN git clone https://github.com/hugo-dc/wasm-micro-runtime.git --branch benchmark
+RUN git clone https://github.com/hugo-dc/wasm-micro-runtime.git --single-branch --branch benchmark
 RUN cd wasm-micro-runtime && git pull origin benchmark
 ## Build LLVM
 RUN cd wasm-micro-runtime/product-mini/platforms/linux && ./build_llvm.sh 
@@ -168,7 +168,7 @@ RUN cd wasm-micro-runtime/product-mini/platforms/linux && mkdir build_interp && 
 RUN cd wasm-micro-runtime/wamr-compiler && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
 # install wasm3
-RUN git clone https://github.com/hugo-dc/wasm3.git --branch benchmark
+RUN git clone https://github.com/hugo-dc/wasm3.git --single-branch --branch benchmark
 RUN cd wasm3 && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
 # Update gcc/g++
@@ -181,7 +181,7 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 1
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 1
 
 # install fizzy
-RUN git clone https://github.com/wasmx/fizzy.git
+RUN git clone https://github.com/wasmx/fizzy.git --single-branch --branch master
 RUN cd fizzy && mkdir build && cd build && cmake -DFIZZY_TESTING=ON .. && cmake --build .
 
 
