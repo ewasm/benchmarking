@@ -58,20 +58,20 @@ WABT_BENCH_INFOS = [
     'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_rel_path': 'bn128pairing.yaml'
   },
-  {
-    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-    'engine_name': 'wabt-with-bignums',
-    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/benchmark-interp',
-    'yaml_file_dir': '/scoutyamls/daiquiri/',
-    'yaml_file_rel_path': 'tests/tests-mimc-bn.yml'
-  },
-  {
-    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-    'engine_name': 'wabt-no-bignums',
-    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/benchmark-interp',
-    'yaml_file_dir': '/scoutyamls/daiquiri/',
-    'yaml_file_rel_path': 'tests/tests-mimc.yml'
-  },
+#  {
+#    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
+#    'engine_name': 'wabt-with-bignums',
+#    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/benchmark-interp',
+#    'yaml_file_dir': '/scoutyamls/daiquiri/',
+#    'yaml_file_rel_path': 'tests/tests-withdraw-bn.yml'
+#  },
+#  {
+#    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
+#    'engine_name': 'wabt-no-bignums',
+#    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/wasm-interp',
+#    'yaml_file_dir': '/scoutyamls/daiquiri/',
+#    'yaml_file_rel_path': 'tests/tests-withdraw.yml'
+#  },
   {
     'bench_name': 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof',
     'engine_name': 'wabt-biturbo',
@@ -81,6 +81,25 @@ WABT_BENCH_INFOS = [
   }
 ]
 
+
+
+# use wabt/wasm-interp instead of wabt/benchmark-interp
+WABT_BENCH_MANUAL_INFOS = [
+  {
+    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
+    'engine_name': 'wabt-with-bignums',
+    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/daiquiri/',
+    'yaml_file_rel_path': 'tests/tests-withdraw-bn.yml'
+  },
+  {
+    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
+    'engine_name': 'wabt-no-bignums',
+    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/daiquiri/',
+    'yaml_file_rel_path': 'tests/tests-withdraw.yml'
+  }
+]
 
 
 
@@ -118,14 +137,14 @@ SCOUTCPP_BENCH_INFOS = [
     'engine_name': 'scoutcpp-with-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/daiquiri/',
-    'yaml_file_path': 'tests/tests-mimc-bn.yml'
+    'yaml_file_path': 'tests/tests-withdraw-bn.yml'
   },
   {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
     'engine_name': 'scoutcpp-no-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/daiquiri/',
-    'yaml_file_path': 'tests/tests-mimc.yml'
+    'yaml_file_path': 'tests/tests-withdraw.yml'
   }
 ]
 
@@ -152,6 +171,12 @@ V8_BENCH_INFOS = [
     'scoutts_working_dir': '/scoutyamls/scout.ts-secp/',
   },
   {
+    'bench_name': 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs',
+    'engine_name': 'v8-interpreter',
+    'scoutts_cmd': 'node --wasm-interpret-all ./dist/cli.js secpsigverify_nobignums.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-secp/',
+  },
+  {
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
     'engine_name': 'v8-turbofan',
     'scoutts_cmd': 'npm run start:turbofan bn128pairing.yaml',
@@ -164,15 +189,27 @@ V8_BENCH_INFOS = [
     'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
   },
   {
+    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+    'engine_name': 'v8-interpreter',
+    'scoutts_cmd': 'node --wasm-interpret-all ./dist/cli.js bn128pairing.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
+  },
+  {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
     'engine_name': 'v8-turbofan',
-    'scoutts_cmd': 'npm run bench:turbofan tests/tests-mimc.yml',
+    'scoutts_cmd': 'npm run bench:turbofan tests/tests-withdraw.yml',
     'scoutts_working_dir': '/scoutyamls/daiquiri/'
   },
   {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
     'engine_name': 'v8-liftoff',
-    'scoutts_cmd': 'npm run bench:liftoff tests/tests-mimc.yml',
+    'scoutts_cmd': 'npm run bench:liftoff tests/tests-withdraw.yml',
+    'scoutts_working_dir': '/scoutyamls/daiquiri/'
+  },
+  {
+    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
+    'engine_name': 'v8-interpreter',
+    'scoutts_cmd': 'npm run bench:interpreter tests/tests-withdraw.yml',
     'scoutts_working_dir': '/scoutyamls/daiquiri/'
   },
   {
@@ -185,6 +222,12 @@ V8_BENCH_INFOS = [
     'bench_name': 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof',
     'engine_name': 'v8-liftoff',
     'scoutts_cmd': 'node --liftoff --no-wasm-tier-up node_modules/scout.ts/dist/cli.js turbo-token-realistic.yaml',
+    'scoutts_working_dir': '/scoutyamls/biturbo/'
+  },
+  {
+    'bench_name': 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof',
+    'engine_name': 'v8-interpreter',
+    'scoutts_cmd': 'node --wasm-interpret-all node_modules/scout.ts/dist/cli.js turbo-token-realistic.yaml',
     'scoutts_working_dir': '/scoutyamls/biturbo/'
   }
 ]
@@ -248,7 +291,7 @@ benchmark took 0 seconds and 202402286 nanoseconds (202.402286 ms)
 """
 
 def do_v8_bench(scoutts_cmd, scoutts_working_dir):
-    print("\nrunning scout.ts benchmark...\n{}\n".format(scoutts_cmd))
+    print("running v8 benchmark...\n{}".format(scoutts_cmd))
     scoutts_cmd = shlex.split(scoutts_cmd)
     stdoutlines = []
     with subprocess.Popen(scoutts_cmd, cwd=scoutts_working_dir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True) as p:
@@ -276,7 +319,7 @@ benchmark took 0.0419916 seconds.
 """
 
 def do_scoutcpp_bench(scoutcpp_cmd, yaml_working_dir):
-    print("\nrunning scout.cpp benchmark...\n{}\n".format(scoutcpp_cmd))
+    print("running scout.cpp benchmark...\n{}".format(scoutcpp_cmd))
     scoutcpp_cmd = shlex.split(scoutcpp_cmd)
     stdoutlines = []
     with subprocess.Popen(scoutcpp_cmd, cwd=yaml_working_dir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True) as p:
@@ -291,6 +334,36 @@ def do_scoutcpp_bench(scoutcpp_cmd, yaml_working_dir):
     time_seconds = durationpy.from_str(time_match.group(1) + "s")
     return { 'time': time_seconds.total_seconds()}
 
+
+
+
+
+"""
+running wabt benchmark...
+/engines/wabt-bn128/out/clang/Release/wasm-interp /engines/wabt-bench-dirs/daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc-wabt-with-bignums/main_with_websnark_bignum_hostfuncs.wasm
+
+ReadMemorySection time: 183us
+debug_printMemHex mem_pos: 527773
+eth2_savePostStateRoot: E0A30EF7356F67420D65613C3E5F718B12240227C90304CA00916B2618B5B300
+parse time: 2300us
+exec time: 47234us
+"""
+
+def do_wabt_bench_manual(isolated_bench_dir, wabt_cmd):
+    print("\nrunning wabt benchmark...\n{}".format(wabt_cmd))
+    wabt_cmd = shlex.split(wabt_cmd)
+    stdoutlines = []
+    with subprocess.Popen(wabt_cmd, cwd=isolated_bench_dir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True) as p:
+        for line in p.stdout: # b'\n'-separated lines
+            print(line, end='')
+            stdoutlines.append(line)  # pass bytes as is
+        p.wait()
+
+    timeregex = "exec time: (\d+)us"
+    benchline = stdoutlines[-1]
+    time_match = re.search(timeregex, benchline)
+    us_time = durationpy.from_str("{}us".format(time_match.group(1)))
+    return {'time': us_time.total_seconds()}
 
 
 
@@ -339,7 +412,7 @@ def do_wabt_bench(isolated_bench_dir, wabt_cmd):
 
 
 
-def run_yaml_file_in_wabt(isolated_bench_dir, wabt_bin_path, yaml_file_dir, yaml_file_rel_path):
+def run_yaml_file_in_wabt(isolated_bench_dir, wabt_bin_path, yaml_file_dir, yaml_file_rel_path, manual=False):
     yaml_file_path = os.path.join(yaml_file_dir, yaml_file_rel_path)
     with open(yaml_file_path, 'r') as stream:
         print("running yaml file in wabt:", yaml_file_path)
@@ -374,7 +447,10 @@ def run_yaml_file_in_wabt(isolated_bench_dir, wabt_bin_path, yaml_file_dir, yaml
         # form the wabt command and execute
         #cmd_str = "./benchmark-interp {}".format(wasmfile)
         wabt_cmd = "{} {}".format(wabt_bin_path, wasm_file_dst_path)
-        wabt_result = do_wabt_bench(isolated_bench_path, wabt_cmd)
+        if manual:
+            wabt_result = do_wabt_manual_bench(isolated_bench_path, wabt_cmd)
+        else:
+            wabt_result = do_wabt_bench(isolated_bench_path, wabt_cmd)
         return wabt_result
 
 
@@ -385,6 +461,26 @@ def run_yaml_file_in_wabt(isolated_bench_dir, wabt_bin_path, yaml_file_dir, yaml
 
 def main():
     scout_benchmarks = []
+    
+    # run only 5 iterations of wabt, since each run is an average already
+    for i in range(0, 5):
+        print("\ndoing wabt manual bench run i=",i)
+        for wabt_bench_torun in WABT_BENCH_MANUAL_INFOS:
+            bench_name = wabt_bench_torun['bench_name']
+            wabt_engine_name = wabt_bench_torun['engine_name']
+            wabt_bin_path = wabt_bench_torun['wabt_bin_path']
+            yaml_file_dir = wabt_bench_torun['yaml_file_dir']
+            yaml_file_rel_path = wabt_bench_torun['yaml_file_rel_path']
+            print("wabt bench: ", wabt_engine_name, bench_name)
+            isolated_bench_dir = "{}-{}".format(bench_name, wabt_engine_name)
+            wabt_bench_result = run_yaml_file_in_wabt(isolated_bench_dir, wabt_bin_path, yaml_file_dir, yaml_file_rel_path, manual=True)
+            wabt_record = {}
+            wabt_record['engine'] = wabt_engine_name
+            wabt_record['bench_name'] = bench_name
+            wabt_record['time'] = wabt_bench_result['time']
+            scout_benchmarks.append(wabt_record)
+            print("got wabt result:", wabt_record)
+            print("\n")
 
     # run only 5 iterations of wabt, since each run is an average already
     for i in range(0, 5):
@@ -397,7 +493,7 @@ def main():
             yaml_file_rel_path = wabt_bench_torun['yaml_file_rel_path']
             print("wabt bench: ", wabt_engine_name, bench_name)
             isolated_bench_dir = "{}-{}".format(bench_name, wabt_engine_name)
-            wabt_bench_result = run_yaml_file_in_wabt(isolated_bench_dir, wabt_bin_path, yaml_file_dir, yaml_file_rel_path)
+            wabt_bench_result = run_yaml_file_in_wabt(isolated_bench_dir, wabt_bin_path, yaml_file_dir, yaml_file_rel_path, manual=False)
             wabt_record = {}
             wabt_record['engine'] = wabt_engine_name
             wabt_record['bench_name'] = bench_name
@@ -422,7 +518,6 @@ def main():
             v8_record['time'] = v8_result['time']
             scout_benchmarks.append(v8_record)
             print("got v8 result:", v8_record)
-            print("\n")
 
 
     # run 10 iterations of scout.cpp
@@ -442,7 +537,6 @@ def main():
             scoutcpp_record['time'] = scoutcpp_result['time']
             scout_benchmarks.append(scoutcpp_record)
             print("got scout.cpp result:", scoutcpp_record)
-            print("\n")
 
 
     print("got scout_benchmarks:")

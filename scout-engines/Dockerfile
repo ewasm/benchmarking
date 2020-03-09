@@ -62,7 +62,10 @@ RUN cd google-benchmark/build && make install
 
 
 # install wabt with bignum host fuctions for bn128
-RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs https://github.com/ewasm/wabt.git wabt-bn128
+#RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs https://github.com/ewasm/wabt.git wabt-bn128
+# the branch scout-bignums-daiquiri-withdraw is the same as scout-bignum-hostfuncs, but with a hardcoded prestate returned by eth2_loadPrestateRoot().
+# the ecpairing-zkrollup-bn128 scout benchmark doesn't load the prestate, so this branch is compatible with that and with the daiquiri-withdraw benchmark
+RUN git clone --recursive --single-branch --branch scout-bignums-daiquiri-withdraw https://github.com/ewasm/wabt.git wabt-bn128
 RUN cd wabt-bn128 && make clang-release
 # could also use `make gcc-release`, but gcc is slower than clang
 
@@ -99,7 +102,7 @@ RUN git clone https://github.com/cdetrio/scout.ts.git --single-branch --branch b
 RUN cd scout.ts-bn128 && npm install && npm run build
 
 # clone daiquri branch
-RUN git clone https://github.com/cdetrio/daiquiri.git --single-branch --branch scout-benchreport-mimc daiquiri
+RUN git clone https://github.com/cdetrio/daiquiri.git --single-branch --branch scout-benchreport-withdraw daiquiri
 RUN cd daiquiri && npm install && npm run build
 
 # clone biturbo branch
