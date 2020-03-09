@@ -58,20 +58,6 @@ WABT_BENCH_INFOS = [
     'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_rel_path': 'bn128pairing.yaml'
   },
-#  {
-#    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-#    'engine_name': 'wabt-with-bignums',
-#    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/benchmark-interp',
-#    'yaml_file_dir': '/scoutyamls/daiquiri/',
-#    'yaml_file_rel_path': 'tests/tests-withdraw-bn.yml'
-#  },
-#  {
-#    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-#    'engine_name': 'wabt-no-bignums',
-#    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/wasm-interp',
-#    'yaml_file_dir': '/scoutyamls/daiquiri/',
-#    'yaml_file_rel_path': 'tests/tests-withdraw.yml'
-#  },
   {
     'bench_name': 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof',
     'engine_name': 'wabt-biturbo',
@@ -448,7 +434,7 @@ def run_yaml_file_in_wabt(isolated_bench_dir, wabt_bin_path, yaml_file_dir, yaml
         #cmd_str = "./benchmark-interp {}".format(wasmfile)
         wabt_cmd = "{} {}".format(wabt_bin_path, wasm_file_dst_path)
         if manual:
-            wabt_result = do_wabt_manual_bench(isolated_bench_path, wabt_cmd)
+            wabt_result = do_wabt_bench_manual(isolated_bench_path, wabt_cmd)
         else:
             wabt_result = do_wabt_bench(isolated_bench_path, wabt_cmd)
         return wabt_result
@@ -461,9 +447,9 @@ def run_yaml_file_in_wabt(isolated_bench_dir, wabt_bin_path, yaml_file_dir, yaml
 
 def main():
     scout_benchmarks = []
-    
-    # run only 5 iterations of wabt, since each run is an average already
-    for i in range(0, 5):
+
+    # run 10 iterations of wabt_manual (ran using wabt/wasm-interp)
+    for i in range(0, 10):
         print("\ndoing wabt manual bench run i=",i)
         for wabt_bench_torun in WABT_BENCH_MANUAL_INFOS:
             bench_name = wabt_bench_torun['bench_name']
@@ -482,7 +468,7 @@ def main():
             print("got wabt result:", wabt_record)
             print("\n")
 
-    # run only 5 iterations of wabt, since each run is an average already
+    # run only 5 iterations of wabt, since each run is an average already (ran using wabt/benchmark-interp)
     for i in range(0, 5):
         print("\ndoing wabt bench run i=",i)
         for wabt_bench_torun in WABT_BENCH_INFOS:
