@@ -73,10 +73,13 @@ RUN cd wabt-bn128 && make clang-release
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-secp256k1 https://github.com/ewasm/wabt.git wabt-secp
 RUN cd wabt-secp && make clang-release
 
-## TODO: clean up this wabt branch. install two versions: with-superops and no-superops
-# install wabt branch with host functions for biturbo/turbo-token-realistic
+# install wabt branch with host functions for biturbo/turbo-token-realistic (this branch has superops, but is a bit messy)
 RUN git clone --recursive --single-branch --branch scout-for-biturbo-token https://github.com/ewasm/wabt.git wabt-biturbo
 RUN cd wabt-biturbo && make clang-release
+
+# turbo-token wabt branch without superops
+RUN git clone --recursive --single-branch --branch scout-biturbo-no-superops https://github.com/ewasm/wabt.git wabt-biturbo-no-superops
+RUN cd wabt-biturbo-no-superops && make clang-release
 
 
 # install scout.cpp branch with bignum host functions for bn128

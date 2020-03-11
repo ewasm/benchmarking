@@ -66,6 +66,13 @@ WABT_BENCH_INFOS = [
     'wabt_bin_path': '/engines/wabt-biturbo/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/biturbo/',
     'yaml_file_rel_path': 'turbo-token-realistic.yaml'
+  },
+  {
+    'bench_name': 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof',
+    'engine_name': 'wabt-biturbo-no-superops',
+    'wabt_bin_path': '/engines/wabt-biturbo-no-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/biturbo/',
+    'yaml_file_rel_path': 'turbo-token-realistic.yaml'
   }
 ]
 
