@@ -17,6 +17,8 @@ RESULT_CSV_OUTPUT_DIR = "/benchmark_results_data"
 
 RESULT_CSV_FILE_NAME = "scout_bignum_benchmarks.csv"
 
+# TODO
+# grep -E '^model name|^cpu MHz' /proc/cpuinfo > /benchmark_results_data/cpuinfo.txt
 
 
 
