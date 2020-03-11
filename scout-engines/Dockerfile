@@ -94,11 +94,11 @@ RUN cd scoutcpp-secp && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMA
 WORKDIR /scoutyamls
 
 # clone scout.ts branch with secp-sig-verify
-RUN git clone https://github.com/cdetrio/scout.ts.git --single-branch --branch secp-sig-verify scout.ts-secp
+RUN git clone https://github.com/ewasm/scout.ts.git --single-branch --branch secp-sig-verify scout.ts-secp
 RUN cd scout.ts-secp && npm install && npm run build
 
 # clone scout.ts branch with bn128-pairing
-RUN git clone https://github.com/cdetrio/scout.ts.git --single-branch --branch bn128-pairing scout.ts-bn128
+RUN git clone https://github.com/ewasm/scout.ts.git --single-branch --branch bn128-pairing scout.ts-bn128
 RUN cd scout.ts-bn128 && npm install && npm run build
 
 # clone daiquri branch
