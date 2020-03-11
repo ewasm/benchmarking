@@ -70,6 +70,8 @@ WABT_BENCH_INFOS = [
 
 
 # use wabt/wasm-interp instead of wabt/benchmark-interp
+# benchmark-interp loops over calls to main() without zeroing out memory or re-instantiating the wasm instance
+# some wasm modules support repeated calls to main(). Daiqiuri doesn't, so use wasm-interp instead of benchmark-interp
 WABT_BENCH_MANUAL_INFOS = [
   {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
@@ -201,7 +203,7 @@ V8_BENCH_INFOS = [
   {
     'bench_name': 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof',
     'engine_name': 'v8-turbofan',
-    'scoutts_cmd': 'node node_modules/scout.ts/dist/cli.js turbo-token-realistic.yaml',
+    'scoutts_cmd': 'node --no-liftoff node_modules/scout.ts/dist/cli.js turbo-token-realistic.yaml',
     'scoutts_working_dir': '/scoutyamls/biturbo/'
   },
   {
@@ -260,7 +262,7 @@ def saveResults(benchmarks):
         print("existing csv files backed up to {}".format(dest_backup_path))
 
     with open(result_file, 'w', newline='') as bench_result_file:
-        fieldnames = ['engine', 'bench_name', 'time']
+        fieldnames = ['engine', 'bench_name', 'parse_time', 'exec_time']
         writer = csv.DictWriter(bench_result_file, fieldnames=fieldnames)
         writer.writeheader()
         for row in benchmarks:
@@ -268,12 +270,13 @@ def saveResults(benchmarks):
 
 
 """
-(base) mbpros-MacBook-Pro:scout.ts mbpro$ npm run start:liftoff secpsigverify_nobignums.yaml
+$ npm run start:turbofan secpsigverify_nobignums.yaml
 
-> scout.ts@0.0.2 start:liftoff /Users/mbpro/dev_ewasm/scout.ts
-> node --liftoff --no-wasm-tier-up ./dist/cli.js "secpsigverify_nobignums.yaml"
+> scout.ts@0.0.2 start:turbofan /Users/mbpro/dev_ewasm/scout.ts
+> node --no-liftoff ./dist/cli.js "secpsigverify_nobignums.yaml"
 
-benchmark took 0 seconds and 202402286 nanoseconds (202.402286 ms)
+benchmark startup took 0 seconds and 11780729 nanoseconds (11.780729ms)
+benchmark execution 0 seconds and 267736023 nanoseconds (267.736023ms)
 """
 
 def do_v8_bench(scoutts_cmd, scoutts_working_dir):
@@ -286,13 +289,21 @@ def do_v8_bench(scoutts_cmd, scoutts_working_dir):
             stdoutlines.append(line)  # pass bytes as is
         p.wait()
 
-    timeregex = "benchmark took (\d+) seconds and \d+ nanoseconds \(([\d\w\.\s]+)\)"
-    time_line = stdoutlines[-1]
-    time_match = re.search(timeregex, time_line)
-    time_seconds = durationpy.from_str(time_match.group(1) + "s")
-    time_milliseconds = durationpy.from_str(time_match.group(2).replace(" ", ""))
-    time = time_seconds + time_milliseconds
-    return { 'time': time.total_seconds()}
+    parse_time_regex = "benchmark startup took (\d+) seconds and \d+ nanoseconds \(([\d\w\.\s]+)\)"
+    exec_time_regex = "benchmark execution took (\d+) seconds and \d+ nanoseconds \(([\d\w\.\s]+)\)"
+    parse_time_line = stdoutlines[-2]
+    exec_time_line = stdoutlines[-1]
+
+    parse_time_match = re.search(parse_time_regex, parse_time_line)
+    parse_time_seconds = durationpy.from_str(parse_time_match.group(1) + "s")
+    parse_time_milliseconds = durationpy.from_str(parse_time_match.group(2).replace(" ", ""))
+    parse_time = parse_time_seconds + parse_time_milliseconds
+
+    exec_time_match = re.search(exec_time_regex, exec_time_line)
+    exec_time_seconds = durationpy.from_str(exec_time_match.group(1) + "s")
+    exec_time_milliseconds = durationpy.from_str(exec_time_match.group(2).replace(" ", ""))
+    exec_time = exec_time_seconds + exec_time_milliseconds
+    return { 'exec_time': exec_time.total_seconds(), 'parse_time': parse_time.total_seconds() }
 
 
 
@@ -318,25 +329,22 @@ def do_scoutcpp_bench(scoutcpp_cmd, yaml_working_dir):
     time_line = stdoutlines[-1]
     time_match = re.search(timeregex, time_line)
     time_seconds = durationpy.from_str(time_match.group(1) + "s")
-    return { 'time': time_seconds.total_seconds()}
+    return { 'exec_time': time_seconds.total_seconds()}
 
 
 
 
 
 """
-running wabt benchmark...
 /engines/wabt-bn128/out/clang/Release/wasm-interp /engines/wabt-bench-dirs/daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc-wabt-with-bignums/main_with_websnark_bignum_hostfuncs.wasm
-
-ReadMemorySection time: 183us
-debug_printMemHex mem_pos: 527773
+ReadMemorySection time: 240us
 eth2_savePostStateRoot: E0A30EF7356F67420D65613C3E5F718B12240227C90304CA00916B2618B5B300
-parse time: 2300us
-exec time: 47234us
+parse time: 3204us
+exec time: 345512us
 """
 
 def do_wabt_bench_manual(isolated_bench_dir, wabt_cmd):
-    print("\nrunning wabt benchmark...\n{}".format(wabt_cmd))
+    print("running wabt_manual benchmark...\n{}".format(wabt_cmd))
     wabt_cmd = shlex.split(wabt_cmd)
     stdoutlines = []
     with subprocess.Popen(wabt_cmd, cwd=isolated_bench_dir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True) as p:
@@ -345,37 +353,44 @@ def do_wabt_bench_manual(isolated_bench_dir, wabt_cmd):
             stdoutlines.append(line)  # pass bytes as is
         p.wait()
 
-    timeregex = "exec time: (\d+)us"
-    benchline = stdoutlines[-1]
-    time_match = re.search(timeregex, benchline)
-    us_time = durationpy.from_str("{}us".format(time_match.group(1)))
-    return {'time': us_time.total_seconds()}
+    parse_time_regex = "parse time: (\d+)us"
+    exec_time_regex = "exec time: (\d+)us"
+    parse_benchline = stdoutlines[-2]
+    exec_benchline = stdoutlines[-1]
+    parse_time_match = re.search(parse_time_regex, parse_benchline)
+    parse_us_time = durationpy.from_str("{}us".format(parse_time_match.group(1)))
+    exec_time_match = re.search(exec_time_regex, exec_benchline)
+    exec_us_time = durationpy.from_str("{}us".format(exec_time_match.group(1)))
 
+    return {'exec_time': exec_us_time.total_seconds(), 'parse_time': parse_us_time.total_seconds()}
 
 
 
 """
-(base) mbpros-MacBook-Pro:Release mbpro$ ./benchmark-interp ~/dev_ewasm/scout.ts/assembly/secp-sig-verify/out/main_with_websnark_and_keccak_no_bignums.wasm
-ReadMemorySection time: 289us
+/engines/wabt-secp/out/clang/Release/benchmark-interp /engines/wabt-bench-dirs/ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs-wabt-with-bignums/main_with_websnark_and_keccak.wasm
+
+ReadMemorySection time: 47us
 parse succeeded..
-eth2_savePostStateRoot: 00000000000000000000000029120AC3
-execution finished...
+eth2_savePostStateRoot: 00000000000000000000000029120AC3527858F5637E698CDBF0548C6B59EC77
+parse time: 2685us
+exec time: 883336us
+execution succeeded...
 register benchmark...
 run benchmark...
-2019-10-05 09:38:15
-Running ./benchmark-interp
-Run on (12 X 2900 MHz CPU s)
+2020-03-10 23:45:46
+Running /engines/wabt-secp/out/clang/Release/benchmark-interp
+Run on (1 X 2900 MHz CPU )
 CPU Caches:
-  L1 Data 32K (x6)
-  L1 Instruction 32K (x6)
-  L2 Unified 262K (x6)
-  L3 Unified 12582K (x1)
-Load Average: 1.69, 2.38, 2.75
-eth2_savePostStateRoot: 00000000000000000000000029120AC3
+  L1 Data 32 KiB (x1)
+  L1 Instruction 32 KiB (x1)
+  L2 Unified 256 KiB (x1)
+  L3 Unified 12288 KiB (x1)
+Load Average: 0.39, 0.12, 0.20
+eth2_savePostStateRoot: 00000000000000000000000029120AC3527858F5637E698CDBF0548C6B59EC77
 ------------------------------------------------------
 Benchmark            Time             CPU   Iterations
 ------------------------------------------------------
-wabt_interp    4516136 us      4508150 us            1
+wabt_interp     999345 us       806069 us            1
 """
 
 def do_wabt_bench(isolated_bench_dir, wabt_cmd):
@@ -388,12 +403,17 @@ def do_wabt_bench(isolated_bench_dir, wabt_cmd):
             stdoutlines.append(line)  # pass bytes as is
         p.wait()
 
-    timeregex = "wabt_interp\s+(\d+) us"
+    parse_time_regex = "parse time: (\d+)us"
+    parse_benchline = stdoutlines[3]
+    parse_time_match = re.search(parse_time_regex, parse_benchline)
+    parse_us_time = durationpy.from_str("{}us".format(parse_time_match.group(1)))
+
+    exec_time_regex = "wabt_interp\s+(\d+) us"
     # maybe --benchmark_format=json is better so dont have to parse "36.775k"
-    benchline = stdoutlines[-1]
-    time_match = re.search(timeregex, benchline)
-    us_time = durationpy.from_str("{}us".format(time_match.group(1)))
-    return {'time': us_time.total_seconds()}
+    exec_benchline = stdoutlines[-1]
+    exec_time_match = re.search(exec_time_regex, exec_benchline)
+    exec_us_time = durationpy.from_str("{}us".format(exec_time_match.group(1)))
+    return {'parse_time': parse_us_time.total_seconds(), 'exec_time': exec_us_time.total_seconds()}
 
 
 
@@ -432,6 +452,7 @@ def run_yaml_file_in_wabt(isolated_bench_dir, wabt_bin_path, yaml_file_dir, yaml
 
         # form the wabt command and execute
         #cmd_str = "./benchmark-interp {}".format(wasmfile)
+        #cmd_str = "./wasm-interp {}".format(wasmfile)
         wabt_cmd = "{} {}".format(wabt_bin_path, wasm_file_dst_path)
         if manual:
             wabt_result = do_wabt_bench_manual(isolated_bench_path, wabt_cmd)
@@ -463,10 +484,10 @@ def main():
             wabt_record = {}
             wabt_record['engine'] = wabt_engine_name
             wabt_record['bench_name'] = bench_name
-            wabt_record['time'] = wabt_bench_result['time']
+            wabt_record['exec_time'] = wabt_bench_result['exec_time']
+            wabt_record['parse_time'] = wabt_bench_result['parse_time']
             scout_benchmarks.append(wabt_record)
-            print("got wabt result:", wabt_record)
-            print("\n")
+            print("got wabt_manual result:", wabt_record)
 
     # run only 5 iterations of wabt, since each run is an average already (ran using wabt/benchmark-interp)
     for i in range(0, 5):
@@ -483,10 +504,10 @@ def main():
             wabt_record = {}
             wabt_record['engine'] = wabt_engine_name
             wabt_record['bench_name'] = bench_name
-            wabt_record['time'] = wabt_bench_result['time']
+            wabt_record['exec_time'] = wabt_bench_result['exec_time']
+            wabt_record['parse_time'] = wabt_bench_result['parse_time']
             scout_benchmarks.append(wabt_record)
             print("got wabt result:", wabt_record)
-            print("\n")
 
 
     # run 10 iterations of v8
@@ -501,7 +522,8 @@ def main():
             v8_record = {}
             v8_record['engine'] = v8_engine_name
             v8_record['bench_name'] = v8_bench_name
-            v8_record['time'] = v8_result['time']
+            v8_record['parse_time'] = v8_result['parse_time']
+            v8_record['exec_time'] = v8_result['exec_time']
             scout_benchmarks.append(v8_record)
             print("got v8 result:", v8_record)
 
@@ -520,7 +542,7 @@ def main():
             scoutcpp_record = {}
             scoutcpp_record['engine'] = scoutcpp_engine_name
             scoutcpp_record['bench_name'] = scoutcpp_bench_name
-            scoutcpp_record['time'] = scoutcpp_result['time']
+            scoutcpp_record['exec_time'] = scoutcpp_result['exec_time']
             scout_benchmarks.append(scoutcpp_record)
             print("got scout.cpp result:", scoutcpp_record)
 
