@@ -1,7 +1,4 @@
 extern crate ethereum_bn128;
-extern crate parity_bytes as bytes;
-
-use bytes::BytesRef;
 
 pub fn bench() {
 
@@ -14,7 +11,7 @@ pub fn bench() {
     {{expected}}
 
     let mut output = [0u8; 64];
-    match ethereum_bn128::bn128_add(&input[..], &mut BytesRef::Fixed(&mut output[..])) {
+    match ethereum_bn128::bn128_add(&input[..], &mut output) {
         Ok(_) => {
             if !(output).eq(expected.as_ref()) {
                 panic!("crash and burn");

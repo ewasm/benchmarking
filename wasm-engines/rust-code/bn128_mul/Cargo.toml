@@ -4,8 +4,7 @@ version = "0.1.0"
 edition = "2018"
 
 [dependencies]
-ethereum-bn128 = { git = "https://github.com/ewasm/ethereum-bn128.rs", tag = "0.0.1" }
-parity-bytes = { git = "https://github.com/paritytech/parity-common" }
+ethereum-bn128 = { git = "https://github.com/ewasm/ethereum-bn128.rs", branch = "bn-alloc" }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wee_alloc = "0.4.2"
