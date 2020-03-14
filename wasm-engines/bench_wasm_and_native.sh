@@ -21,6 +21,10 @@ WASM_FILE_DIR=/wasmfiles
 WASM_MINIFIED_DIR=/wasmfilesminified
 
 
+# save cpu info to a file, so we know what machine was used to run the benchmarks
+grep -E '^model name|^cpu MHz' /proc/cpuinfo > /benchmark_results_data/cpuinfo.txt
+
+
 # fill rust code templates with input vectors. compile rust code to wasm and native. benchmark native
 # wasm will be further processed and benchmarked later
 cd /benchprep

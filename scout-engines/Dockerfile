@@ -113,6 +113,10 @@ RUN git clone https://github.com/ewasm/biturbo.git --single-branch --branch scou
 RUN cd biturbo && npm install && npm run build
 RUN cd biturbo && npm run token:relayer:realistic && npm run token:build
 
+# clone c_ewasm_contracts (commit 29356a22ea38cf2f1bbab05a4b8974822834f4e7)
+RUN git clone https://github.com/poemm/C_ewasm_contracts.git --single-branch --branch master C_ewasm_contracts
+# remove some tests we don't want
+RUN cd C_ewasm_contracts/tests && rm ecrecover.yaml ecrecover_trezor.yaml ed25519verify.yaml helloworld.yaml
 
 
 # copy the python script to run the benchmarks
