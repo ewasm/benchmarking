@@ -5,8 +5,8 @@
 
 
 # result output paths should be in mounted docker volumes
-CSV_NATIVE_RESULTS=/testresults/native_benchmarks.csv
-CSV_WASM_RESULTS=/testresults/standalone_wasm_results.csv
+CSV_NATIVE_RESULTS=/benchmark_results_data/native_benchmarks.csv
+CSV_WASM_RESULTS=/benchmark_results_data/standalone_wasm_results.csv
 
 # benchnativerust_prepwasm.py will use rust code templates and input vectors to
 # prepare standalone wasm files and native rust executables
