@@ -17,10 +17,9 @@ RESULT_CSV_OUTPUT_DIR = "/benchmark_results_data"
 
 RESULT_CSV_FILE_NAME = "scout_bignum_benchmarks.csv"
 
-# TODO
-# grep -E '^model name|^cpu MHz' /proc/cpuinfo > /benchmark_results_data/cpuinfo.txt
 
 
+C_EWASM_DIR = "/scoutyamls/C_ewasm_contracts"
 
 # the wabt branch reads input data from a file in the working directory `./test_block_data.hex`
 # we'll create a new directory using bench_name + engine_name, and create test_block_data.hex in each one
@@ -62,14 +61,14 @@ WABT_BENCH_INFOS = [
   },
   {
     'bench_name': 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof',
-    'engine_name': 'wabt-biturbo',
+    'engine_name': 'wabt-with-superops',
     'wabt_bin_path': '/engines/wabt-biturbo/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/biturbo/',
     'yaml_file_rel_path': 'turbo-token-realistic.yaml'
   },
   {
     'bench_name': 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof',
-    'engine_name': 'wabt-biturbo-no-superops',
+    'engine_name': 'wabt-baseline',
     'wabt_bin_path': '/engines/wabt-biturbo-no-superops/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/biturbo/',
     'yaml_file_rel_path': 'turbo-token-realistic.yaml'
@@ -103,42 +102,42 @@ WABT_BENCH_MANUAL_INFOS = [
 SCOUTCPP_BENCH_INFOS = [
   {
     'bench_name': 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs',
-    'engine_name': 'scoutcpp-with-bignums',
+    'engine_name': 'scoutcpp-wabt-with-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-secp/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/scout.ts-secp/',
     'yaml_file_path': 'secpsigverify.yaml'
   },
   {
     'bench_name': 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs',
-    'engine_name': 'scoutcpp-no-bignums',
+    'engine_name': 'scoutcpp-wabt-no-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-secp/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/scout.ts-secp/',
     'yaml_file_path': 'secpsigverify_nobignums.yaml'
   },
   {
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'scoutcpp-with-bignums',
+    'engine_name': 'scoutcpp-wabt-with-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_path': 'bn128pairing_bignums.yaml'
   },
   {
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'scoutcpp-no-bignums',
+    'engine_name': 'scoutcpp-wabt-no-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_path': 'bn128pairing.yaml'
   },
   {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-    'engine_name': 'scoutcpp-with-bignums',
+    'engine_name': 'scoutcpp-wabt-with-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/daiquiri/',
     'yaml_file_path': 'tests/tests-withdraw-bn.yml'
   },
   {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-    'engine_name': 'scoutcpp-no-bignums',
+    'engine_name': 'scoutcpp-wabt-no-bignums',
     'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/daiquiri/',
     'yaml_file_path': 'tests/tests-withdraw.yml'
@@ -334,10 +333,16 @@ def do_scoutcpp_bench(scoutcpp_cmd, yaml_working_dir):
             stdoutlines.append(line)  # pass bytes as is
         p.wait()
 
-    timeregex = "benchmark took ([\d\.]+) seconds."
     time_line = stdoutlines[-1]
+    timeregex = "benchmark took ([\d\.e-]+) seconds."
     time_match = re.search(timeregex, time_line)
-    time_seconds = durationpy.from_str(time_match.group(1) + "s")
+    time_string = ""
+    if "e-" in time_line:
+        time_string = "{:.8f}s".format(float(time_match.group(1)))
+    else:
+        time_string = time_match.group(1) + "s"
+
+    time_seconds = durationpy.from_str(time_string)
     return { 'exec_time': time_seconds.total_seconds()}
 
 
@@ -475,8 +480,111 @@ def run_yaml_file_in_wabt(isolated_bench_dir, wabt_bin_path, yaml_file_dir, yaml
     return
 
 
+
+
+
+
+def generate_single_test_yamls_from_multitest(yaml_file_dir, yaml_file_rel_path, output_file_dir):
+    yaml_file_path = os.path.join(yaml_file_dir, yaml_file_rel_path)
+    yaml_file_name = os.path.basename(yaml_file_path)
+    with open(yaml_file_path, 'r') as stream:
+        print("generating single test case yaml files from multi test case yaml file:", yaml_file_path)
+        yaml_file = yaml.safe_load(stream)
+
+        exec_script = yaml_file['beacon_state']['execution_scripts'][0]
+        block_data = yaml_file['shard_blocks'][0]['data']
+        prestate_exec_env_state = yaml_file['shard_pre_state']['exec_env_states'][0]
+        poststate_exec_env_state = yaml_file['shard_post_state']['exec_env_states'][0]
+        template_yaml = {}
+        template_yaml['beacon_state'] = {'execution_scripts': [exec_script]}
+        template_yaml['shard_pre_state'] = {'exec_env_states': [prestate_exec_env_state]}
+        template_yaml['shard_blocks'] = [{'env': 0, 'data': block_data}]
+        template_yaml['shard_post_state'] = {'exec_env_states': [poststate_exec_env_state]}
+
+        execution_scripts = yaml_file['beacon_state']['execution_scripts']
+        for script in execution_scripts:
+            new_yaml = template_yaml.copy()
+            new_yaml['beacon_state']['execution_scripts'][0] = script
+            script_without_extension = script[0:-5]
+            script_without_prefix = re.sub(r'(\w+_)', '', script_without_extension)
+            new_name_without_extension = yaml_file_name[0:-5]
+            new_file_name = new_name_without_extension + '-' + script_without_prefix + '.yaml'
+            new_file_path = os.path.join(output_file_dir, new_file_name)
+            with open(new_file_path, 'w') as outstream:
+                yaml.dump(new_yaml, outstream, default_flow_style=False)
+            print("wrote new yaml file:", new_file_name)
+
+    return
+
+
+
+def generate_all_cewasm_yamls():
+    new_yamls_output_dir = os.path.join(C_EWASM_DIR, 'wasm')
+    c_ewasm_tests_path = os.path.join(C_EWASM_DIR, 'tests')
+    yamlfiles = [dI for dI in os.listdir(c_ewasm_tests_path)]
+    for c_yaml_file in yamlfiles:
+        generate_single_test_yamls_from_multitest(c_ewasm_tests_path, c_yaml_file, new_yamls_output_dir)
+
+
+
+def do_all_cewasm_benchmarks():
+    yaml_files_path = os.path.join(C_EWASM_DIR, 'wasm')
+    yaml_file_names = [file for file in os.listdir(yaml_files_path) if file[-4:] == "yaml"]
+    # yaml_file_names look like "keccak256_256-keccak256_libkeccak-tiny-unrolled.yaml"
+
+    scoutcpp_bin_path = '/engines/scoutcpp-bn128/build/scout.exec'
+
+    c_ewasm_bench_runs = []
+
+    for yaml_file_name in yaml_file_names:
+        if yaml_file_name in ["keccak256_1024-ref.yaml", "keccak256_256-ref.yaml", "keccak256_64-ref.yaml"]:
+            continue
+        yaml_file_without_extension = yaml_file_name[:-5]
+        c_ewasm_bench_name = yaml_file_without_extension
+        #engine_name = "wabt-baseline"
+        scoutcpp_bin_path = '/engines/scoutcpp-bn128/build/scout.exec'
+        yaml_file_path = os.path.join(yaml_files_path, yaml_file_name)
+        yaml_working_dir = yaml_files_path
+        scoutcpp_cmd = "{} {}".format(scoutcpp_bin_path, yaml_file_path)
+        for i in range(0, 10):
+            print("doing scoutcpp c_ewasm bench i=", i)
+            scoutcpp_result = do_scoutcpp_bench(scoutcpp_cmd, yaml_working_dir)
+            scoutcpp_record = {}
+            scoutcpp_record['engine'] = "wabt-baseline"
+            scoutcpp_record['bench_name'] = c_ewasm_bench_name
+            scoutcpp_record['exec_time'] = scoutcpp_result['exec_time']
+            #bench_record['parse_time'] = scoutcpp_result['exec_time']
+            c_ewasm_bench_runs.append(scoutcpp_record)
+
+            print("doing wabt-with-superops c_ewasm bench i=", i)
+            wabt_with_superops_bin_path = "/engines/wabt-biturbo/out/clang/Release/wasm-interp"
+            isolated_bench_dir = "{}-{}".format(c_ewasm_bench_name, "wabt-with-superops")
+            wabt_superops_result = run_yaml_file_in_wabt(isolated_bench_dir, wabt_with_superops_bin_path, yaml_working_dir, yaml_file_name, manual=True)
+            wabt_record = {}
+            wabt_record['engine'] = "wabt-with-superops"
+            wabt_record['bench_name'] = c_ewasm_bench_name
+            wabt_record['exec_time'] = wabt_superops_result['exec_time']
+            wabt_record['parse_time'] = wabt_superops_result['parse_time']
+            #bench_record['parse_time'] = scoutcpp_result['exec_time']
+            c_ewasm_bench_runs.append(wabt_record)
+
+
+
+    return c_ewasm_bench_runs
+
+
+
 def main():
     scout_benchmarks = []
+
+
+    ## do C_ewasm hash function benchmarks
+    generate_all_cewasm_yamls()
+    c_ewasm_bench_runs = do_all_cewasm_benchmarks()
+    scout_benchmarks.extend(c_ewasm_bench_runs)
+
+
+    ## do biturbo and bignum benchmarks
 
     # run 10 iterations of wabt_manual (ran using wabt/wasm-interp)
     for i in range(0, 10):
