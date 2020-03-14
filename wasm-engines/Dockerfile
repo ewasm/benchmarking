@@ -210,7 +210,7 @@ COPY bench_wasm_and_native.sh /benchprep
 RUN chmod +x /benchprep/bench_wasm_and_native.sh
 
 
-RUN mkdir -p /testresults
+RUN mkdir -p /benchmark_results_data
 
 WORKDIR /benchprep
 
