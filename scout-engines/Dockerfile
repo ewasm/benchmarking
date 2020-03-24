@@ -81,6 +81,9 @@ RUN cd wabt-biturbo && make clang-release
 RUN git clone --recursive --single-branch --branch scout-biturbo-no-superops https://github.com/ewasm/wabt.git wabt-biturbo-no-superops
 RUN cd wabt-biturbo-no-superops && make clang-release
 
+# wabt branch for rollup.rs bignum host funcs without superops
+RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs https://github.com/ewasm/wabt.git wabt-bn128-rolluprs
+RUN cd wabt-bn128-rolluprs && make clang-release
 
 # install scout.cpp branch with bignum host functions for bn128
 RUN git clone --recursive --single-branch --branch bignum-host-funcs https://github.com/cdetrio/scout.cpp.git scoutcpp-bn128
@@ -117,6 +120,33 @@ RUN cd biturbo && npm run token:relayer:realistic && npm run token:build
 RUN git clone https://github.com/poemm/C_ewasm_contracts.git --single-branch --branch master C_ewasm_contracts
 # remove some tests we don't want
 RUN cd C_ewasm_contracts/tests && rm ecrecover.yaml ecrecover_trezor.yaml ed25519verify.yaml helloworld.yaml
+
+
+# install rust
+RUN curl https://sh.rustup.rs -sSf | \
+    sh -s -- --default-toolchain stable -y && . $HOME/.cargo/env
+ENV PATH=/root/.cargo/bin:$PATH
+
+RUN rustup default 1.36.0
+
+# rust wasm32 target for compiling wasm
+RUN rustup target add wasm32-unknown-unknown
+
+
+# clone rollup.rs native
+RUN git clone https://github.com/cdetrio/rollup.rs --single-branch --branch benchreport-rust-native rollup-rs-native
+RUN cd rollup-rs-native && cargo build --release
+
+# clone rollup.rs scout no bignums
+RUN git clone https://github.com/cdetrio/rollup.rs --single-branch --branch benchreport-scout-no-bignums rollup-rs-no-bignums
+RUN cd rollup-rs-no-bignums && cargo build --lib --release
+RUN cd /scoutyamls/scout.ts-bn128 && mkdir -p target/wasm32-unknown-unknown/release
+RUN cd /scoutyamls/scout.ts-bn128 && cp /scoutyamls/rollup-rs-no-bignums/target/wasm32-unknown-unknown/release/rollup_rs_wasm.wasm ./target/wasm32-unknown-unknown/release/rollup_rs_wasm.wasm
+RUN cp /scoutyamls/rollup-rs-no-bignums/rolluprs.yaml /scoutyamls/scout.ts-bn128/rolluprs.yaml
+
+# clone rollup.rs for scout with bignums
+RUN git clone https://github.com/cdetrio/rollup.rs --single-branch --branch benchreport-scout-bignums rollup-rs-with-bignums
+RUN cd rollup-rs-with-bignums && cargo build --lib --release
 
 
 # copy the python script to run the benchmarks

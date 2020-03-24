@@ -94,6 +94,20 @@ WABT_BENCH_MANUAL_INFOS = [
     'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/daiquiri/',
     'yaml_file_rel_path': 'tests/tests-withdraw.yml'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+    'engine_name': 'wabt-no-bignums',
+    'wabt_bin_path': '/engines/wabt-bn128-rolluprs/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/rollup-rs-no-bignums/',
+    'yaml_file_rel_path': 'rolluprs.yaml'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+    'engine_name': 'wabt-with-bignums',
+    'wabt_bin_path': '/engines/wabt-bn128-rolluprs/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/rollup-rs-with-bignums/',
+    'yaml_file_rel_path': 'rolluprs.yaml'
   }
 ]
 
@@ -188,6 +202,24 @@ V8_BENCH_INFOS = [
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
     'engine_name': 'v8-interpreter',
     'scoutts_cmd': 'node --wasm-interpret-all ./dist/cli.js bn128pairing.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+    'engine_name': 'v8-turbofan',
+    'scoutts_cmd': 'npm run start:turbofan rolluprs.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+    'engine_name': 'v8-liftoff',
+    'scoutts_cmd': 'npm run start:liftoff rolluprs.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairingss',
+    'engine_name': 'v8-interpreter',
+    'scoutts_cmd': 'node --wasm-interpret-all ./dist/cli.js rolluprs.yaml',
     'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
   },
   {
@@ -582,6 +614,11 @@ def main():
     generate_all_cewasm_yamls()
     c_ewasm_bench_runs = do_all_cewasm_benchmarks()
     scout_benchmarks.extend(c_ewasm_bench_runs)
+
+
+    # TODO: native rust rollup.rs benchmark
+    
+
 
 
     ## do biturbo and bignum benchmarks
