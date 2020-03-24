@@ -262,6 +262,13 @@ V8_BENCH_INFOS = [
 
 
 
+RUST_NATIVE_BENCH_INFOS = [
+  {
+    'bench_name': 'ecpairing-zkrollup-rust-native-bn128-two-pairings',
+    'engine_name': 'rust-native',
+    'native_bin_path': '/scoutyamls/rollup-rs-native/target/release/rollup_rs'
+  }
+]
 
 
 
@@ -307,6 +314,32 @@ def saveResults(benchmarks):
         writer.writeheader()
         for row in benchmarks:
             writer.writerow(row)
+
+
+
+
+"""
+/engines/wabt-bench-dirs/ecpairing-zkrollup-rust-bn128-two-pairings-wabt-with-bignums# /scoutyamls/rollup-rs-native/target/release/rollup_rs
+pairing check time: 10.467ms
+"""
+
+def do_rust_native(native_bin_path):
+    print("running rust-native benchmark...\n{}".format(native_bin_path))
+    rust_cmd = shlex.split(native_bin_path)
+    stdoutlines = []
+    with subprocess.Popen(rust_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True) as p:
+        for line in p.stdout: # b'\n'-separated lines
+            print(line, end='')
+            stdoutlines.append(line)  # pass bytes as is
+        p.wait()
+
+    exec_time_regex = "pairing check time: ([\.\w\d]+)"
+    exec_benchline = stdoutlines[-1]
+    exec_time_match = re.search(exec_time_regex, exec_benchline)
+    exec_us_time = durationpy.from_str(exec_time_match.group(1))
+
+    return {'exec_time': exec_us_time.total_seconds()}
+
 
 
 """
@@ -616,9 +649,22 @@ def main():
     scout_benchmarks.extend(c_ewasm_bench_runs)
 
 
-    # TODO: native rust rollup.rs benchmark
-    
-
+    # run 10 iterations of rust-native
+    for i in range(0, 10):
+        print("\ndoing rust-native bench run i=",i)
+        for rust_bench_torun in RUST_NATIVE_BENCH_INFOS:
+            bench_name = rust_bench_torun['bench_name']
+            rust_engine_name = rust_bench_torun['engine_name']
+            native_bin_path = rust_bench_torun['native_bin_path']
+            print("rust-native bench: ", rust_engine_name, bench_name)
+            rust_bench_result = do_rust_native(native_bin_path)
+            rust_record = {}
+            rust_record['engine'] = rust_engine_name
+            rust_record['bench_name'] = bench_name
+            rust_record['exec_time'] = rust_bench_result['exec_time']
+            #wabt_record['parse_time'] = 0
+            scout_benchmarks.append(rust_record)
+            print("got rust-native result:", rust_record)
 
 
     ## do biturbo and bignum benchmarks
