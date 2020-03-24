@@ -45,20 +45,20 @@ WABT_BENCH_INFOS = [
     'yaml_file_dir': '/scoutyamls/scout.ts-secp/',
     'yaml_file_rel_path': 'secpsigverify_nobignums.yaml'
   },
-  {
-    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'wabt-with-bignums',
-    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/benchmark-interp',
-    'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
-    'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
-  },
-  {
-    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'wabt-no-bignums',
-    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/benchmark-interp',
-    'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
-    'yaml_file_rel_path': 'bn128pairing.yaml'
-  },
+#  {
+#    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+#    'engine_name': 'wabt-with-bignums',
+#    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/benchmark-interp',
+#    'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
+#    'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
+#  },
+#  {
+#    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+#    'engine_name': 'wabt-no-bignums',
+#    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/benchmark-interp',
+#    'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
+#    'yaml_file_rel_path': 'bn128pairing.yaml'
+#  },
   {
     'bench_name': 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof',
     'engine_name': 'wabt-with-superops',
@@ -108,6 +108,34 @@ WABT_BENCH_MANUAL_INFOS = [
     'wabt_bin_path': '/engines/wabt-bn128-rolluprs/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/rollup-rs-with-bignums/',
     'yaml_file_rel_path': 'rolluprs.yaml'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+    'engine_name': 'wabt-with-bignums-and-superops',
+    'wabt_bin_path': '/engines/wabt-bn128-rolluprs-with-superops/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/rollup-rs-with-bignums/',
+    'yaml_file_rel_path': 'rolluprs.yaml'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+    'engine_name': 'wabt-no-bignums',
+    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
+    'yaml_file_rel_path': 'bn128pairing.yaml'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+    'engine_name': 'wabt-with-bignums',
+    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
+    'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+    'engine_name': 'wabt-with-bignums-and-superops',
+    'wabt_bin_path': '/engines/wabt-bn128-with-superops/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
+    'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
   }
 ]
 

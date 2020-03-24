@@ -61,8 +61,14 @@ RUN cd google-benchmark/build && make install
 
 
 
-# install wabt with bignum host fuctions for bn128
+# wabt branch scout-bignum-hostfuncs has bignum host funcs for bn128 without superops
+# using scout-bignums-daiquiri-withdraw to save one install
 #RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs https://github.com/ewasm/wabt.git wabt-bn128
+
+# wabt branch scout-bignums-and-superops has bignums host funcs for bn128 and superops
+RUN git clone --recursive --single-branch --branch scout-bignums-and-superops https://github.com/ewasm/wabt.git wabt-bn128-with-superops
+RUN cd wabt-bn128-with-superops && make clang-release
+
 # the branch scout-bignums-daiquiri-withdraw is the same as scout-bignum-hostfuncs, but with a hardcoded prestate returned by eth2_loadPrestateRoot().
 # the ecpairing-zkrollup-bn128 scout benchmark doesn't load the prestate, so this branch is compatible with that and with the daiquiri-withdraw benchmark
 RUN git clone --recursive --single-branch --branch scout-bignums-daiquiri-withdraw https://github.com/ewasm/wabt.git wabt-bn128
@@ -84,6 +90,11 @@ RUN cd wabt-biturbo-no-superops && make clang-release
 # wabt branch for rollup.rs bignum host funcs without superops
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs https://github.com/ewasm/wabt.git wabt-bn128-rolluprs
 RUN cd wabt-bn128-rolluprs && make clang-release
+
+# wabt branch for rollup.rs with bignum host funcs and superops
+RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-and-superops https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-with-superops
+RUN cd wabt-bn128-rolluprs-with-superops && make clang-release
+
 
 # install scout.cpp branch with bignum host functions for bn128
 RUN git clone --recursive --single-branch --branch bignum-host-funcs https://github.com/cdetrio/scout.cpp.git scoutcpp-bn128
