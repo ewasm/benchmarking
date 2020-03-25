@@ -33,7 +33,7 @@ WABT_BENCH_WORKING_DIR = "/engines/wabt-bench-dirs"
 WABT_BENCH_INFOS = [
   {
     'bench_name': 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs',
-    'engine_name': 'wabt-with-bignums',
+    'engine_name': 'wabt-fasthost-bignums',
     'wabt_bin_path': '/engines/wabt-secp/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/scout.ts-secp/',
     'yaml_file_rel_path': 'secpsigverify.yaml'
@@ -61,7 +61,7 @@ WABT_BENCH_INFOS = [
 #  },
   {
     'bench_name': 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof',
-    'engine_name': 'wabt-with-superops',
+    'engine_name': 'wabt-superops',
     'wabt_bin_path': '/engines/wabt-biturbo/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/biturbo/',
     'yaml_file_rel_path': 'turbo-token-realistic.yaml'
@@ -83,7 +83,7 @@ WABT_BENCH_INFOS = [
 WABT_BENCH_MANUAL_INFOS = [
   {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-    'engine_name': 'wabt-with-bignums',
+    'engine_name': 'wabt-fasthost-bignums',
     'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/daiquiri/',
     'yaml_file_rel_path': 'tests/tests-withdraw-bn.yml'
@@ -104,15 +104,22 @@ WABT_BENCH_MANUAL_INFOS = [
   },
   {
     'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
-    'engine_name': 'wabt-with-bignums',
+    'engine_name': 'wabt-fasthost-bignums',
     'wabt_bin_path': '/engines/wabt-bn128-rolluprs/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/rollup-rs-with-bignums/',
     'yaml_file_rel_path': 'rolluprs.yaml'
   },
   {
     'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
-    'engine_name': 'wabt-with-bignums-and-superops',
+    'engine_name': 'wabt-superops-bignums',
     'wabt_bin_path': '/engines/wabt-bn128-rolluprs-with-superops/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/rollup-rs-with-bignums/',
+    'yaml_file_rel_path': 'rolluprs.yaml'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+    'engine_name': 'wabt-superops-bignums-slowmont',
+    'wabt_bin_path': '/engines/wabt-bn128-rolluprs-slowmont/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/rollup-rs-with-bignums/',
     'yaml_file_rel_path': 'rolluprs.yaml'
   },
@@ -125,15 +132,22 @@ WABT_BENCH_MANUAL_INFOS = [
   },
   {
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'wabt-with-bignums',
+    'engine_name': 'wabt-fasthost-bignums',
     'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
   },
   {
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'wabt-with-bignums-and-superops',
+    'engine_name': 'wabt-superops-bignums',
     'wabt_bin_path': '/engines/wabt-bn128-with-superops/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
+    'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+    'engine_name': 'wabt-superops-bignums-slowmont',
+    'wabt_bin_path': '/engines/wabt-bn128-websnark-slowmont/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
   }
@@ -169,6 +183,20 @@ SCOUTCPP_BENCH_INFOS = [
     'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
     'yaml_working_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_path': 'bn128pairing.yaml'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+    'engine_name': 'scoutcpp-wabt-with-bignums',
+    'scoutcpp_bin_path': '/engines/scoutcpp-bn128-rolluprs/build/scout.exec',
+    'yaml_working_dir': '/scoutyamls/rollup-rs-with-bignums/',
+    'yaml_file_path': 'rolluprs.yaml'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+    'engine_name': 'scoutcpp-wabt-no-bignums',
+    'scoutcpp_bin_path': '/engines/scoutcpp-bn128-rolluprs/build/scout.exec',
+    'yaml_working_dir': '/scoutyamls/rollup-rs-no-bignums/',
+    'yaml_file_path': 'rolluprs.yaml'
   },
   {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
@@ -228,8 +256,32 @@ V8_BENCH_INFOS = [
   },
   {
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+    'engine_name': 'v8-liftoff-and-turbofan',
+    'scoutts_cmd': 'node ./dist/cli.js bn128pairing.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
     'engine_name': 'v8-interpreter',
     'scoutts_cmd': 'node --wasm-interpret-all ./dist/cli.js bn128pairing.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+    'engine_name': 'v8-turbofan-with-bignums',
+    'scoutts_cmd': 'npm run start:turbofan bn128pairing_bignums.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+    'engine_name': 'v8-liftoff-with-bignums',
+    'scoutts_cmd': 'npm run start:liftoff bn128pairing_bignums.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+    'engine_name': 'v8-interpreter-with-bignums',
+    'scoutts_cmd': 'node --wasm-interpret-all ./dist/cli.js bn128pairing_bignums.yaml',
     'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
   },
   {
@@ -242,6 +294,12 @@ V8_BENCH_INFOS = [
     'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
     'engine_name': 'v8-liftoff',
     'scoutts_cmd': 'npm run start:liftoff rolluprs.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+    'engine_name': 'v8-liftoff-and-turbofan',
+    'scoutts_cmd': 'node ./dist/cli.js rolluprs.yaml',
     'scoutts_working_dir': '/scoutyamls/scout.ts-bn128/'
   },
   {
@@ -278,6 +336,12 @@ V8_BENCH_INFOS = [
     'bench_name': 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof',
     'engine_name': 'v8-liftoff',
     'scoutts_cmd': 'node --liftoff --no-wasm-tier-up node_modules/scout.ts/dist/cli.js turbo-token-realistic.yaml',
+    'scoutts_working_dir': '/scoutyamls/biturbo/'
+  },
+  {
+    'bench_name': 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof',
+    'engine_name': 'v8-liftoff-and-turbofan',
+    'scoutts_cmd': 'node node_modules/scout.ts/dist/cli.js turbo-token-realistic.yaml',
     'scoutts_working_dir': '/scoutyamls/biturbo/'
   },
   {

@@ -75,7 +75,11 @@ RUN git clone --recursive --single-branch --branch scout-bignums-daiquiri-withdr
 RUN cd wabt-bn128 && make clang-release
 # could also use `make gcc-release`, but gcc is slower than clang
 
-# install wabt with bignum host fuctions for secp256k1
+# wabt branch for websnark-bn128 using slow bignum montgomery multiplication
+RUN git clone --recursive --single-branch --branch scout-bignums-slowmont-bn128-websnark-and-superops https://github.com/ewasm/wabt.git wabt-bn128-websnark-slowmont
+RUN cd wabt-bn128-websnark-slowmont && make clang-release
+
+# install wabt with bignum host fuctions for secp256k1 (no superops)
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-secp256k1 https://github.com/ewasm/wabt.git wabt-secp
 RUN cd wabt-secp && make clang-release
 
@@ -95,6 +99,10 @@ RUN cd wabt-bn128-rolluprs && make clang-release
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-and-superops https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-with-superops
 RUN cd wabt-bn128-rolluprs-with-superops && make clang-release
 
+# wabt branch for rollup.rs with bignum host funcs using slow bignum montgomery multiplication and superops
+RUN git clone --recursive --single-branch --branch scout-bignum-slowmont-bn128-rolluprs-and-superops https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-slowmont
+RUN cd wabt-bn128-rolluprs-slowmont && make clang-release
+
 
 # install scout.cpp branch with bignum host functions for bn128
 RUN git clone --recursive --single-branch --branch bignum-host-funcs https://github.com/cdetrio/scout.cpp.git scoutcpp-bn128
@@ -105,7 +113,9 @@ RUN cd scoutcpp-bn128 && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCM
 RUN git clone --recursive --single-branch --branch bignum-hostfuncs-secp256k1 https://github.com/cdetrio/scout.cpp.git scoutcpp-secp
 RUN cd scoutcpp-secp && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make
 
-
+# install scout.cpp branch for rollup.rs
+RUN git clone --recursive --single-branch --branch bignum-hostfuncs-bn128-rolluprs https://github.com/cdetrio/scout.cpp.git scoutcpp-bn128-rolluprs
+RUN cd scoutcpp-bn128-rolluprs && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make
 
 
 WORKDIR /scoutyamls
