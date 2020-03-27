@@ -98,124 +98,147 @@ WABT_BENCH_MANUAL_INFOS = [
   {
     'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
     'engine_name': 'wabt-no-bignums',
-    'wabt_bin_path': '/engines/wabt-bn128-rolluprs/out/clang/Release/wasm-interp',
+    'wabt_bin_path': '/engines/wabt-bn128-rolluprs-slowmont-slowhost/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/rollup-rs-no-bignums/',
     'yaml_file_rel_path': 'rolluprs.yaml'
   },
   {
     'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
-    'engine_name': 'wabt-fasthost-bignums',
-    'wabt_bin_path': '/engines/wabt-bn128-rolluprs/out/clang/Release/wasm-interp',
+    'engine_name': 'wabt-bignums-slowhost-slowmont',
+    'wabt_bin_path': '/engines/wabt-bn128-rolluprs-slowmont-slowhost/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/rollup-rs-with-bignums/',
     'yaml_file_rel_path': 'rolluprs.yaml'
   },
   {
     'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
-    'engine_name': 'wabt-superops-bignums',
-    'wabt_bin_path': '/engines/wabt-bn128-rolluprs-with-superops/out/clang/Release/wasm-interp',
+    'engine_name': 'wabt-bignums-slowhost-slowmont-superops',
+    'wabt_bin_path': '/engines/wabt-bn128-rolluprs-slowmont-slowhost-superops/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/rollup-rs-with-bignums/',
     'yaml_file_rel_path': 'rolluprs.yaml'
   },
   {
     'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
-    'engine_name': 'wabt-superops-bignums-slowmont',
-    'wabt_bin_path': '/engines/wabt-bn128-rolluprs-slowmont/out/clang/Release/wasm-interp',
+    'engine_name': 'wabt-bignums-fasthost-slowmont-superops',
+    'wabt_bin_path': '/engines/wabt-bn128-rolluprs-slowmont-fasthost-superops/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/rollup-rs-with-bignums/',
     'yaml_file_rel_path': 'rolluprs.yaml'
   },
+  {
+    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+    'engine_name': 'wabt-bignums-fasthost-fastmont-superops',
+    'wabt_bin_path': '/engines/wabt-bn128-rolluprs-fastmont-fasthost-superops/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/rollup-rs-with-bignums/',
+    'yaml_file_rel_path': 'rolluprs.yaml'
+  },
+
   {
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
     'engine_name': 'wabt-no-bignums',
-    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/wasm-interp',
+    'wabt_bin_path': '/engines/wabt-bn128-websnark-slowmont-slowhost/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_rel_path': 'bn128pairing.yaml'
   },
   {
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'wabt-fasthost-bignums',
-    'wabt_bin_path': '/engines/wabt-bn128/out/clang/Release/wasm-interp',
+    'engine_name': 'wabt-bignums-slowhost-slowmont',
+    'wabt_bin_path': '/engines/wabt-bn128-websnark-slowmont-slowhost/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
   },
   {
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'wabt-superops-bignums',
-    'wabt_bin_path': '/engines/wabt-bn128-with-superops/out/clang/Release/wasm-interp',
+    'engine_name': 'wabt-bignums-slowhost-slowmont-superops',
+    'wabt_bin_path': '/engines/wabt-bn128-websnark-slowmont-slowhost-superops/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
   },
   {
     'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'wabt-superops-bignums-slowmont',
-    'wabt_bin_path': '/engines/wabt-bn128-websnark-slowmont/out/clang/Release/wasm-interp',
+    'engine_name': 'wabt-bignums-fasthost-slowmont-superops',
+    'wabt_bin_path': '/engines/wabt-bn128-websnark-slowmont-fasthost-superops/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
+    'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+    'engine_name': 'wabt-bignums-fasthost-fastmont-superops',
+    'wabt_bin_path': '/engines/wabt-bn128-websnark-fastmont-fasthost-superops/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
+    'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
+  },
+  {
+    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+    'engine_name': 'wabt-bignums-fasthost-fastmont',
+    'wabt_bin_path': '/engines/wabt-bn128-websnark-fastmont-fasthost/out/clang/Release/wasm-interp',
     'yaml_file_dir': '/scoutyamls/scout.ts-bn128/',
     'yaml_file_rel_path': 'bn128pairing_bignums.yaml'
   }
 ]
 
 
+SCOUTCPP_BENCH_INFOS = []
 
-SCOUTCPP_BENCH_INFOS = [
-  {
-    'bench_name': 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs',
-    'engine_name': 'scoutcpp-wabt-with-bignums',
-    'scoutcpp_bin_path': '/engines/scoutcpp-secp/build/scout.exec',
-    'yaml_working_dir': '/scoutyamls/scout.ts-secp/',
-    'yaml_file_path': 'secpsigverify.yaml'
-  },
-  {
-    'bench_name': 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs',
-    'engine_name': 'scoutcpp-wabt-no-bignums',
-    'scoutcpp_bin_path': '/engines/scoutcpp-secp/build/scout.exec',
-    'yaml_working_dir': '/scoutyamls/scout.ts-secp/',
-    'yaml_file_path': 'secpsigverify_nobignums.yaml'
-  },
-  {
-    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'scoutcpp-wabt-with-bignums',
-    'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
-    'yaml_working_dir': '/scoutyamls/scout.ts-bn128/',
-    'yaml_file_path': 'bn128pairing_bignums.yaml'
-  },
-  {
-    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
-    'engine_name': 'scoutcpp-wabt-no-bignums',
-    'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
-    'yaml_working_dir': '/scoutyamls/scout.ts-bn128/',
-    'yaml_file_path': 'bn128pairing.yaml'
-  },
-  {
-    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
-    'engine_name': 'scoutcpp-wabt-with-bignums',
-    'scoutcpp_bin_path': '/engines/scoutcpp-bn128-rolluprs/build/scout.exec',
-    'yaml_working_dir': '/scoutyamls/rollup-rs-with-bignums/',
-    'yaml_file_path': 'rolluprs.yaml'
-  },
-  {
-    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
-    'engine_name': 'scoutcpp-wabt-no-bignums',
-    'scoutcpp_bin_path': '/engines/scoutcpp-bn128-rolluprs/build/scout.exec',
-    'yaml_working_dir': '/scoutyamls/rollup-rs-no-bignums/',
-    'yaml_file_path': 'rolluprs.yaml'
-  },
-  {
-    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-    'engine_name': 'scoutcpp-wabt-with-bignums',
-    'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
-    'yaml_working_dir': '/scoutyamls/daiquiri/',
-    'yaml_file_path': 'tests/tests-withdraw-bn.yml'
-  },
-  {
-    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
-    'engine_name': 'scoutcpp-wabt-no-bignums',
-    'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
-    'yaml_working_dir': '/scoutyamls/daiquiri/',
-    'yaml_file_path': 'tests/tests-withdraw.yml'
-  }
-]
+#SCOUTCPP_BENCH_INFOS = [
+#  {
+#    'bench_name': 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs',
+#    'engine_name': 'scoutcpp-wabt-with-bignums',
+#    'scoutcpp_bin_path': '/engines/scoutcpp-secp/build/scout.exec',
+#    'yaml_working_dir': '/scoutyamls/scout.ts-secp/',
+#    'yaml_file_path': 'secpsigverify.yaml'
+#  },
+#  {
+#    'bench_name': 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs',
+#    'engine_name': 'scoutcpp-wabt-no-bignums',
+#    'scoutcpp_bin_path': '/engines/scoutcpp-secp/build/scout.exec',
+#    'yaml_working_dir': '/scoutyamls/scout.ts-secp/',
+#    'yaml_file_path': 'secpsigverify_nobignums.yaml'
+#  },
+#  {
+#    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+#    'engine_name': 'scoutcpp-wabt-with-bignums',
+#    'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
+#    'yaml_working_dir': '/scoutyamls/scout.ts-bn128/',
+#    'yaml_file_path': 'bn128pairing_bignums.yaml'
+#  },
+#  {
+#    'bench_name': 'ecpairing-zkrollup-websnark-bn128-two-pairings',
+#    'engine_name': 'scoutcpp-wabt-no-bignums',
+#    'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
+#    'yaml_working_dir': '/scoutyamls/scout.ts-bn128/',
+#    'yaml_file_path': 'bn128pairing.yaml'
+#  },
+#  {
+#    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+#    'engine_name': 'scoutcpp-wabt-with-bignums',
+#    'scoutcpp_bin_path': '/engines/scoutcpp-bn128-rolluprs/build/scout.exec',
+#    'yaml_working_dir': '/scoutyamls/rollup-rs-with-bignums/',
+#    'yaml_file_path': 'rolluprs.yaml'
+#  },
+#  {
+#    'bench_name': 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+#    'engine_name': 'scoutcpp-wabt-no-bignums',
+#    'scoutcpp_bin_path': '/engines/scoutcpp-bn128-rolluprs/build/scout.exec',
+#    'yaml_working_dir': '/scoutyamls/rollup-rs-no-bignums/',
+#    'yaml_file_path': 'rolluprs.yaml'
+#  },
+#  {
+#    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
+#    'engine_name': 'scoutcpp-wabt-with-bignums',
+#    'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
+#    'yaml_working_dir': '/scoutyamls/daiquiri/',
+#    'yaml_file_path': 'tests/tests-withdraw-bn.yml'
+#  },
+#  {
+#    'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
+#    'engine_name': 'scoutcpp-wabt-no-bignums',
+#    'scoutcpp_bin_path': '/engines/scoutcpp-bn128/build/scout.exec',
+#    'yaml_working_dir': '/scoutyamls/daiquiri/',
+#    'yaml_file_path': 'tests/tests-withdraw.yml'
+#  }
+#]
 
 
-# v8 is always benched with no bignums.
+# v8 is always benched with no bignums. EDIT: benched with bignums now too, to show the slowdown.
 # bignums cause a slowdown due to v8's host function overhead
 # in practice, wasm engines that don't support the bignum host functions
 # could use "polyfill" implementations of the host functions, provided in wasm

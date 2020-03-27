@@ -61,27 +61,41 @@ RUN cd google-benchmark/build && make install
 
 
 
-# wabt branch scout-bignum-hostfuncs has bignum host funcs for bn128 without superops
-# using scout-bignums-daiquiri-withdraw to save one install
-#RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs https://github.com/ewasm/wabt.git wabt-bn128
+# wabt branch for websnark-bn128 slowhost slowmont (no superops)
+RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-websnark-slowhost-slowmont https://github.com/ewasm/wabt.git wabt-bn128-websnark-slowmont-slowhost
+RUN cd wabt-bn128-websnark-slowmont-slowhost && make clang-release
+# could also use `make gcc-release`, but gcc is slower than clang
 
-# wabt branch scout-bignums-and-superops has bignums host funcs for bn128 and superops
-RUN git clone --recursive --single-branch --branch scout-bignums-and-superops https://github.com/ewasm/wabt.git wabt-bn128-with-superops
-RUN cd wabt-bn128-with-superops && make clang-release
+# wabt branch for websnark-bn128 slowhost slowmont superops
+RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-websnark-slowhost-slowmont-superops https://github.com/ewasm/wabt.git wabt-bn128-websnark-slowmont-slowhost-superops
+RUN cd wabt-bn128-websnark-slowmont-slowhost-superops && make clang-release
+
+# wabt branch for websnark-bn128 fasthost slowmont superops
+RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-websnark-fasthost-slowmont-superops https://github.com/ewasm/wabt.git wabt-bn128-websnark-slowmont-fasthost-superops
+RUN cd wabt-bn128-websnark-slowmont-fasthost-superops && make clang-release
+
+# wabt branch for websnark-bn128 fasthost fastmont superops
+RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-websnark-fasthost-fastmont-superops https://github.com/ewasm/wabt.git wabt-bn128-websnark-fastmont-fasthost-superops
+RUN cd wabt-bn128-websnark-fastmont-fasthost-superops && make clang-release
+
+# wabt branch for websnark-bn128 fasthost fastmont (no superops)
+RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-websnark-fasthost-fastmont https://github.com/ewasm/wabt.git wabt-bn128-websnark-fastmont-fasthost
+RUN cd wabt-bn128-websnark-fastmont-fasthost && make clang-release
+
+
 
 # the branch scout-bignums-daiquiri-withdraw is the same as scout-bignum-hostfuncs, but with a hardcoded prestate returned by eth2_loadPrestateRoot().
 # the ecpairing-zkrollup-bn128 scout benchmark doesn't load the prestate, so this branch is compatible with that and with the daiquiri-withdraw benchmark
 RUN git clone --recursive --single-branch --branch scout-bignums-daiquiri-withdraw https://github.com/ewasm/wabt.git wabt-bn128
 RUN cd wabt-bn128 && make clang-release
-# could also use `make gcc-release`, but gcc is slower than clang
 
-# wabt branch for websnark-bn128 using slow bignum montgomery multiplication
-RUN git clone --recursive --single-branch --branch scout-bignums-slowmont-bn128-websnark-and-superops https://github.com/ewasm/wabt.git wabt-bn128-websnark-slowmont
-RUN cd wabt-bn128-websnark-slowmont && make clang-release
+
 
 # install wabt with bignum host fuctions for secp256k1 (no superops)
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-secp256k1 https://github.com/ewasm/wabt.git wabt-secp
 RUN cd wabt-secp && make clang-release
+
+
 
 # install wabt branch with host functions for biturbo/turbo-token-realistic (this branch has superops, but is a bit messy)
 RUN git clone --recursive --single-branch --branch scout-for-biturbo-token https://github.com/ewasm/wabt.git wabt-biturbo
@@ -91,17 +105,44 @@ RUN cd wabt-biturbo && make clang-release
 RUN git clone --recursive --single-branch --branch scout-biturbo-no-superops https://github.com/ewasm/wabt.git wabt-biturbo-no-superops
 RUN cd wabt-biturbo-no-superops && make clang-release
 
-# wabt branch for rollup.rs bignum host funcs without superops
-RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs https://github.com/ewasm/wabt.git wabt-bn128-rolluprs
-RUN cd wabt-bn128-rolluprs && make clang-release
 
-# wabt branch for rollup.rs with bignum host funcs and superops
-RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-and-superops https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-with-superops
-RUN cd wabt-bn128-rolluprs-with-superops && make clang-release
 
-# wabt branch for rollup.rs with bignum host funcs using slow bignum montgomery multiplication and superops
-RUN git clone --recursive --single-branch --branch scout-bignum-slowmont-bn128-rolluprs-and-superops https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-slowmont
-RUN cd wabt-bn128-rolluprs-slowmont && make clang-release
+# wabt branch for rollup.rs bignums slowmont slowhost
+RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-slowmont-slowhost https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-slowmont-slowhost
+RUN cd wabt-bn128-rolluprs-slowmont-slowhost && make clang-release
+
+# wabt branch for rollup.rs bignums slowmont slowhost superops
+RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-slowmont-slowhost-superops https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-slowmont-slowhost-superops
+RUN cd wabt-bn128-rolluprs-slowmont-slowhost-superops && make clang-release
+
+
+# wabt branch for rollup.rs with bignums slowmont fasthost superops
+# not much diff on rollup.rs, but show anyway
+RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-slowmont-fasthost-superops https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-slowmont-fasthost-superops
+RUN cd wabt-bn128-rolluprs-slowmont-fasthost-superops && make clang-release
+
+# wabt branch for rollup.rs with bignum fastmont fasthost superops
+# not much diff on rollup.rs, but show anyway
+RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-fastmont-fasthost-superops https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-fastmont-fasthost-superops
+RUN cd wabt-bn128-rolluprs-fastmont-fasthost-superops && make clang-release
+
+# only missing rollup.rs fastmont slowhost superops
+
+# wabt branch for rollup.rs bignums slowmont fasthost (no superops)
+# not much diff on rollup.rs, ignore
+#RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-fastmont-fasthost https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-fastmont-fasthost
+#RUN cd wabt-bn128-rolluprs-fastmont-fasthost && make clang-release
+
+# wabt branch for rollup.rs bignums fastmont fasthost (no superops)
+# not much diff on rollup.rs, ignore
+#RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-fastmont-fasthost https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-fastmont-fasthost
+#RUN cd wabt-bn128-rolluprs-fastmont-fasthost && make clang-release
+
+# wabt branch for rollup.rs bignum fastmont slowhost (no superops)
+# not much diff on rollup.rs, ignore
+#RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-fastmont-slowhost https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-fastmont-slowhost
+#RUN cd wabt-bn128-rolluprs-fastmont-slowhost && make clang-release
+
 
 
 # install scout.cpp branch with bignum host functions for bn128
