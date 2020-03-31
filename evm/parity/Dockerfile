@@ -21,7 +21,7 @@ RUN apt-get update \
 # install python modules needed for benchmarking script
 RUN pip3 install durationpy jinja2 pandas
 
-WORKDIR /root
+WORKDIR /
 
 # install rust
 RUN curl https://sh.rustup.rs -sSf | \
@@ -39,5 +39,4 @@ RUN cd parity/evmbin && cargo build --release
 RUN apt-get update
 RUN apt-get install -y libudev-dev
 
-WORKDIR /
 CMD /bin/bash

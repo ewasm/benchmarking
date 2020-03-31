@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 
 import csv
+import os
 
 RESULT_CSV_OUTPUT_PATH = "/evmraceresults/"
 EVMS = ["evmone", "parity", "geth", "cita-vm"]
-RESULT_FILE = "evm_benchmarks.csv"
+RESULT_FILE = os.path.join(RESULT_CSV_OUTPUT_PATH + "evm_benchmarks.csv")
 
 def main():
     fieldnames = ['engine', 'test_name', 'total_time', 'gas_used']
