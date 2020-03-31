@@ -7,10 +7,10 @@ RESULT_CSV_OUTPUT_PATH = "/evmraceresults/"
 EVMS = ["evmone", "parity", "geth", "cita-vm"]
 RESULT_FILE = os.path.join(RESULT_CSV_OUTPUT_PATH + "evm_benchmarks.csv")
 
+# merge benchmarks from multiple engines into one csv output
 def main():
-    fieldnames = ['engine', 'test_name', 'total_time', 'gas_used']
+    merged_csv_contents = 'engine, test_name, total_time, gas_used\n'
     evm_results = []
-    merged_data = []
     
     for evm in EVMS:
         path = RESULT_CSV_OUTPUT_PATH + "evm_benchmarks_" + evm + ".csv"
@@ -19,20 +19,12 @@ def main():
         data_file.close()
         evm_results.append(data)
         
-
-    with open(RESULT_FILE, 'w', newline='') as bench_result_file:
-        writer = csv.DictWriter(bench_result_file, fieldnames=fieldnames)
-        writer.writeheader()
-
-    for i in range(0, len(evm_results[0])):
+    for i in range(1, len(evm_results[0])):
         for e in range(0, len(EVMS)):
-            if i == 0:  # skip header
-                continue
-            merged_data.append(evm_results[e][i])
+            merged_csv_contents += evm_results[e][i] + '\n'
 
-    with open(RESULT_FILE, 'a', newline='') as bench_result_file:
-        for line in merged_data:
-            bench_result_file.write(line)
+    with open(RESULT_FILE, 'w') as bench_result_file:
+        bench_result_file.write(merged_csv_contents)
             
 
 if __name__ == "__main__":
