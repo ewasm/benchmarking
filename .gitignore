@@ -1,4 +1,2 @@
-*.lock
 target
 .ipynb_checkpoints
-wasm-engines/*

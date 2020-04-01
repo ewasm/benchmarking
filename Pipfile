@@ -6,7 +6,11 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-jinja2 = "*"
+matplotlib = "3.2.1"
+pandas = "1.0.3"
+numpy = "1.18.2"
+durationpy = "0.5"
+adjusttext = "0.7.3"
 
 [requires]
 python_version = "3.6"
