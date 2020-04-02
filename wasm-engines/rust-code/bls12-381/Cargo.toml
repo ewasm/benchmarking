@@ -1,0 +1,35 @@
+[package]
+name = "bls12-381-aggregate-sigs-bench"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+bls-aggregates = { git = "https://github.com/sigp/signature-schemes", tag = "0.5.3" }
+
+[dependencies.rand]
+version = "^0.5.5"
+
+[patch.crates-io]
+# needed to prevent wasm target error from "same-file" crate, a dependency of criterion
+# https://github.com/BurntSushi/same-file/issues/42
+criterion = { path = "./crate-override"} 
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wee_alloc = "0.4.2"
+
+[lib]
+name = "bls12_381_wasm"
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[[bin]]
+name = "bls12_381_native"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = 3
+debug = false
+lto = true
+debug-assertions = false
+overflow-checks = false
+panic = "abort"
