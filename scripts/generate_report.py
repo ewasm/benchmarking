@@ -28,7 +28,7 @@ SCOUT_RESULT_FILE = "scout_bignum_benchmarks.csv"
 IMG_OUTPUT_DIR = "../charts/"
 
 # To add a new engine, add the engine name used in the csv file to the list
-INTERPRETER_ENGINES = ['life', 'wagon', 'wasmi', 'wabt', 'v8-interpreter', 'wasm3', 'wamr']
+INTERPRETER_ENGINES = ['life', 'wagon', 'wasmi', 'wabt', 'v8-interpreter', 'wasm3', 'wamr', 'fizzy']
 COMPILER_ENGINES = ['lifePolymerase', 'wasmtime', 'wavm', 'v8-liftoff', 'v8-turbofan', 'asmble']
 
 wasm_vm_names = INTERPRETER_ENGINES + COMPILER_ENGINES
@@ -518,6 +518,10 @@ plotThreeTestsExecTime(df_interp,
                        bn128_mul_test_names,
                        title="wasm interpreter execution time - bn128_mul")
 
+plotThreeTestsExecTime(df_interp,
+                       bn128_pairing_test_names,
+                       title="wasm interpreter execution time - bn128_pairing")
+
 ####################
 # Compiler Results #
 ####################
@@ -556,7 +560,7 @@ def plotCompilerStackedOneTest(df_benchdata, test_name, native=False):
     adjust_text_labels(labelBarHeights(ax, lower_y_bound=False))
     ax.legend(labels=["execution time", "compile time"])
     print(f"plotCompilerStackedOneTest: {filename}.png")
-    plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
+    plt.savefig(IMG_OUTPUT_DIR + 'wasm-compilers-' + filename + '.png', bbox_inches='tight')
 
 plotCompilerStackedOneTest(df_compiler, blake2b_test_names[2])
 plotCompilerStackedOneTest(df_compiler, "bls12-381-aggreg-128-pubkeys-verify-sig")
@@ -609,6 +613,12 @@ def add_engine_ratio_col(df_two_engines, interp_engine, compiler_engine):
 
 df_wabt_v8liftoff = add_engine_ratio_col(df_interp_and_compile, "wabt", "v8-liftoff")
 
+df_fizzy_v8liftoff = add_engine_ratio_col(df_interp_and_compile, "fizzy", "v8-liftoff")
+
+df_wasm3_v8liftoff = add_engine_ratio_col(df_interp_and_compile, "wasm3", "v8-liftoff")
+
+df_wasmi_wavm = add_engine_ratio_col(df_interp_and_compile, "wasmi", "wavm")
+
 def plotCompilerSpeedup(df_compiler_speedup, interp_name="interp", compiler_name="compiler"):
     filename = 'compiler-speedup-' + interp_name + '-' + compiler_name
     df_is = df_compiler_speedup.copy()
@@ -642,7 +652,11 @@ def plotCompilerSpeedup(df_compiler_speedup, interp_name="interp", compiler_name
     print(f"plotCompilerSpeedup: {filename}.png")
     plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
 
+# import pdb; pdb.set_trace()
 plotCompilerSpeedup(df_wabt_v8liftoff, interp_name="wabt", compiler_name="v8-liftoff")
+plotCompilerSpeedup(df_fizzy_v8liftoff, interp_name="fizzy", compiler_name="v8-liftoff")
+plotCompilerSpeedup(df_wasm3_v8liftoff, interp_name="wasm3", compiler_name="v8-liftoff")
+plotCompilerSpeedup(df_wasmi_wavm, interp_name="wasmi", compiler_name="wavm")
 
 ########################################################
 # All precompiles compared (are interpreters feasible? #
