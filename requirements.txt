@@ -1,0 +1,6 @@
+matplotlib==3.2.1
+pandas==1.0.3
+numpy==1.18.2
+durationpy==0.5
+adjusttext==0.7.3
+jupyter==1.0.0
