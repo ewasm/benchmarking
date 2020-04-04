@@ -203,7 +203,7 @@ def plotThreeTestsGrouped(df_benches, three_tests, title="Title"):
 
     f.suptitle(title, fontsize=16, y=0.98)
     print(f"plotTreeTestsGrouped: {filename}.png ")
-    plt.savefig(IMG_OUTPUT_DIR + filename + '.png')
+    plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
 
 # Compare wabt-optimized against wabt-baseline on hash function benchmark
 plotThreeTestsGrouped(df_scout_data, ["blake2b_64", "blake2b_256", "blake2b_1024"], "blake2b C implementations compared")
@@ -226,7 +226,7 @@ def plotOneTest(df_data, suptitle="title", suptitle_pos=1.00, subtitle="subchart
     adjust_text_labels(labelBarHeights(ax))
     plt.suptitle(suptitle, fontsize=18, y=suptitle_pos)
     print(f"plotOneTest: {filename}.png")
-    plt.savefig(IMG_OUTPUT_DIR + filename + '.png')
+    plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
 
 def plotScoutStackedTest(df_data, suptitle="title", suptitle_pos=1.00, subtitle="subchart", subtitle_size='medium'):
     filename = subtitle.strip().lower().replace(' ', '-')
@@ -243,7 +243,7 @@ def plotScoutStackedTest(df_data, suptitle="title", suptitle_pos=1.00, subtitle=
     ax.legend(labels=["execution time", "startup time"])
     plt.suptitle(suptitle, fontsize=18, y=suptitle_pos)
     print(f"plotScoutStackedTest: {filename}.png")
-    plt.savefig(IMG_OUTPUT_DIR + filename + '.png')
+    plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
 
 # Plot biturbo benchmark:
 # biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccac256-multiproof
@@ -449,7 +449,7 @@ def plotInterpThreeTests(df_testdata, three_names, title="Title", filter_engines
     
     f.suptitle(title, fontsize=16, y=0.98)
     print(f"plotInterpThreeTests: {filename}.png")
-    plt.savefig(IMG_OUTPUT_DIR + filename + '.png')
+    plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
 
 plotInterpThreeTests(df_interp, blake2b_test_names, title="wasm interpreters compared - blake2b")
 
@@ -491,37 +491,32 @@ def plotThreeTestsExecTime(df_testdata, three_names, title="Title", filter_engin
     
     f.suptitle(title, fontsize=16, y=0.98)
     print(f"plotThreeTestsExecTime: {filename}.png")
-    plt.savefig(IMG_OUTPUT_DIR + filename + '.png')
+    plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches="tight")
 
 
 
 # Chart of only the fast interpreters
 plotInterpThreeTests(df_interp,
                      blake2b_test_names,
-                     title="wasm interpreters compared - blake2b",
-                     filter_engines=["life", "wagon", "v8-interpreter"])
+                     title="wasm interpreters compared - blake2b")
 
 plotInterpThreeTests(df_interp,
                      modexp_test_names,
-                     title="wasm interpreters compared - modexp",
-                     filter_engines=["life", "wagon", "v8-interpreter"])
+                     title="wasm interpreters compared - modexp")
 
 plotInterpThreeTests(df_interp,
                      bn128_add_test_names,
-                     title="wasm interpreters compared - bn128_add",
-                     filter_engines=["life", "wagon", "v8-interpreter"])
+                     title="wasm interpreters compared - bn128_add")
 
 plotThreeTestsExecTime(df_interp, blake2b_test_names, title="wasm interpreter execution time - blake2b")
 
 plotThreeTestsExecTime(df_interp,
                        modexp_test_names,
-                       title="wasm interpreter execution time - modexp",
-                       filter_engines=["life", "wagon", "v8-interpreter"])
+                       title="wasm interpreter execution time - modexp")
 
 plotThreeTestsExecTime(df_interp,
                        bn128_mul_test_names,
-                       title="wasm interpreter execution time - bn128_mul",
-                       filter_engines=["life", "wagon", "v8-interpreter"])
+                       title="wasm interpreter execution time - bn128_mul")
 
 ####################
 # Compiler Results #
@@ -561,7 +556,7 @@ def plotCompilerStackedOneTest(df_benchdata, test_name, native=False):
     adjust_text_labels(labelBarHeights(ax, lower_y_bound=False))
     ax.legend(labels=["execution time", "compile time"])
     print(f"plotCompilerStackedOneTest: {filename}.png")
-    plt.savefig(IMG_OUTPUT_DIR + filename + '.png')
+    plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
 
 plotCompilerStackedOneTest(df_compiler, blake2b_test_names[2])
 plotCompilerStackedOneTest(df_compiler, "bls12-381-aggreg-128-pubkeys-verify-sig")
@@ -645,7 +640,7 @@ def plotCompilerSpeedup(df_compiler_speedup, interp_name="interp", compiler_name
 
     #f.suptitle(title, fontsize=16, y=0.95)
     print(f"plotCompilerSpeedup: {filename}.png")
-    plt.savefig(IMG_OUTPUT_DIR + filename + '.png')
+    plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
 
 plotCompilerSpeedup(df_wabt_v8liftoff, interp_name="wabt", compiler_name="v8-liftoff")
 
@@ -667,7 +662,7 @@ def plotInterpOneEngine(df_benchdata, engine, test_names, title=""):
     adjust_text_labels(labelBarHeights(ax))
     plt.suptitle(title, fontsize=16, y=0.95)
     print(f"plotInterpOneEngine: {filename}.png")
-    plt.savefig(IMG_OUTPUT_DIR + filename + '.png')
+    plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
 
 plotInterpOneEngine(df_interp, 'wasmi', all_tests, "Wasmi - all Precompiles (existing and proposed) compared")
 plotInterpOneEngine(df_interp, 'wabt', all_tests, "Wabt - all Precompiles (existing and proposed) compared")
