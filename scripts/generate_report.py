@@ -493,7 +493,7 @@ def plotThreeTestsExecTime(df_testdata, three_names, title="Title", filter_engin
     print(f"plotThreeTestsExecTime: {filename}.png")
     plt.savefig(IMG_OUTPUT_DIR + filename + '.png')
 
-plotThreeTestsExecTime(df_interp, blake2b_test_names, title="wasm interpreters compared - blake2b")
+# plotThreeTestsExecTime(df_interp, blake2b_test_names, title="wasm interpreters compared - blake2b")
 
 # Chart of only the fast interpreters
 plotInterpThreeTests(df_interp,
@@ -511,15 +511,15 @@ plotInterpThreeTests(df_interp,
                      title="wasm interpreters compared - bn128_add",
                      filter_engines=["life", "wagon", "v8-interpreter"])
 
-plotThreeTestsExecTime(df_interp,
-                       blake2b_test_names,
-                       title="wasm interpreters compared - blake2b",
-                       filter_engines=["life", "wagon", "v8-interpreter"])
+# plotThreeTestsExecTime(df_interp,
+#                        blake2b_test_names,
+#                        title="wasm interpreters compared - blake2b",
+#                        filter_engines=["life", "wagon", "v8-interpreter"])
 
-plotThreeTestsExecTime(df_interp,
-                       bls12_test_names,
-                       title="wasm interpreters compared - bls12",
-                       filter_engines=["life", "wagon", "v8-interpreter"])
+# plotThreeTestsExecTime(df_interp,
+#                        bls12_test_names,
+#                        title="wasm interpreters compared - bls12",
+#                        filter_engines=["life", "wagon", "v8-interpreter"])
 
 ####################
 # Compiler Results #
