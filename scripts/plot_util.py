@@ -396,3 +396,24 @@ def add_engine_ratio_col(df_two_engines, interp_engine, compiler_engine):
         df_interp.at[index, 'interp_slowdown'] = exec_ratio
 
     return df_interp
+
+def plotOneTestGrouped(df_1, output_file, test_title="test_title", title="plot Title", colors=['tab:blue', 'tab:orange'], sort_by='websnark-bn128-two-pairings', group_order=None):
+    # to group by engine, pivot to `columns='engine'`
+    #df_1 = pd.pivot_table(df_1, values='exec_time', columns=['engine'], index=['bench_name'], aggfunc=np.mean)
+    # group by bench name
+    df_1['time'] = df_1['exec_time'] + df_1['parse_time']
+    df_1 = pd.pivot_table(df_1, values='time', columns=['bench_name'], index=['engine'], aggfunc=np.mean)
+    # order to get websnark as the group on the left
+    if group_order is not None:
+        df_1 = df_1[group_order]
+
+    plt.figure()
+    ax = df_1.sort_values(sort_by).plot.bar(figsize=(14,8), color=colors)
+    #ax = df_1.plot.bar(figsize=(14,8))
+    ax.set_title(test_title)
+    ax.set(ylabel='seconds', xlabel='')
+
+    adjust_text_labels(labelBarHeights(ax))
+
+    plt.suptitle(title, fontsize=16, y=0.98)
+    plt.savefig(IMG_OUTPUT_DIR + output_file, bbox_inches='tight')
