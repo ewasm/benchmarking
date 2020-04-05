@@ -365,25 +365,26 @@ if __name__ == "__main__":
             subtitle_size='xx-large',
             highlight_tick="wabt-with-bignums")
 
-        df_scout_websnark = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-websnark-bn128-two-pairings']
+        df_scout_rolluprs_bn128_pairings = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings']
         df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
         df_rolluprs_native = df_rolluprs_native.fillna(0)
-        df_scout_websnark = df_scout_websnark.append(df_rolluprs_native)
+        df_scout_rolluprs = df_scout_rolluprs_bn128_pairings.append(df_rolluprs_native)
 
-        df_scout_websnark = df_scout_websnark[df_scout_websnark['engine'].isin(
+        print(df_scout_rolluprs['engine'].unique().tolist())
+
+        df_scout_rolluprs = df_scout_rolluprs[df_scout_rolluprs['engine'].isin(
             ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont', 'wabt-bignums-slowhost-slowmont-superops']
         )]
 
-        df_scout_websnark.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
-        df_scout_websnark.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
-        df_scout_means_websnark = df_scout_websnark.groupby(['engine']).mean()
+        df_scout_rolluprs.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
+        df_scout_rolluprs.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
 
-        output_file = 'websnark-bn128-pairings-v8-liftoff-and-wabt-with-bignums.png'
+        df_scout_means_rolluprs = df_scout_rolluprs.groupby(['engine']).mean()
 
-        plotOneTestColoredTicks(df_scout_means_websnark,
-            output_file,
-            suptitle="websnark-bn128-pairings - engines compared (v8-liftoff and wabt-with-bignums)",
+        plotOneTestColoredTicks(df_scout_means_rolluprs,
+            output_file = 'rust-wasm-bn128-pairing-super-ops-v8-liftoff-and-wabt.png',
+            suptitle="rollup.rs-bn128-pairings - fast Scout engines (v8-liftoff and wabt-with-bignums)",
             suptitle_pos=1.02,
-            subtitle="ecpairing-zkrollup-websnaark-bn128-two-pairings\n",
+            subtitle="ecpairing-zkrollup-rust-wasm-bn128-two-pairings\n",
             subtitle_size='xx-large',
             highlight_tick="wabt-bignums-superops")
