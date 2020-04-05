@@ -302,7 +302,7 @@ if __name__ == "__main__":
                 suptitle_pos=1.07,
                 subtitle="daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc\n",
                 subtitle_size='xx-large')
-    plotInterpThreeTests(df_interp, blake2b_test_names, title="wasm interpreters compared - blake2b")
+
     plotInterpThreeTests(df_interp,
                          blake2b_test_names,
                          title="wasm interpreters compared - blake2b")
@@ -314,6 +314,10 @@ if __name__ == "__main__":
     plotInterpThreeTests(df_interp,
                          bn128_add_test_names,
                          title="wasm interpreters compared - bn128_add")
+
+    plotInterpThreeTests(df_interp,
+                         bn128_pairing_test_names,
+                         title="wasm interpreters compared - bn128_pairing")
 
     plotThreeTestsExecTime(df_interp, blake2b_test_names, title="wasm interpreter execution time - blake2b")
 
