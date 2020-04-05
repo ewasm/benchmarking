@@ -342,7 +342,7 @@ def labelBarHeights(ax, to_ms=True, small=False, to_factor=False, lower_y_bound=
 
     return labels    
 
-def plotOneTestColoredTicks(df_data, suptitle="title", suptitle_pos=1.00, subtitle="subchart", subtitle_size='medium', highlight_tick=None):
+def plotOneTestColoredTicks(df_data, output_file, suptitle="title", suptitle_pos=1.00, subtitle="subchart", subtitle_size='medium', highlight_tick=None):
     plt.figure()
     df_total_times = df_data[['exec_time', 'parse_time']].copy()
     df_total_times.fillna(0, inplace=True)
@@ -364,8 +364,7 @@ def plotOneTestColoredTicks(df_data, suptitle="title", suptitle_pos=1.00, subtit
     adjust_text_labels(labelBarHeights(ax))
     plt.suptitle(suptitle, fontsize=18, y=suptitle_pos)
     
-    filename = formatFileName(suptitle)
-    plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
+    plt.savefig(IMG_OUTPUT_DIR + output_file, bbox_inches='tight')
 
 def adjust_text_labels(labels, ax=None):
     adjust_text(labels, ax=ax, autoalign='y', only_move={'points':'y', 'text':'y'})

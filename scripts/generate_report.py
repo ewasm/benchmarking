@@ -356,7 +356,9 @@ if __name__ == "__main__":
         df_scout_rolluprs.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
         df_scout_means_rolluprs = df_scout_rolluprs.groupby(['engine']).mean()
 
+        output_file = 'rollup.rs-bn128-pairings-fast-scout-engines-v8-liftoff-and-wabt-with-bignums.png'
         plotOneTestColoredTicks(df_scout_means_rolluprs,
+            output_file,
             suptitle="rollup.rs-bn128-pairings - fast Scout engines (v8-liftoff and wabt-with-bignums)",
             suptitle_pos=1.02,
             subtitle="ecpairing-zkrollup-rust-wasm-bn128-two-pairings\n",
@@ -376,7 +378,10 @@ if __name__ == "__main__":
         df_scout_websnark.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
         df_scout_means_websnark = df_scout_websnark.groupby(['engine']).mean()
 
+        output_file = 'websnark-bn128-pairings-v8-liftoff-and-wabt-with-bignums.png'
+
         plotOneTestColoredTicks(df_scout_means_websnark,
+            output_file,
             suptitle="websnark-bn128-pairings - engines compared (v8-liftoff and wabt-with-bignums)",
             suptitle_pos=1.02,
             subtitle="ecpairing-zkrollup-websnaark-bn128-two-pairings\n",
