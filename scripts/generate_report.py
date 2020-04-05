@@ -254,238 +254,234 @@ if __name__ == "__main__":
 #             subtitle_size='xx-large',
 #             highlight_tick="wabt-with-bignums")
 
-    only_plot_new_bn = True
+    plotThreeTestsGrouped(df_scout_data, ["blake2b_64", "blake2b_256", "blake2b_1024"], "blake2b C implementations compared")
+    plotThreeTestsGrouped(df_scout_data, ["sha256_64", "sha256_256", "sha256_1024"], "sha256 C implementations compared")
+    plotThreeTestsGrouped(df_scout_data, ["keccak256_64", "keccak256_256", "keccak256_1024"], "keccak256 C implementations compared")
+    plotOneTest(df_scout_means_biturbo_token,
+                suptitle="\nbiturbo token - all scout engines",
+                suptitle_pos=1.05,
+                subtitle="biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof\n",
+                subtitle_size='xx-large')
 
-    if not only_plot_new_bn:
-        plotThreeTestsGrouped(df_scout_data, ["blake2b_64", "blake2b_256", "blake2b_1024"], "blake2b C implementations compared")
-        plotThreeTestsGrouped(df_scout_data, ["sha256_64", "sha256_256", "sha256_1024"], "sha256 C implementations compared")
-        plotThreeTestsGrouped(df_scout_data, ["keccak256_64", "keccak256_256", "keccak256_1024"], "keccak256 C implementations compared")
-        plotOneTest(df_scout_means_biturbo_token,
-                    suptitle="\nbiturbo token - all scout engines",
-                    suptitle_pos=1.05,
-                    subtitle="biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof\n",
-                    subtitle_size='xx-large')
+    plotScoutStackedTest(df_scout_fast_biturbo_means,
+                suptitle="\nbiturbo token - fast scout engines - wasm compilers vs interpreters (v8 vs wabt)",
+                suptitle_pos=1.03,
+                subtitle="biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof\n",
+                subtitle_size='xx-large')
+    plotOneTest(df_scout_means_ecrecover_websnark_secp256k1,
+                suptitle="websnark-secp256k1-sig-verify - all Scout engines",
+                suptitle_pos=1.0,
+                subtitle="ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs\n",
+                subtitle_size='xx-large')
 
-        plotScoutStackedTest(df_scout_fast_biturbo_means,
-                    suptitle="\nbiturbo token - fast scout engines - wasm compilers vs interpreters (v8 vs wabt)",
-                    suptitle_pos=1.03,
-                    subtitle="biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof\n",
-                    subtitle_size='xx-large')
-        plotOneTest(df_scout_means_ecrecover_websnark_secp256k1,
-                    suptitle="websnark-secp256k1-sig-verify - all Scout engines",
-                    suptitle_pos=1.0,
-                    subtitle="ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs\n",
-                    subtitle_size='xx-large')
+    plotScoutStackedTest(df_scout_fast_ecrecover_means,
+                #suptitle="websnark-secp256k1-sig-verify - fast Scout engines - compilers (v8) vs interpreters (wabt)",
+                suptitle="compiler engines - optimizing (v8-turbofan) and single-pass (v8-liftoff) \n vs. \n interpreter engine (wabt) with bignum host funcs",
+                suptitle_pos=1.07,
+                subtitle="ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs\n",
+                subtitle_size='xx-large')
+    plotOneTest(df_scout_means_ecpairing_zkrollup,
+                suptitle="websnark-bn128-pairings - all Scout engines",
+                suptitle_pos=1.02,
+                subtitle="ecpairing-zkrollup-websnark-bn128-two-pairings\n",
+                subtitle_size='xx-large')
 
-        plotScoutStackedTest(df_scout_fast_ecrecover_means,
-                    #suptitle="websnark-secp256k1-sig-verify - fast Scout engines - compilers (v8) vs interpreters (wabt)",
-                    suptitle="compiler engines - optimizing (v8-turbofan) and single-pass (v8-liftoff) \n vs. \n interpreter engine (wabt) with bignum host funcs",
-                    suptitle_pos=1.07,
-                    subtitle="ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs\n",
-                    subtitle_size='xx-large')
-        plotOneTest(df_scout_means_ecpairing_zkrollup,
-                    suptitle="websnark-bn128-pairings - all Scout engines",
-                    suptitle_pos=1.02,
-                    subtitle="ecpairing-zkrollup-websnark-bn128-two-pairings\n",
-                    subtitle_size='xx-large')
+    plotScoutStackedTest(df_scout_fast_means_ecpairing_zkrollup,
+                suptitle="compiler engines - optimizing (v8-turbofan) and single-pass (v8-liftoff) \n vs. \n interpreter engine (wabt) with bignum host funcs",
+                suptitle_pos=1.07,
+                subtitle="ecpairing-zkrollup-websnark-bn128-two-pairings\n",
+                subtitle_size='xx-large')
+    plotOneTest(df_scout_means_daiquiri_zkmixer,
+                suptitle="daiquiri-zkmixer - all Scout engines",
+                suptitle_pos=1.02,
+                subtitle="daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc\n",
+                subtitle_size='xx-large')
 
-        plotScoutStackedTest(df_scout_fast_means_ecpairing_zkrollup,
-                    suptitle="compiler engines - optimizing (v8-turbofan) and single-pass (v8-liftoff) \n vs. \n interpreter engine (wabt) with bignum host funcs",
-                    suptitle_pos=1.07,
-                    subtitle="ecpairing-zkrollup-websnark-bn128-two-pairings\n",
-                    subtitle_size='xx-large')
-        plotOneTest(df_scout_means_daiquiri_zkmixer,
-                    suptitle="daiquiri-zkmixer - all Scout engines",
-                    suptitle_pos=1.02,
-                    subtitle="daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc\n",
-                    subtitle_size='xx-large')
+    plotScoutStackedTest(df_scout_fast_means_daiquiri_zkmixer,
+                suptitle="wasm compilers - optimizing (v8-turbofan) and single-pass (v8-liftoff) \n vs. \n wasm interpreter (wabt) with bignum host funcs",
+                suptitle_pos=1.07,
+                subtitle="daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc\n",
+                subtitle_size='xx-large')
+    plotInterpThreeTests(df_interp, blake2b_test_names, title="wasm interpreters compared - blake2b")
+    plotInterpThreeTests(df_interp,
+                         blake2b_test_names,
+                         title="wasm interpreters compared - blake2b")
 
-        plotScoutStackedTest(df_scout_fast_means_daiquiri_zkmixer,
-                    suptitle="wasm compilers - optimizing (v8-turbofan) and single-pass (v8-liftoff) \n vs. \n wasm interpreter (wabt) with bignum host funcs",
-                    suptitle_pos=1.07,
-                    subtitle="daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc\n",
-                    subtitle_size='xx-large')
-        plotInterpThreeTests(df_interp, blake2b_test_names, title="wasm interpreters compared - blake2b")
-        plotInterpThreeTests(df_interp,
-                             blake2b_test_names,
-                             title="wasm interpreters compared - blake2b")
+    plotInterpThreeTests(df_interp,
+                         modexp_test_names,
+                         title="wasm interpreters compared - modexp")
 
-        plotInterpThreeTests(df_interp,
-                             modexp_test_names,
-                             title="wasm interpreters compared - modexp")
+    plotInterpThreeTests(df_interp,
+                         bn128_add_test_names,
+                         title="wasm interpreters compared - bn128_add")
 
-        plotInterpThreeTests(df_interp,
-                             bn128_add_test_names,
-                             title="wasm interpreters compared - bn128_add")
+    plotThreeTestsExecTime(df_interp, blake2b_test_names, title="wasm interpreter execution time - blake2b")
 
-        plotThreeTestsExecTime(df_interp, blake2b_test_names, title="wasm interpreter execution time - blake2b")
+    plotThreeTestsExecTime(df_interp,
+                           modexp_test_names,
+                           title="wasm interpreter execution time - modexp")
 
-        plotThreeTestsExecTime(df_interp,
-                               modexp_test_names,
-                               title="wasm interpreter execution time - modexp")
+    plotThreeTestsExecTime(df_interp,
+                           bn128_mul_test_names,
+                           title="wasm interpreter execution time - bn128_mul")
 
-        plotThreeTestsExecTime(df_interp,
-                               bn128_mul_test_names,
-                               title="wasm interpreter execution time - bn128_mul")
+    plotThreeTestsExecTime(df_interp,
+                           bn128_pairing_test_names,
+                           title="wasm interpreter execution time - bn128_pairing")
+    plotCompilerSpeedup(df_wabt_v8liftoff, all_tests, interp_name="wabt", compiler_name="v8-liftoff")
+    plotCompilerSpeedup(df_fizzy_v8liftoff, all_tests, interp_name="fizzy", compiler_name="v8-liftoff")
+    plotCompilerSpeedup(df_wasm3_v8liftoff, all_tests, interp_name="wasm3", compiler_name="v8-liftoff")
+    plotCompilerSpeedup(df_wasmi_wavm, all_tests, interp_name="wasmi", compiler_name="wavm")
 
-        plotThreeTestsExecTime(df_interp,
-                               bn128_pairing_test_names,
-                               title="wasm interpreter execution time - bn128_pairing")
-        plotCompilerSpeedup(df_wabt_v8liftoff, all_tests, interp_name="wabt", compiler_name="v8-liftoff")
-        plotCompilerSpeedup(df_fizzy_v8liftoff, all_tests, interp_name="fizzy", compiler_name="v8-liftoff")
-        plotCompilerSpeedup(df_wasm3_v8liftoff, all_tests, interp_name="wasm3", compiler_name="v8-liftoff")
-        plotCompilerSpeedup(df_wasmi_wavm, all_tests, interp_name="wasmi", compiler_name="wavm")
+    plotInterpOneEngine(df_interp, 'wasmi', all_tests, "Wasmi - all Precompiles (existing and proposed) compared")
+    plotInterpOneEngine(df_interp, 'wabt', all_tests, "Wabt - all Precompiles (existing and proposed) compared")
+    plotCompilerStackedOneTest(df_compiler, blake2b_test_names[2])
+    plotCompilerStackedOneTest(df_compiler, "bls12-381-aggreg-128-pubkeys-verify-sig")
+    plotCompilerStackedOneTest(df_native_and_compile, "bls12-381-aggreg-128-pubkeys-verify-sig", native=True)
+    df_scout_rolluprs_bn128_pairings = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings']
 
-        plotInterpOneEngine(df_interp, 'wasmi', all_tests, "Wasmi - all Precompiles (existing and proposed) compared")
-        plotInterpOneEngine(df_interp, 'wabt', all_tests, "Wabt - all Precompiles (existing and proposed) compared")
-        plotCompilerStackedOneTest(df_compiler, blake2b_test_names[2])
-        plotCompilerStackedOneTest(df_compiler, "bls12-381-aggreg-128-pubkeys-verify-sig")
-        plotCompilerStackedOneTest(df_native_and_compile, "bls12-381-aggreg-128-pubkeys-verify-sig", native=True)
-    else:
-        df_scout_rolluprs_bn128_pairings = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings']
+    df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
+    df_rolluprs_native = df_rolluprs_native.fillna(0)
 
-        df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
-        df_rolluprs_native = df_rolluprs_native.fillna(0)
+    df_scout_rolluprs = df_scout_rolluprs_bn128_pairings.append(df_rolluprs_native)
 
-        df_scout_rolluprs = df_scout_rolluprs_bn128_pairings.append(df_rolluprs_native)
+    df_scout_rolluprs = df_scout_rolluprs[df_scout_rolluprs['engine'].isin(
+        ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont', 'wabt-no-bignums']
+    )]
+        
+    df_scout_rolluprs.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
+    df_scout_means_rolluprs = df_scout_rolluprs.groupby(['engine']).mean()
 
-        df_scout_rolluprs = df_scout_rolluprs[df_scout_rolluprs['engine'].isin(
-            ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont', 'wabt-no-bignums']
-        )]
-            
-        df_scout_rolluprs.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
-        df_scout_means_rolluprs = df_scout_rolluprs.groupby(['engine']).mean()
+    output_file = 'rollup.rs-bn128-pairings-fast-scout-engines-v8-liftoff-and-wabt-with-bignums.png'
+    plotOneTestColoredTicks(df_scout_means_rolluprs,
+        output_file,
+        suptitle="rollup.rs-bn128-pairings - fast Scout engines (v8-liftoff and wabt-with-bignums)",
+        suptitle_pos=1.02,
+        subtitle="ecpairing-zkrollup-rust-wasm-bn128-two-pairings\n",
+        subtitle_size='xx-large',
+        highlight_tick="wabt-with-bignums")
 
-        output_file = 'rollup.rs-bn128-pairings-fast-scout-engines-v8-liftoff-and-wabt-with-bignums.png'
-        plotOneTestColoredTicks(df_scout_means_rolluprs,
-            output_file,
-            suptitle="rollup.rs-bn128-pairings - fast Scout engines (v8-liftoff and wabt-with-bignums)",
-            suptitle_pos=1.02,
-            subtitle="ecpairing-zkrollup-rust-wasm-bn128-two-pairings\n",
-            subtitle_size='xx-large',
-            highlight_tick="wabt-with-bignums")
+    df_scout_rolluprs_bn128_pairings = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings']
+    df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
+    df_rolluprs_native = df_rolluprs_native.fillna(0)
+    df_scout_rolluprs = df_scout_rolluprs_bn128_pairings.append(df_rolluprs_native)
 
-        df_scout_rolluprs_bn128_pairings = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings']
-        df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
-        df_rolluprs_native = df_rolluprs_native.fillna(0)
-        df_scout_rolluprs = df_scout_rolluprs_bn128_pairings.append(df_rolluprs_native)
+    print(df_scout_rolluprs['engine'].unique().tolist())
 
-        print(df_scout_rolluprs['engine'].unique().tolist())
+    df_scout_rolluprs = df_scout_rolluprs[df_scout_rolluprs['engine'].isin(
+        ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont', 'wabt-bignums-slowhost-slowmont-superops']
+    )]
 
-        df_scout_rolluprs = df_scout_rolluprs[df_scout_rolluprs['engine'].isin(
-            ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont', 'wabt-bignums-slowhost-slowmont-superops']
-        )]
+    df_scout_rolluprs.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
+    df_scout_rolluprs.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
 
-        df_scout_rolluprs.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
-        df_scout_rolluprs.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
+    df_scout_means_rolluprs = df_scout_rolluprs.groupby(['engine']).mean()
 
-        df_scout_means_rolluprs = df_scout_rolluprs.groupby(['engine']).mean()
+    plotOneTestColoredTicks(df_scout_means_rolluprs,
+        output_file = 'rust-wasm-bn128-pairing-super-ops-v8-liftoff-and-wabt.png',
+        suptitle="rollup.rs-bn128-pairings - fast Scout engines (v8-liftoff and wabt-with-bignums)",
+        suptitle_pos=1.02,
+        subtitle="ecpairing-zkrollup-rust-wasm-bn128-two-pairings\n",
+        subtitle_size='xx-large',
+        highlight_tick="wabt-bignums-superops")
 
-        plotOneTestColoredTicks(df_scout_means_rolluprs,
-            output_file = 'rust-wasm-bn128-pairing-super-ops-v8-liftoff-and-wabt.png',
-            suptitle="rollup.rs-bn128-pairings - fast Scout engines (v8-liftoff and wabt-with-bignums)",
-            suptitle_pos=1.02,
-            subtitle="ecpairing-zkrollup-rust-wasm-bn128-two-pairings\n",
-            subtitle_size='xx-large',
-            highlight_tick="wabt-bignums-superops")
+    df_scout_rust_vs_websnark = df_scout_data[
+        df_scout_data['bench_name'].isin(
+            ['ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+             'ecpairing-zkrollup-websnark-bn128-two-pairings']
+        )
+    ]
 
-        df_scout_rust_vs_websnark = df_scout_data[
-            df_scout_data['bench_name'].isin(
-                ['ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
-                 'ecpairing-zkrollup-websnark-bn128-two-pairings']
-            )
-        ]
+    df_scout_rust_vs_websnark['engine'].unique().tolist()
 
-        df_scout_rust_vs_websnark['engine'].unique().tolist()
-
-        df_scout_rust_vs_websnark = df_scout_data[
-            df_scout_data['bench_name'].isin(
-                ['ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
-                 'ecpairing-zkrollup-websnark-bn128-two-pairings']
-            )
-        ]
+    df_scout_rust_vs_websnark = df_scout_data[
+        df_scout_data['bench_name'].isin(
+            ['ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+             'ecpairing-zkrollup-websnark-bn128-two-pairings']
+        )
+    ]
 
 # simplify bench_names to rust-wasm and websnark-wasm
-        df_scout_rust_vs_websnark.replace('ecpairing-zkrollup-rust-wasm-bn128-two-pairings', 'rust-wasm', inplace=True)
-        df_scout_rust_vs_websnark.replace('ecpairing-zkrollup-websnark-bn128-two-pairings', 'websnark-wasm', inplace=True)
+    df_scout_rust_vs_websnark.replace('ecpairing-zkrollup-rust-wasm-bn128-two-pairings', 'rust-wasm', inplace=True)
+    df_scout_rust_vs_websnark.replace('ecpairing-zkrollup-websnark-bn128-two-pairings', 'websnark-wasm', inplace=True)
 
 
-        df_scout_rust_vs_websnark = df_scout_rust_vs_websnark[df_scout_rust_vs_websnark['engine'].isin(
-            ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont', 'wabt-bignums-slowhost-slowmont-superops']
-        )]
+    df_scout_rust_vs_websnark = df_scout_rust_vs_websnark[df_scout_rust_vs_websnark['engine'].isin(
+        ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont', 'wabt-bignums-slowhost-slowmont-superops']
+    )]
 
 # simplify wabt engine names
-        df_scout_rust_vs_websnark.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
-        df_scout_rust_vs_websnark.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
+    df_scout_rust_vs_websnark.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
+    df_scout_rust_vs_websnark.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
 
-        output_file = 'rust-vs-websnark-bn128-pairing.png'
+    output_file = 'rust-vs-websnark-bn128-pairing.png'
 
-        plotOneTestGrouped(df_scout_rust_vs_websnark,
-            output_file,
-            title="websnark vs rust - zkrollup bn128 pairings (websnark/bn128 vs rollup.rs)",
-            test_title="",
-            group_order=['websnark-wasm', 'rust-wasm'],
-            sort_by=['rust-wasm'],
-            colors=['tab:orange', 'tab:blue'])
+    plotOneTestGrouped(df_scout_rust_vs_websnark,
+        output_file,
+        title="websnark vs rust - zkrollup bn128 pairings (websnark/bn128 vs rollup.rs)",
+        test_title="",
+        group_order=['websnark-wasm', 'rust-wasm'],
+        sort_by=['rust-wasm'],
+        colors=['tab:orange', 'tab:blue'])
 
-        df_scout_websnark = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-websnark-bn128-two-pairings']
-        df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
-        df_rolluprs_native = df_rolluprs_native.fillna(0)
-        df_scout_websnark = df_scout_websnark.append(df_rolluprs_native)
+    df_scout_websnark = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-websnark-bn128-two-pairings']
+    df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
+    df_rolluprs_native = df_rolluprs_native.fillna(0)
+    df_scout_websnark = df_scout_websnark.append(df_rolluprs_native)
 
-        df_scout_websnark = df_scout_websnark[df_scout_websnark['engine'].isin(
-            ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont',
-             'wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-slowhost-slowmont-superops',
-            'wabt-bignums-fasthost-slowmont-superops', 'wabt-bignums-fasthost-fastmont-superops']
-        )]
+    df_scout_websnark = df_scout_websnark[df_scout_websnark['engine'].isin(
+        ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont',
+         'wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-slowhost-slowmont-superops',
+        'wabt-bignums-fasthost-slowmont-superops', 'wabt-bignums-fasthost-fastmont-superops']
+    )]
 
-        df_scout_websnark.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
-        df_scout_websnark.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
-        df_scout_websnark.replace('wabt-bignums-fasthost-slowmont-superops', 'wabt-bignums-superops-fasthost', inplace=True)
-        df_scout_websnark.replace('wabt-bignums-fasthost-fastmont-superops', 'wabt-bignums-superops-fasthost-fastmont', inplace=True)
+    df_scout_websnark.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
+    df_scout_websnark.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
+    df_scout_websnark.replace('wabt-bignums-fasthost-slowmont-superops', 'wabt-bignums-superops-fasthost', inplace=True)
+    df_scout_websnark.replace('wabt-bignums-fasthost-fastmont-superops', 'wabt-bignums-superops-fasthost-fastmont', inplace=True)
 
-        output_file = 'websnark-bn128-pairing-fast-host-fast-mont.png'
-        df_scout_means_websnark = df_scout_websnark.groupby(['engine']).mean()
-        plotOneTestColoredTicks(df_scout_means_websnark,
-            output_file,
-            suptitle="websnark-bn128-pairings - engines compared (v8-liftoff and wabt-with-bignums)",
-            suptitle_pos=1.02,
-            subtitle="ecpairing-zkrollup-websnaark-bn128-two-pairings\n",
-            subtitle_size='xx-large',
-            highlight_tick="wabt-bignums-superops-fasthost-fastmont")
+    output_file = 'websnark-bn128-pairing-fast-host-fast-mont.png'
+    df_scout_means_websnark = df_scout_websnark.groupby(['engine']).mean()
+    plotOneTestColoredTicks(df_scout_means_websnark,
+        output_file,
+        suptitle="websnark-bn128-pairings - engines compared (v8-liftoff and wabt-with-bignums)",
+        suptitle_pos=1.02,
+        subtitle="ecpairing-zkrollup-websnaark-bn128-two-pairings\n",
+        subtitle_size='xx-large',
+        highlight_tick="wabt-bignums-superops-fasthost-fastmont")
 
-        df_scout_websnark = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-websnark-bn128-two-pairings']
-        df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
-        df_rolluprs_native = df_rolluprs_native.fillna(0)
-        df_scout_websnark = df_scout_websnark.append(df_rolluprs_native)
+    df_scout_websnark = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-websnark-bn128-two-pairings']
+    df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
+    df_rolluprs_native = df_rolluprs_native.fillna(0)
+    df_scout_websnark = df_scout_websnark.append(df_rolluprs_native)
 
-        df_scout_websnark['engine'].unique().tolist()
+    df_scout_websnark['engine'].unique().tolist()
 
-        df_scout_websnark = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-websnark-bn128-two-pairings']
-        df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
-        df_rolluprs_native = df_rolluprs_native.fillna(0)
-        df_scout_websnark = df_scout_websnark.append(df_rolluprs_native)
+    df_scout_websnark = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-websnark-bn128-two-pairings']
+    df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
+    df_rolluprs_native = df_rolluprs_native.fillna(0)
+    df_scout_websnark = df_scout_websnark.append(df_rolluprs_native)
 
 #df_scout_websnark.replace('ecpairing-zkrollup-rust-native-bn128-two-pairings', 'rust-native', inplace=True)
 #df_scout_websnark.replace('ecpairing-zkrollup-websnark-bn128-two-pairings', 'websnark-wasm', inplace=True)
 
-        df_scout_websnark = df_scout_websnark[df_scout_websnark['engine'].isin(
-            ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont',
-             'wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-slowhost-slowmont-superops',
-            'wabt-bignums-fasthost-slowmont-superops']
-        )]
+    df_scout_websnark = df_scout_websnark[df_scout_websnark['engine'].isin(
+        ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont',
+         'wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-slowhost-slowmont-superops',
+        'wabt-bignums-fasthost-slowmont-superops']
+    )]
 
-        df_scout_websnark.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
-        df_scout_websnark.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
-        df_scout_websnark.replace('wabt-bignums-fasthost-slowmont-superops', 'wabt-bignums-superops-fasthost', inplace=True)
+    df_scout_websnark.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
+    df_scout_websnark.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
+    df_scout_websnark.replace('wabt-bignums-fasthost-slowmont-superops', 'wabt-bignums-superops-fasthost', inplace=True)
 
-        df_scout_means_websnark = df_scout_websnark.groupby(['engine']).mean()
+    df_scout_means_websnark = df_scout_websnark.groupby(['engine']).mean()
 
-        output_file = 'websnark-bn128-pairing-fast-host.png'
-        plotOneTestColoredTicks(df_scout_means_websnark,
-            output_file,
-            suptitle="websnark-bn128-pairings - engines compared (v8-liftoff and wabt-with-bignums)",
-            suptitle_pos=1.02,
-            subtitle="ecpairing-zkrollup-websnaark-bn128-two-pairings\n",
-            subtitle_size='xx-large',
-            highlight_tick="wabt-bignums-superops-fasthost")
+    output_file = 'websnark-bn128-pairing-fast-host.png'
+    plotOneTestColoredTicks(df_scout_means_websnark,
+        output_file,
+        suptitle="websnark-bn128-pairings - engines compared (v8-liftoff and wabt-with-bignums)",
+        suptitle_pos=1.02,
+        subtitle="ecpairing-zkrollup-websnaark-bn128-two-pairings\n",
+        subtitle_size='xx-large',
+        highlight_tick="wabt-bignums-superops-fasthost")
