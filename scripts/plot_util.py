@@ -27,6 +27,9 @@ def toMs(secs):
     else:
         return "{}s".format(round(secs, 2))
 
+def formatFileName(graph_title):
+    return '-'.join(graph_title.lower().split(' '))
+
 def plotInterpOneEngine(df_benchdata, engine, test_names, title=""):
     filename = engine + '-all-precompiles-compared'
     df_bench = df_benchdata.loc[engine][df_benchdata.loc[engine]['test_name'].isin(test_names)]
@@ -360,6 +363,8 @@ def plotOneTestColoredTicks(df_data, suptitle="title", suptitle_pos=1.00, subtit
 
     adjust_text_labels(labelBarHeights(ax))
     plt.suptitle(suptitle, fontsize=18, y=suptitle_pos)
+    
+    filename = formatFileName(suptitle)
     plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
 
 def adjust_text_labels(labels, ax=None):
