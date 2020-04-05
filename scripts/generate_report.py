@@ -388,3 +388,104 @@ if __name__ == "__main__":
             subtitle="ecpairing-zkrollup-rust-wasm-bn128-two-pairings\n",
             subtitle_size='xx-large',
             highlight_tick="wabt-bignums-superops")
+
+        df_scout_rust_vs_websnark = df_scout_data[
+            df_scout_data['bench_name'].isin(
+                ['ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+                 'ecpairing-zkrollup-websnark-bn128-two-pairings']
+            )
+        ]
+
+        df_scout_rust_vs_websnark['engine'].unique().tolist()
+
+        df_scout_rust_vs_websnark = df_scout_data[
+            df_scout_data['bench_name'].isin(
+                ['ecpairing-zkrollup-rust-wasm-bn128-two-pairings',
+                 'ecpairing-zkrollup-websnark-bn128-two-pairings']
+            )
+        ]
+
+# simplify bench_names to rust-wasm and websnark-wasm
+        df_scout_rust_vs_websnark.replace('ecpairing-zkrollup-rust-wasm-bn128-two-pairings', 'rust-wasm', inplace=True)
+        df_scout_rust_vs_websnark.replace('ecpairing-zkrollup-websnark-bn128-two-pairings', 'websnark-wasm', inplace=True)
+
+
+        df_scout_rust_vs_websnark = df_scout_rust_vs_websnark[df_scout_rust_vs_websnark['engine'].isin(
+            ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont', 'wabt-bignums-slowhost-slowmont-superops']
+        )]
+
+# simplify wabt engine names
+        df_scout_rust_vs_websnark.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
+        df_scout_rust_vs_websnark.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
+
+        output_file = 'rust-vs-websnark-bn128-pairing.png'
+
+        plotOneTestGrouped(df_scout_rust_vs_websnark,
+            output_file,
+            title="websnark vs rust - zkrollup bn128 pairings (websnark/bn128 vs rollup.rs)",
+            test_title="",
+            group_order=['websnark-wasm', 'rust-wasm'],
+            sort_by=['rust-wasm'],
+            colors=['tab:orange', 'tab:blue'])
+
+        df_scout_websnark = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-websnark-bn128-two-pairings']
+        df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
+        df_rolluprs_native = df_rolluprs_native.fillna(0)
+        df_scout_websnark = df_scout_websnark.append(df_rolluprs_native)
+
+        df_scout_websnark = df_scout_websnark[df_scout_websnark['engine'].isin(
+            ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont',
+             'wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-slowhost-slowmont-superops',
+            'wabt-bignums-fasthost-slowmont-superops', 'wabt-bignums-fasthost-fastmont-superops']
+        )]
+
+        df_scout_websnark.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
+        df_scout_websnark.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
+        df_scout_websnark.replace('wabt-bignums-fasthost-slowmont-superops', 'wabt-bignums-superops-fasthost', inplace=True)
+        df_scout_websnark.replace('wabt-bignums-fasthost-fastmont-superops', 'wabt-bignums-superops-fasthost-fastmont', inplace=True)
+
+        output_file = 'websnark-bn128-pairing-fast-host-fast-mont.png'
+        df_scout_means_websnark = df_scout_websnark.groupby(['engine']).mean()
+        plotOneTestColoredTicks(df_scout_means_websnark,
+            output_file,
+            suptitle="websnark-bn128-pairings - engines compared (v8-liftoff and wabt-with-bignums)",
+            suptitle_pos=1.02,
+            subtitle="ecpairing-zkrollup-websnaark-bn128-two-pairings\n",
+            subtitle_size='xx-large',
+            highlight_tick="wabt-bignums-superops-fasthost-fastmont")
+
+        df_scout_websnark = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-websnark-bn128-two-pairings']
+        df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
+        df_rolluprs_native = df_rolluprs_native.fillna(0)
+        df_scout_websnark = df_scout_websnark.append(df_rolluprs_native)
+
+        df_scout_websnark['engine'].unique().tolist()
+
+        df_scout_websnark = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-websnark-bn128-two-pairings']
+        df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
+        df_rolluprs_native = df_rolluprs_native.fillna(0)
+        df_scout_websnark = df_scout_websnark.append(df_rolluprs_native)
+
+#df_scout_websnark.replace('ecpairing-zkrollup-rust-native-bn128-two-pairings', 'rust-native', inplace=True)
+#df_scout_websnark.replace('ecpairing-zkrollup-websnark-bn128-two-pairings', 'websnark-wasm', inplace=True)
+
+        df_scout_websnark = df_scout_websnark[df_scout_websnark['engine'].isin(
+            ['rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont',
+             'wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-slowhost-slowmont-superops',
+            'wabt-bignums-fasthost-slowmont-superops']
+        )]
+
+        df_scout_websnark.replace('wabt-bignums-slowhost-slowmont', 'wabt-with-bignums', inplace=True)
+        df_scout_websnark.replace('wabt-bignums-slowhost-slowmont-superops', 'wabt-bignums-superops', inplace=True)
+        df_scout_websnark.replace('wabt-bignums-fasthost-slowmont-superops', 'wabt-bignums-superops-fasthost', inplace=True)
+
+        df_scout_means_websnark = df_scout_websnark.groupby(['engine']).mean()
+
+        output_file = 'websnark-bn128-pairing-fast-host.png'
+        plotOneTestColoredTicks(df_scout_means_websnark,
+            output_file,
+            suptitle="websnark-bn128-pairings - engines compared (v8-liftoff and wabt-with-bignums)",
+            suptitle_pos=1.02,
+            subtitle="ecpairing-zkrollup-websnaark-bn128-two-pairings\n",
+            subtitle_size='xx-large',
+            highlight_tick="wabt-bignums-superops-fasthost")
