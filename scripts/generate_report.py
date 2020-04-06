@@ -238,12 +238,7 @@ if __name__ == "__main__":
     df_wasm3_v8liftoff = add_engine_ratio_col(df_interp_and_compile, "wasm3", "v8-liftoff")
     df_wasmi_wavm = add_engine_ratio_col(df_interp_and_compile, "wasmi", "wavm")
 
-    only_plot_new = True
-    if only_plot_new:
-        plotCompilerStackedThreeTests(df_compiler, blake2b_test_names, title='Wasm Compilers Blake2b')
-        plotCompilerStackedThreeTests(df_compiler, bn128_mul_test_names, title='Wasm Compilers bn128_mul')
-        plotCompilerStackedThreeTests(df_compiler, bn128_pairing_test_names, title='Wasm Compilers bn128_pairing')
-        sys.exit(0)
+
 
 
 
@@ -486,3 +481,6 @@ if __name__ == "__main__":
         highlight_tick="wabt-bignums-superops-fasthost")
 
 
+plotCompilerStackedThreeTests(df_compiler, blake2b_test_names, title='Wasm Compilers Blake2b')
+plotCompilerStackedThreeTests(df_compiler, bn128_mul_test_names, title='Wasm Compilers bn128_mul')
+plotCompilerStackedThreeTests(df_compiler, bn128_pairing_test_names, title='Wasm Compilers bn128_pairing')
