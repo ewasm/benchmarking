@@ -1,3 +1,5 @@
+import sys
+
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 import pandas as pd
@@ -236,23 +238,14 @@ if __name__ == "__main__":
     df_wasm3_v8liftoff = add_engine_ratio_col(df_interp_and_compile, "wasm3", "v8-liftoff")
     df_wasmi_wavm = add_engine_ratio_col(df_interp_and_compile, "wasmi", "wavm")
 
-
-# import pdb; pdb.set_trace()
-
-
-########################################################
-# All precompiles compared (are interpreters feasible? #
-########################################################
-
+    only_plot_new = True
+    if only_plot_new:
+        plotCompilerStackedThreeTests(df_compiler, blake2b_test_names, title='Wasm Compilers Blake2b')
+        plotCompilerStackedThreeTests(df_compiler, bn128_mul_test_names, title='Wasm Compilers bn128_mul')
+        plotCompilerStackedThreeTests(df_compiler, bn128_pairing_test_names, title='Wasm Compilers bn128_pairing')
+        sys.exit(0)
 
 
-
-# plotOneTestColoredTicks(df_scout_means_rolluprs,
-#             suptitle="rollup.rs-bn128-pairings - fast Scout engines (v8-liftoff and wabt-with-bignums)",
-#             suptitle_pos=1.02,
-#             subtitle="ecpairing-zkrollup-rust-wasm-bn128-two-pairings\n",
-#             subtitle_size='xx-large',
-#             highlight_tick="wabt-with-bignums")
 
     plotThreeTestsGrouped(df_scout_data, ["blake2b_64", "blake2b_256", "blake2b_1024"], "blake2b C implementations compared")
     plotThreeTestsGrouped(df_scout_data, ["sha256_64", "sha256_256", "sha256_1024"], "sha256 C implementations compared")
@@ -339,9 +332,11 @@ if __name__ == "__main__":
 
     plotInterpOneEngine(df_interp, 'wasmi', all_tests, "Wasmi - all Precompiles (existing and proposed) compared")
     plotInterpOneEngine(df_interp, 'wabt', all_tests, "Wabt - all Precompiles (existing and proposed) compared")
-    plotCompilerStackedOneTest(df_compiler, blake2b_test_names[2])
-    plotCompilerStackedOneTest(df_compiler, "bls12-381-aggreg-128-pubkeys-verify-sig")
-    plotCompilerStackedOneTest(df_native_and_compile, "bls12-381-aggreg-128-pubkeys-verify-sig", native=True)
+
+
+    # plotCompilerStackedOneTest(df_compiler, "bls12-381-aggreg-128-pubkeys-verify-sig")
+    # plotCompilerStackedOneTest(df_native_and_compile, "bls12-381-aggreg-128-pubkeys-verify-sig", native=True)
+
     df_scout_rolluprs_bn128_pairings = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings']
 
     df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
@@ -489,3 +484,5 @@ if __name__ == "__main__":
         subtitle="ecpairing-zkrollup-websnaark-bn128-two-pairings\n",
         subtitle_size='xx-large',
         highlight_tick="wabt-bignums-superops-fasthost")
+
+

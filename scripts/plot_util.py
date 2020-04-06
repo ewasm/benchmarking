@@ -176,6 +176,43 @@ def plotThreeTestsGrouped(df_benches, three_tests, title="Title"):
     print(f"plotTreeTestsGrouped: {filename}.png ")
     plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
 
+def plotCompilerStackedThreeTests(df_benches, test_names, title='Title', native=False):
+    filename = title.lower().replace(' ', '-') # test_names[0]
+
+    if native:
+        filename += '-native'
+    plt.figure()
+
+    f, axs = plt.subplots(1, 3, sharey=True, figsize=(16, 7))
+
+    dfs = [
+        df_benches[df_benches['test_name'].str.contains(test_names[0])],
+        df_benches[df_benches['test_name'].str.contains(test_names[1])],
+        df_benches[df_benches['test_name'].str.contains(test_names[2])],
+    ]
+
+    for test_name, ax, df in zip(test_names, axs, dfs):
+        # for some reason, exec_time needs to come first for the stacked chart to display correctly
+        df[['exec_time', 'compile_time']].sort_values('exec_time').plot.bar(ax=ax, stacked=True, color=[COLORS_DEFAULT['blue'], COLORS_DEFAULT['red']])
+        ax.set_title("Compilers - {}".format(test_name))
+        # ax.set_title("Compilers - {}".format(test_name))
+        df_total_times = df[['exec_time', 'compile_time']].copy()
+        df_total_times['total_time'] = df_total_times['exec_time'] + df_total_times['compile_time']
+        ymax = max(df_total_times[['total_time']].max()) * 1.3 # 30% larger for padding between top of bars and top of graph
+
+        # ymin = min([x for x in df[['exec_time', 'compile_time']].min().tolist() if x > 0])
+        # ymin = ymin * 0.8 # 0.8 to get a number 20% smaller, fix to make bar appear for smallest exec time
+        # TODO don't hardcode this
+        ymin = 0.00001
+        ax.set_ylim(ymin, ymax)
+        ax.set_yscale("log")
+        plt.ylabel("seconds (log scale)")
+        adjust_text_labels(labelBarHeights(ax, lower_y_bound=False), ax=ax)
+        ax.legend(labels=["execution time", "compile time"])
+
+    print(f"plotCompilerStackedThreeTests: {filename}.png")
+    plt.savefig(IMG_OUTPUT_DIR + filename + '.png', bbox_inches='tight')
+
 # Interpreters - Execution time
 def plotThreeTestsExecTime(df_testdata, three_names, title="Title", filter_engines=None):
     filename = title.lower().replace(' ', '-')
