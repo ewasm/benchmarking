@@ -94,31 +94,19 @@ Run benchmarks
 
 ## Generate charts using jupyter notebooks
 
-The simplest way to install jupyter notebooks and the dependencies needed to generate the chart is by using Conda:
+Install python deps for plotting benchmark graphs:
 
-1. Download the miniconda installer from: https://docs.conda.io/en/latest/miniconda.html
-2. Execute the installer
 ```
-$ bash Miniconda3-latest-Linux-x86_64.sh
+$ pip install -r requirements.txt
 ```
-3. Follow the prompts on the installer screens
-4. Install jupyterlab
-```
-$ conda install jupyterlab
-```
-5. Install other dependencies
-```
-$ conda install pandas
-$ pip install durationpy  # Be sure you are using conda's pip
-$ conda install -c phlya adjusttext
-```
-Once jupyter notebooks and the dependencies are installed, the charts can be generated using the following commands:
 
+Launch a server to access generated charts in Jupyter notebooks:
 ```
 $ cd notebooks
 $ jupyter-notebook
 ```
-A web server will be launched with the already generated charts, where you can also execute each step.
+
+Follow the instructions on the console to access the notebook from the browser.
 
 ## Generate charts using python script
 
