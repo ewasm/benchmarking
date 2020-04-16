@@ -3,8 +3,24 @@ FROM ubuntu:19.10
 # System deps
 RUN apt-get clean
 RUN apt-get update
-RUN apt-get install -y software-properties-common git sudo build-essential wget curl nano \
-    autoconf automake libtool llvm-6.0 make ninja-build unzip zlib1g-dev texinfo libssl-dev
+RUN apt-get install -y software-properties-common gnupg1 cmake gcc-8 g++-8 \
+        libboost-all-dev git sudo build-essential wget curl \
+        ninja-build libssl-dev
+
+WORKDIR /engines
+
+RUN wget -qO - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+RUN apt update && apt install -y \
+	libllvm9 \
+	llvm-9 \
+	llvm-9-dev \
+	llvm-9-runtime \
+	libclang-common-9-dev # for yaml-bench
+
+RUN git clone https://github.com/hugo-dc/SSVM.git --single-branch --branch bench
+RUN cd SSVM && git pull origin bench && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF .. && make
+
+RUN apt remove -y cmake
 
 # Install CMake
 RUN wget https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4.tar.gz
@@ -33,8 +49,6 @@ RUN apt install -y clang-8 lldb-8 lld-8
 
 RUN ln -s /usr/bin/clang-8 /usr/bin/clang && \
     ln -s /usr/bin/clang++-8 /usr/bin/clang++
-
-WORKDIR /engines
 
 # install life
 RUN git clone --single-branch --branch bench-times https://github.com/cdetrio/life
@@ -70,6 +84,10 @@ RUN apt install -y g++-7
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 10
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 10
 
+# Downgrade LLVM
+RUN apt remove -y libllvm9 llvm-9 llvm-9-dev llvm-9-runtime libclang-common-9-dev
+RUN apt install -y llvm-6.0
+
 # install wavm
 RUN git clone --single-branch --branch bench-compile-time https://github.com/cdetrio/WAVM
 RUN mkdir wavm-build
@@ -83,6 +101,7 @@ RUN cd wavm-build && ninja
 
 
 ## wasmer superseded by wasmtime
+
 # install wasmer
 # download wasmer binary
 #RUN curl https://get.wasmer.io -sSfL | sh
@@ -95,6 +114,7 @@ RUN cd wavm-build && ninja
 #RUN cd wasmer && cargo build --release
 # bug where running wasmer v0.1.4 with python `Popen(stderr=subprocess.STDOUT)`
 # causes an error: `Runtime error: trap at 0x0 - illegal instruction`.
+
 # the fix is to run Popen without the stderr flag.
 #RUN rustup default nightly-2019-01-15
 #RUN git clone --single-branch --branch bench-compile-time https://github.com/cdetrio/wasmer.git wasmer-master
@@ -168,7 +188,7 @@ RUN tar -xvf asmble-0.4.2-fl-bench-times.tar
 
 # install wamr (interpreter, aot, jit)
 RUN git clone https://github.com/hugo-dc/wasm-micro-runtime.git --single-branch --branch benchmark
-RUN cd wasm-micro-runtime && git pull origin benchmark
+RUN cd wasm-micro-runtime
 ## Build LLVM
 RUN cd wasm-micro-runtime/product-mini/platforms/linux && ./build_llvm.sh 
 ## Build JIT
@@ -187,7 +207,6 @@ RUN update-alternatives --remove-all gcc
 RUN update-alternatives --remove-all g++
 RUN apt install -y gcc-9
 RUN apt install -y g++-9
-
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 1
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 1
 

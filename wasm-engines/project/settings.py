@@ -46,7 +46,7 @@ vm_descriptors = {
     "wamr-aot" : VMDescriptor("/engines/wasm-micro-runtime/wamr_aot.sh", "{function_name} {wasm_file_path}"), 
     "wasm3" : VMDescriptor("/engines/wasm3/build/wasm3", "--func {function_name} {wasm_file_path}"),
     "fizzy" : VMDescriptor("/engines/fizzy/fizzy.sh", "{function_name} {wasm_file_path}"),
-
+    "ssvm"  : VMDescriptor("/engines/SSVM/build/tools/ssvm/ssvm", "{wasm_file_path} {function_name}"),
     # "wasmer" : VMDescriptor("/engines/wasmer/target/release/wasmer", "run {wasm_file_path}", True),
     # we have binaryen, but calling wasm-shell -e main is not working
 }

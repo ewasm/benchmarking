@@ -152,6 +152,8 @@ class WasmVMBencher:
             result_record = self.do_wasm3_test(cmd)
         elif vm == "fizzy":
             result_record = self.do_fizzy_test(cmd)
+        elif vm == "ssvm":
+            result_record = self.do_ssvm_test(cmd)
         else:
             result_record = self.doElapsedTest(cmd)
 
@@ -418,6 +420,33 @@ class WasmVMBencher:
                 'exec_line_num' : -1,
                 'compile_regex' : "fizzy\/instantiate\/testcase\s+([\w\.]+)",
                 'exec_regex': "fizzy\/execute\/testcase\/test\s+([\w\.]+)"
+        }
+        return self.doCompilerTest(vm_cmd, time_parse_info)
+
+    def do_ssvm_test(self, vm_cmd):
+        """
+        Instantiation time: 0.003753s
+        2020-04-22 13:49:02,940 DEBUG [default] [user@fe598b959cdc] [SSVM::Expect<void> SSVM::Interpreter::Interpreter::runFunction(SSVM::Runtime::StoreManager&, const SSVM::Run
+        time::Instance::FunctionInstance&)] [/engines/SSVM/lib/interpreter/engine/engine.cpp:33] Start running...
+        2020-04-22 13:49:02,945 DEBUG [default] [user@fe598b959cdc] [SSVM::Expect<void> SSVM::Interpreter::Interpreter::runFunction(SSVM::Runtime::StoreManager&, const SSVM::Run
+        time::Instance::FunctionInstance&)] [/engines/SSVM/lib/interpreter/engine/engine.cpp:36] Execution succeeded.
+        2020-04-22 13:49:02,945 DEBUG [default] [user@fe598b959cdc] [SSVM::Expect<void> SSVM::Interpreter::Interpreter::runFunction(SSVM::Runtime::StoreManager&, const SSVM::Run
+        time::Instance::FunctionInstance&)] [/engines/SSVM/lib/interpreter/engine/engine.cpp:44] Done.
+        2020-04-22 13:49:02,945 DEBUG [default] [user@fe598b959cdc] [SSVM::Expect<void> SSVM::Interpreter::Interpreter::runFunction(SSVM::Runtime::StoreManager&, const SSVM::Run
+        time::Instance::FunctionInstance&)] [/engines/SSVM/lib/interpreter/engine/engine.cpp:52] 
+        =================  Statistics  =================
+        Total execution time: 4448us
+        Wasm instructions execution time: 4448us
+        Host functions execution time: 0us
+        Executed wasm instructions count: 137054
+        Gas costs: 137054
+        Instructions per second: 30812500
+        """
+        time_parse_info = {
+            'compile_line_num': 0,
+            'exec_line_num': -6,
+            'compile_regex' : "Instantiation time: ([\w\.]+)",
+            'exec_regex' : "Total execution time: ([\w\.]+)"
         }
         return self.doCompilerTest(vm_cmd, time_parse_info)
 
