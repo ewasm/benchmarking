@@ -193,22 +193,12 @@ RUN rustup target add wasm32-unknown-unknown
 
 # copy benchmarking scripts
 RUN mkdir /benchrunner
-COPY project /benchrunner/project
 COPY main.py /benchrunner
 COPY wamr_aot.sh /engines/wasm-micro-runtime/
 COPY fizzy.sh /engines/fizzy/
 
 # copy scripts to generate standalone wasm modules
 RUN mkdir /benchprep
-COPY benchnativerust_prepwasm.py /benchprep
-COPY nanodurationpy.py /benchprep
-COPY rust-code /benchprep/rust-code
-COPY inputvectors /benchprep/inputvectors
-COPY benchmeteredstandalone.sh /benchprep
-RUN chmod +x /benchprep/benchmeteredstandalone.sh
-COPY bench_wasm_and_native.sh /benchprep
-RUN chmod +x /benchprep/bench_wasm_and_native.sh
-
 
 RUN mkdir -p /benchmark_results_data
 
