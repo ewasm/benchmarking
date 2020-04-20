@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # first compile standalone wasm files from rust code, and benchmark native rust
 # later, benchmark the standalone wasm files in all the wasm engines
 
@@ -59,5 +61,9 @@ done
 
 # benchmark standalone wasm files in all the engines
 
+echo "running benchmarks"
 cd /benchrunner
 python3.7 main.py --wasmdir="${WASM_MINIFIED_DIR}" --csvfile="${CSV_WASM_RESULTS}" |& tee wasm-engines-run1.log
+
+# Reset the uid/gid of files modified to that of the user who is invoking the container. (TODO don't hardcode gid/uid)
+chown -R 1000:1000 /benchrunner /benchprep /benchmark_results_data
