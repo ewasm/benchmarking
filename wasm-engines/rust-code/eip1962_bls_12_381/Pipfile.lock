@@ -1,0 +1,70 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "0546cb4874e3ac6414841cac8bc4d42040122c267506430b25d748b8266f2a82"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.8"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "cytoolz": {
+            "hashes": [
+                "sha256:82f5bba81d73a5a6b06f2a3553ff9003d865952fcb32e1df192378dd944d8a5c"
+            ],
+            "markers": "implementation_name == 'cpython'",
+            "version": "==0.10.1"
+        },
+        "eth-hash": {
+            "hashes": [
+                "sha256:1b9cb34dd3cd99c85c2bd6a1420ceae39a2eee8bf080efd264bcda8be3edecc8",
+                "sha256:499dc02d098f69856d1a6dd005529c16174157d4fb2a9fe20c41f69e39f8f176"
+            ],
+            "version": "==0.2.0"
+        },
+        "eth-typing": {
+            "hashes": [
+                "sha256:2f3e1f891226148898b219bd94674a9af06c2d75d8cdd8c6722227b472cbd4d4",
+                "sha256:cf9e5e9fb62cfeb1027823328569315166851c65c5774604d801b6b926ff65bc"
+            ],
+            "version": "==2.2.1"
+        },
+        "eth-utils": {
+            "hashes": [
+                "sha256:8358318685e7a7666b148b07df3c4d409435b424dce18501e79920aa52bcaba7",
+                "sha256:f398c649859cda5ef7c4ee2753468038d93be7d864de7631c06c3e73a7060649"
+            ],
+            "version": "==1.8.4"
+        },
+        "mypy-extensions": {
+            "hashes": [
+                "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d",
+                "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"
+            ],
+            "version": "==0.4.3"
+        },
+        "py-ecc": {
+            "hashes": [
+                "sha256:0ad540e3a3df332692e35dfac8e550592c345b249d54d6d6c9a91f57bd2a75af",
+                "sha256:c32cb3aa13b6d5a555f6cad629fb5d2d4af3cd607f239c3422654e1df208ed78"
+            ],
+            "index": "pypi",
+            "version": "==2.0.0"
+        },
+        "toolz": {
+            "hashes": [
+                "sha256:08fdd5ef7c96480ad11c12d472de21acd32359996f69a5259299b540feba4560"
+            ],
+            "version": "==0.10.0"
+        }
+    },
+    "develop": {}
+}
