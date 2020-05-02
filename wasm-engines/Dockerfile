@@ -1,4 +1,4 @@
-FROM ubuntu:19.04
+FROM ubuntu:19.10
 
 # System deps
 RUN apt-get clean
@@ -53,11 +53,18 @@ ENV PATH=/root/.cargo/bin:$PATH
 
 RUN rustup default 1.31.0
 
+RUN apt install -y gcc-8
+RUN apt install -y g++-8
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 10
+RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 10
+
 # install wasmi
 RUN git clone --single-branch --branch bench-time https://github.com/cdetrio/wasmi.git --recursive
 RUN cd wasmi && cargo test --release
 
 # Use old gcc/g++ for wavm (needed by wavm)
+RUN update-alternatives --remove-all gcc
+RUN update-alternatives --remove-all g++
 RUN apt install -y gcc-7
 RUN apt install -y g++-7
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 10
@@ -146,9 +153,13 @@ COPY node-timer.js ./node/node-timer.js
 #RUN apt-get clean 
 #RUN rm -rf /var/cache/oracle-jdk${JAVA_VER}-installer
 
+ENV JAVA_VER 8
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+RUN apt-get install -y openjdk-8-jre
+
 # install asmble
-#RUN wget https://github.com/cdetrio/asmble/releases/download/0.4.2-fl-bench-times/asmble-0.4.2-fl-bench-times.tar
-#RUN tar -xvf asmble-0.4.2-fl-bench-times.tar
+RUN wget https://github.com/cdetrio/asmble/releases/download/0.4.2-fl-bench-times/asmble-0.4.2-fl-bench-times.tar
+RUN tar -xvf asmble-0.4.2-fl-bench-times.tar
 
 # install wag
 #RUN apt-get install -y libcapstone-dev
