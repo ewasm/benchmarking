@@ -139,7 +139,19 @@ def saveResults(precompile_benchmarks):
             writer.writerow({"test_name" : test_result['name'], "gas" : test_result['gas'], "time" : test_result['time']})
 
 
+def apply_patch_for_ecpairing_input():
+    git_cmd = shlex.split("git apply /scripts/geth_ecpairing_precompile_rollup_input.patch")
+    print("applying patch to add ecpairing rollup input to geth precompile benchmarks...\n{}".format(git_cmd))
+
+    with subprocess.Popen(git_cmd, cwd="/go-ethereum/", stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True) as p:
+        for line in p.stdout: # b'\n'-separated lines
+            print(line, end='')
+        p.wait()
+
+
+
 def main():
+    apply_patch_for_ecpairing_input()
     bench_output = do_go_precompile_bench()
     bench_results = parse_go_bench_output(bench_output)
     print("got precompile benchmarks:", bench_results)
