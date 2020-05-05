@@ -148,6 +148,8 @@ RUN cd wabt-bn128-rolluprs-fastmont-fasthost-superops && make clang-release
 RUN git clone --recursive --single-branch --branch bls12-bignums-fastmont-superops https://github.com/ewasm/wabt.git wabt-bls12-fastmont-fasthost-superops
 RUN cd wabt-bls12-fastmont-fasthost-superops && make clang-release
 
+RUN git clone --recursive --single-branch --branch bls12-bignums-fasthost-fastmont-no-superops https://github.com/ewasm/wabt.git bls12-bignums-fasthost-fastmont-no-superops
+RUN cd bls12-bignums-fasthost-fastmont-no-superops && make clang-release
 
 
 # install scout.cpp branch with bignum host functions for bn128
@@ -220,9 +222,11 @@ RUN cp /scoutyamls/rollup-rs-no-bignums/rolluprs.yaml /scoutyamls/scout.ts-bn128
 RUN git clone https://github.com/cdetrio/rollup.rs --single-branch --branch benchreport-scout-bignums rollup-rs-with-bignums
 RUN cd rollup-rs-with-bignums && cargo build --lib --release
 
+RUN rustup default nightly-2020-04-23
 
 # clone eip1962-bls12.rs native
 RUN git clone --single-branch --branch benchreport https://github.com/cdetrio/eip1962-bls12-381-bench.git eip1962-bls12-rs-native
+RUN cd eip1962-bls12-rs-native && git submodule update --init
 RUN cd eip1962-bls12-rs-native && cargo build --release
 
 # copy the python script to run the benchmarks
