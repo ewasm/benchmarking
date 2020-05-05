@@ -72,7 +72,21 @@ WABT_BENCH_INFOS = [
     'wabt_bin_path': '/engines/wabt-biturbo-no-superops/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/biturbo/',
     'yaml_file_rel_path': 'turbo-token-realistic.yaml'
-  }
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-superops',
+    'wabt_bin_path': '/engines/wabt-bls12-fastmont-fasthost-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-no-bignums',
+    'wabt_bin_path': '/engines/wabt-bls12-fastmont-fasthost-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing_nobignums.yaml'
+  },
 ]
 
 
@@ -372,7 +386,19 @@ V8_BENCH_INFOS = [
     'engine_name': 'v8-interpreter',
     'scoutts_cmd': 'node --wasm-interpret-all node_modules/scout.ts/dist/cli.js turbo-token-realistic.yaml',
     'scoutts_working_dir': '/scoutyamls/biturbo/'
-  }
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'v8-liftoff',
+    'scoutts_cmd': 'node --liftoff --no-wasm-tier-up node_modules/scout.ts/dist/cli.js bls12pairing_nobignums.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bls12/'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'v8-turbofan',
+    'scoutts_cmd': 'npm run start:turbofan bls12pairing_nobignums.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bls12/'
+  },
 ]
 
 
@@ -382,6 +408,11 @@ RUST_NATIVE_BENCH_INFOS = [
     'bench_name': 'ecpairing-zkrollup-rust-native-bn128-two-pairings',
     'engine_name': 'rust-native',
     'native_bin_path': '/scoutyamls/rollup-rs-native/target/release/rollup_rs'
+  },
+  {
+    'bench_name': 'bls12-eip1962-rust-native-two-pairings',
+    'engine_name': 'rust-native',
+    'native_bin_path': '/scoutyamls/eip1962-bls12-rs-native/target/release/rollup_rs'
   }
 ]
 

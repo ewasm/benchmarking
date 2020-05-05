@@ -144,19 +144,24 @@ RUN cd wabt-bn128-rolluprs-fastmont-fasthost-superops && make clang-release
 #RUN cd wabt-bn128-rolluprs-fastmont-slowhost && make clang-release
 
 
+# wabt branch for wasmsnark bls12
+RUN git clone --recursive --single-branch --branch bls12-bignums-fastmont-superops https://github.com/ewasm/wabt.git wabt-bls12-fastmont-fasthost-superops
+RUN cd wabt-bls12-fastmont-fasthost-superops && make clang-release
+
+
 
 # install scout.cpp branch with bignum host functions for bn128
-RUN git clone --recursive --single-branch --branch bignum-host-funcs https://github.com/cdetrio/scout.cpp.git scoutcpp-bn128
+#RUN git clone --recursive --single-branch --branch bignum-host-funcs https://github.com/cdetrio/scout.cpp.git scoutcpp-bn128
 # commit 7afd65dda637436151d69fb47d22034c2ecfea45 (fix interleaved)
-RUN cd scoutcpp-bn128 && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make
+#RUN cd scoutcpp-bn128 && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make
 
 # install scout.cpp branch with bignum host functions for secp256k1
-RUN git clone --recursive --single-branch --branch bignum-hostfuncs-secp256k1 https://github.com/cdetrio/scout.cpp.git scoutcpp-secp
-RUN cd scoutcpp-secp && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make
+#RUN git clone --recursive --single-branch --branch bignum-hostfuncs-secp256k1 https://github.com/cdetrio/scout.cpp.git scoutcpp-secp
+#RUN cd scoutcpp-secp && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make
 
 # install scout.cpp branch for rollup.rs
-RUN git clone --recursive --single-branch --branch bignum-hostfuncs-bn128-rolluprs https://github.com/cdetrio/scout.cpp.git scoutcpp-bn128-rolluprs
-RUN cd scoutcpp-bn128-rolluprs && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make
+#RUN git clone --recursive --single-branch --branch bignum-hostfuncs-bn128-rolluprs https://github.com/cdetrio/scout.cpp.git scoutcpp-bn128-rolluprs
+#RUN cd scoutcpp-bn128-rolluprs && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make
 
 
 WORKDIR /scoutyamls
@@ -177,6 +182,11 @@ RUN cd daiquiri && npm install && npm run build
 RUN git clone https://github.com/ewasm/biturbo.git --single-branch --branch scout-benchreport biturbo
 RUN cd biturbo && npm install && npm run build
 RUN cd biturbo && npm run token:relayer:realistic && npm run token:build
+
+# clone scout.ts branch with bls12
+RUN git clone https://github.com/ewasm/scout.ts.git --single-branch --branch bls12-benchreport scout.ts-bls12
+RUN cd scout.ts-bls12 && npm install && npm run build
+
 
 # clone c_ewasm_contracts (commit 29356a22ea38cf2f1bbab05a4b8974822834f4e7)
 RUN git clone https://github.com/poemm/C_ewasm_contracts.git --single-branch --branch master C_ewasm_contracts
@@ -210,6 +220,10 @@ RUN cp /scoutyamls/rollup-rs-no-bignums/rolluprs.yaml /scoutyamls/scout.ts-bn128
 RUN git clone https://github.com/cdetrio/rollup.rs --single-branch --branch benchreport-scout-bignums rollup-rs-with-bignums
 RUN cd rollup-rs-with-bignums && cargo build --lib --release
 
+
+# clone eip1962-bls12.rs native
+RUN git clone --single-branch --branch benchreport https://github.com/cdetrio/eip1962-bls12-381-bench.git eip1962-bls12-rs-native
+RUN cd eip1962-bls12-rs-native && cargo build --release
 
 # copy the python script to run the benchmarks
 RUN mkdir /benchscript
