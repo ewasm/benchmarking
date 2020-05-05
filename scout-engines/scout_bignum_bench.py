@@ -107,6 +107,34 @@ WABT_BENCH_INFOS = [
     'wabt_bin_path': '/engines/bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
     'yaml_file_rel_path': 'bls12pairing-f1m_mul-f1m_add-f1m_sub.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-f1m_mul-f1m_add-f1m_sub-int_mul',
+    'wabt_bin_path': '/engines/bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing-f1m_mul-f1m_add-f1m_sub-int_mul.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-f1m_mul-f1m_add-f1m_sub-int_mul-int_add',
+    'wabt_bin_path': '/engines/bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing-f1m_mul-f1m_add-f1m_sub-int_mul-int_add.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-f1m_mul-f1m_add-f1m_sub-int_mul-int_add-int_sub',
+    'wabt_bin_path': '/engines/bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing-f1m_mul-f1m_add-f1m_sub-int_mul-int_add-int_sub.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-f1m_mul-f1m_add-f1m_sub-int_mul-int_add-int_sub-int_div',
+    'wabt_bin_path': '/engines/bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing-f1m_mul-f1m_add-f1m_sub-int_mul-int_add-int_sub-int_div.yaml'
   }
 ]
 
