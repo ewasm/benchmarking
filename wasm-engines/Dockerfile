@@ -17,8 +17,8 @@ RUN apt update && apt install -y \
 	llvm-9-runtime \
 	libclang-common-9-dev # for yaml-bench
 
-RUN git clone https://github.com/hugo-dc/SSVM.git --single-branch --branch bench
-RUN cd SSVM && git pull origin bench && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF .. && make
+RUN git clone https://github.com/ewasm-benchmarking/SSVM.git --single-branch --branch bench
+RUN cd SSVM && mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF .. && make
 
 RUN apt remove -y cmake
 
