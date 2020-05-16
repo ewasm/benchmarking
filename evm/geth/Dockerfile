@@ -25,9 +25,9 @@ RUN pip3 install durationpy jinja2 pandas
 RUN add-apt-repository ppa:longsleep/golang-backports && apt-get update && apt-get install -y golang-go
 
 # install geth
-RUN go get -u -v github.com/ethereum/go-ethereum
-RUN cd /root/go/src/github.com/ethereum/go-ethereum && git pull origin master && make all
-RUN ln -s /root/go/src/github.com/ethereum/go-ethereum /go-ethereum
+RUN go get -u -v github.com/ewasm-benchmarking/go-ethereum
+RUN cd /root/go/src/github.com/ewasm-benchmarking/go-ethereum && git pull origin master && make all
+RUN ln -s /root/go/src/github.com/ewasm-benchmarking/go-ethereum /go-ethereum
 
 WORKDIR /
 RUN mkdir -p /evmraceresults

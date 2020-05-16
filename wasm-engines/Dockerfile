@@ -37,13 +37,13 @@ RUN ln -s /usr/bin/clang-8 /usr/bin/clang && \
 WORKDIR /engines
 
 # install life
-RUN git clone --single-branch --branch bench-times https://github.com/cdetrio/life
+RUN git clone --single-branch --branch bench-times https://github.com/ewasm-benchmarking/life
 RUN cd life && go mod vendor
 RUN cd life && go build
 
 
 # install wagon
-RUN git clone --single-branch --branch bench-times https://github.com/cdetrio/wagon
+RUN git clone --single-branch --branch bench-times https://github.com/ewasm-benchmarking/wagon
 RUN cd wagon/cmd/wasm-run && go build
 
 # install rust
@@ -51,7 +51,6 @@ RUN curl https://sh.rustup.rs -sSf | \
     sh -s -- --default-toolchain stable -y && . $HOME/.cargo/env
 ENV PATH=/root/.cargo/bin:$PATH
 
-RUN rustup default 1.31.0
 
 RUN apt install -y gcc-8
 RUN apt install -y g++-8
@@ -59,7 +58,7 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 10
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 10
 
 # install wasmi
-RUN git clone --single-branch --branch bench-time https://github.com/cdetrio/wasmi.git --recursive
+RUN git clone --single-branch --branch bench-time https://github.com/ewasm-benchmarking/wasmi.git --recursive
 RUN cd wasmi && cargo test --release
 
 # Use old gcc/g++ for wavm (needed by wavm)
@@ -71,7 +70,7 @@ RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 10
 RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 10
 
 # install wavm
-RUN git clone --single-branch --branch bench-compile-time https://github.com/cdetrio/WAVM
+RUN git clone --single-branch --branch bench-compile-time https://github.com/ewasm-benchmarking/WAVM
 RUN mkdir wavm-build
 RUN cd wavm-build && cmake -G Ninja ../WAVM -DCMAKE_BUILD_TYPE=RelWithDebInfo
 RUN cd wavm-build && ninja
@@ -100,15 +99,17 @@ RUN cd wavm-build && ninja
 #RUN git clone --single-branch --branch bench-compile-time https://github.com/cdetrio/wasmer.git wasmer-master
 #RUN cd wasmer-master && cargo build --release
 
+#RUN rustup default 1.31.0
+RUN rustup default nightly
 
 # install wasmtime
-RUN rustup default nightly-2019-01-15
-RUN git clone --single-branch --branch bench-times https://github.com/cdetrio/wasmtime.git
+#RUN rustup default nightly-2019-01-15
+RUN git clone --single-branch --branch bench-times https://github.com/ewasm-benchmarking/wasmtime.git
 RUN cd wasmtime && cargo build --release
 
 
 # install wabt
-RUN git clone --recursive --single-branch --branch bench-times https://github.com/cdetrio/wabt.git
+RUN git clone --recursive --single-branch --branch bench-times https://github.com/ewasm-benchmarking/wabt.git
 RUN mkdir wabt/build && cd wabt/build && cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF .. && make
 
 
@@ -158,8 +159,8 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 RUN apt-get install -y openjdk-8-jre
 
 # install asmble
-RUN wget https://github.com/cdetrio/asmble/releases/download/0.4.2-fl-bench-times/asmble-0.4.2-fl-bench-times.tar
-RUN tar -xvf asmble-0.4.2-fl-bench-times.tar
+RUN wget https://github.com/ewasm-benchmarking/asmble/archive/0.4.2-fl-bench-times.tar.gz
+RUN tar -xvf 0.4.2-fl-bench-times.tar.gz
 
 # install wag
 #RUN apt-get install -y libcapstone-dev
@@ -167,7 +168,7 @@ RUN tar -xvf asmble-0.4.2-fl-bench-times.tar
 #RUN cd wag && go build ./cmd/ethereum/...
 
 # install wamr (interpreter, aot, jit)
-RUN git clone https://github.com/hugo-dc/wasm-micro-runtime.git --single-branch --branch benchmark
+RUN git clone https://github.com/ewasm-benchmarking/wasm-micro-runtime.git --single-branch --branch benchmark
 RUN cd wasm-micro-runtime && git pull origin benchmark
 ## Build LLVM
 RUN cd wasm-micro-runtime/product-mini/platforms/linux && ./build_llvm.sh 
@@ -179,7 +180,7 @@ RUN cd wasm-micro-runtime/product-mini/platforms/linux && mkdir build_interp && 
 RUN cd wasm-micro-runtime/wamr-compiler && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
 # install wasm3
-RUN git clone https://github.com/hugo-dc/wasm3.git --single-branch --branch benchmark
+RUN git clone https://github.com/ewasm-benchmarking/wasm3.git --single-branch --branch benchmark
 RUN cd wasm3 && mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release .. && make
 
 # Update gcc/g++

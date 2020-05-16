@@ -32,7 +32,7 @@ RUN rustup default nightly-2019-01-15
 RUN rustup target add wasm32-unknown-unknown
 
 # install parity-evm
-RUN git clone --recursive --single-branch --branch evm-code-bencher https://github.com/cdetrio/parity
+RUN git clone --recursive --single-branch --branch evm-code-bencher https://github.com/ewasm-benchmarking/openethereum parity
 RUN cd parity/evmbin && cargo build --release
 
 # deps required to build full parity for native precompile benchmarks
