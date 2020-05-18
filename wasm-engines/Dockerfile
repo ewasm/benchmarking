@@ -99,11 +99,9 @@ RUN cd wavm-build && ninja
 #RUN git clone --single-branch --branch bench-compile-time https://github.com/cdetrio/wasmer.git wasmer-master
 #RUN cd wasmer-master && cargo build --release
 
-#RUN rustup default 1.31.0
 RUN rustup default nightly
 
 # install wasmtime
-#RUN rustup default nightly-2019-01-15
 RUN git clone --single-branch --branch bench-times https://github.com/ewasm-benchmarking/wasmtime.git
 RUN cd wasmtime && cargo build --release
 

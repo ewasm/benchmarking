@@ -23,7 +23,6 @@ RUN curl https://sh.rustup.rs -sSf | \
     sh -s -- --default-toolchain stable -y && . $HOME/.cargo/env
 ENV PATH=/root/.cargo/bin:$PATH
 
-#RUN rustup default nightly-2019-01-15
 RUN rustup default nightly
 
 # install cita-vm
