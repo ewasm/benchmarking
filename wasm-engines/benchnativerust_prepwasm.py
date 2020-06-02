@@ -11,6 +11,7 @@ import os
 import shutil
 import glob
 import argparse
+import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--wasmoutdir', help='full path of dir containing wasm files')
@@ -95,9 +96,13 @@ def do_rust_bench(benchname, input, rust_code_dir, wasm_out_dir):
     rust_native_cmd = "cargo build --release --bin {}_native".format(benchname_rust)
     print("compiling rust native {}...\n{}".format(input['name'], rust_native_cmd))
     rust_process = subprocess.Popen(rust_native_cmd, cwd=filldir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
-    rust_process.wait(None)
+    return_code = rust_process.wait(None)
     stdoutlines = [str(line, 'utf8') for line in rust_process.stdout]
     print(("").join(stdoutlines), end="")
+
+    if return_code != 0:
+        sys.exit(-1)
+
     # native binary is at ./target/release/sha1_native
     exec_path = "{}/target/release/{}_native".format(filldir, benchname_rust)
     exec_size = os.path.getsize(exec_path)
@@ -109,9 +114,11 @@ def do_rust_bench(benchname, input, rust_code_dir, wasm_out_dir):
     rust_wasm_cmd = "cargo build --release --lib --target wasm32-unknown-unknown"
     print("compiling rust wasm {}...\n{}".format(input['name'], rust_wasm_cmd))
     rust_process = subprocess.Popen(rust_wasm_cmd, cwd=filldir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
-    rust_process.wait(None)
+    return_code = rust_process.wait(None)
     stdoutlines = [str(line, 'utf8') for line in rust_process.stdout]
     print(("").join(stdoutlines), end="")
+    if return_code != 0:
+        sys.exit(-1)
     # wasm is at ./target/wasm32-unknown-unkown/release/sha1_wasm.wasm
     wasmbin = "{}/target/wasm32-unknown-unknown/release/{}_wasm.wasm".format(filldir, benchname_rust)
     wasmdir = os.path.abspath(wasm_out_dir)
