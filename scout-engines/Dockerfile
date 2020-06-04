@@ -1,4 +1,4 @@
-FROM ubuntu:19.04
+FROM ubuntu:19.10
 
 # System deps
 RUN apt-get clean
@@ -15,7 +15,7 @@ RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
     apt-get update
 
 
-RUN apt-get install -y libllvm-10-ocaml-dev libllvm10 llvm-10 llvm-10-dev llvm-10-doc llvm-10-examples llvm-10-runtime
+RUN apt-get install -y libllvm10 llvm-10 llvm-10-dev llvm-10-doc llvm-10-examples llvm-10-runtime
 RUN apt-get install -y clang-10 clang-tools-10 clang-10-doc libclang-common-10-dev libclang-10-dev libclang1-10 clang-format-10
 RUN apt-get install -y lldb-10 lld-10 libc++-10-dev libc++abi-10-dev
 
@@ -148,9 +148,16 @@ RUN cd wabt-bn128-rolluprs-fastmont-fasthost-superops && make clang-release
 RUN git clone --recursive --single-branch --branch bls12-bignums-fastmont-superops https://github.com/ewasm/wabt.git wabt-bls12-fastmont-fasthost-superops
 RUN cd wabt-bls12-fastmont-fasthost-superops && make clang-release
 
+# for the "host func variations" (i.e. using host funcs for [f1m_mul], [f1m_mul, f1m_add], [f1m_mul, f1m_add, f1m_sub], ...)
+# we need to use the no-superops wabt branch because there's a bug in superops triggered by the wasm code in one of {int_mul, int_sub, int_add, int_div} (I can't remember which)
 RUN git clone --recursive --single-branch --branch bls12-bignums-fasthost-fastmont-no-superops https://github.com/ewasm/wabt.git wabt-bls12-bignums-fasthost-fastmont-no-superops
 RUN cd wabt-bls12-bignums-fasthost-fastmont-no-superops && make clang-release
 
+
+# Note: these scout.cpp branches are disabled because the wabt version scout.cpp is based on is slower than the wabt version used in the `github.com/ewasm/wabt` branches
+# We don't know why scout.cpp is slower than `github.com/ewasm/wabt`, in theory it should be the same speed.
+# scout.cpp is based on a later version of wabt (wabt-2020), `github.com/ewasm/wabt` is an older version (wabt-2018).
+# There might be a performance regression in later versions of wabt.
 
 # install scout.cpp branch with bignum host functions for bn128
 #RUN git clone --recursive --single-branch --branch bignum-host-funcs https://github.com/cdetrio/scout.cpp.git scoutcpp-bn128
@@ -185,10 +192,14 @@ RUN git clone https://github.com/ewasm/biturbo.git --single-branch --branch scou
 RUN cd biturbo && npm install && npm run build
 RUN cd biturbo && npm run token:relayer:realistic && npm run token:build
 
+# TODO: for the bls12 branch (and probably the other scout.ts branches), doing `npm run build` in the scout.ts dir
+# will build the scout.ts runner. In `scout.ts/assembly/bls12-pairing`, `npm run build` will build the wasm file.
+# Building the wasm file is currently fragile, and won't work if the right `asc` version isn't installed.
+# Need to investigate what the right `asc` version is, or fix so it builds on later asc versions.
+# For now, the wasm builds are pushed to the repo. The `npm run build` below only builds the scout.ts runner.
+
 # clone scout.ts branch with bls12
-#RUN git clone https://github.com/ewasm/scout.ts.git --single-branch --branch bls12-benchreport scout.ts-bls12
-# TODO: rename branch bls12-full-input to bls12-benchreport
-RUN git clone https://github.com/ewasm/scout.ts.git --single-branch --branch bls12-full-input scout.ts-bls12
+RUN git clone https://github.com/ewasm/scout.ts.git --single-branch --branch bls12-bench-report scout.ts-bls12
 RUN cd scout.ts-bls12 && npm install && npm run build
 
 
