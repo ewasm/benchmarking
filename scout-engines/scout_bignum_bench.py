@@ -72,15 +72,87 @@ WABT_BENCH_INFOS = [
     'wabt_bin_path': '/engines/wabt-biturbo-no-superops/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/biturbo/',
     'yaml_file_rel_path': 'turbo-token-realistic.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-superops',
+    'wabt_bin_path': '/engines/wabt-bls12-fastmont-fasthost-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-superops',
+    'wabt_bin_path': '/engines/wabt-bls12-fastmont-fasthost-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-f1m_mul',
+    'wabt_bin_path': '/engines/wabt-bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing-f1m_mul.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-f1m_mul-f1m_add',
+    'wabt_bin_path': '/engines/wabt-bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing-f1m_mul-f1m_add.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-f1m_mul-f1m_add-f1m_sub',
+    'wabt_bin_path': '/engines/wabt-bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing-f1m_mul-f1m_add-f1m_sub.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-f1m_mul-f1m_add-f1m_sub-int_mul',
+    'wabt_bin_path': '/engines/wabt-bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing-f1m_mul-f1m_add-f1m_sub-int_mul.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-f1m_mul-f1m_add-f1m_sub-int_mul-int_add',
+    'wabt_bin_path': '/engines/wabt-bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing-f1m_mul-f1m_add-f1m_sub-int_mul-int_add.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-f1m_mul-f1m_add-f1m_sub-int_mul-int_add-int_sub',
+    'wabt_bin_path': '/engines/wabt-bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing-f1m_mul-f1m_add-f1m_sub-int_mul-int_add-int_sub.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-fastmont-fasthost-f1m_mul-f1m_add-f1m_sub-int_mul-int_add-int_sub-int_div',
+    'wabt_bin_path': '/engines/wabt-bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing-f1m_mul-f1m_add-f1m_sub-int_mul-int_add-int_sub-int_div.yaml'
   }
 ]
 
+# on bls12-wasmsnark-two-pairings wabt-no-bignums, we can use any wabt that doesn't have superops
+#   (some of the code in one of the big_int implementations of wasmsnark triggers a bug)
 
 
 # use wabt/wasm-interp instead of wabt/benchmark-interp
 # benchmark-interp loops over calls to main() without zeroing out memory or re-instantiating the wasm instance
 # some wasm modules support repeated calls to main(). Daiqiuri doesn't, so use wasm-interp instead of benchmark-interp
 WABT_BENCH_MANUAL_INFOS = [
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'wabt-no-bignums',
+    'wabt_bin_path': '/engines/wabt-biturbo-no-superops/out/clang/Release/wasm-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
+    'yaml_file_rel_path': 'bls12pairing_nobignums.yaml'
+  },
   {
     'bench_name': 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc',
     'engine_name': 'wabt-fasthost-bignums',
@@ -372,7 +444,19 @@ V8_BENCH_INFOS = [
     'engine_name': 'v8-interpreter',
     'scoutts_cmd': 'node --wasm-interpret-all node_modules/scout.ts/dist/cli.js turbo-token-realistic.yaml',
     'scoutts_working_dir': '/scoutyamls/biturbo/'
-  }
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'v8-liftoff',
+    'scoutts_cmd': 'node --liftoff --no-wasm-tier-up dist/cli.js bls12pairing_nobignums.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bls12/'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings',
+    'engine_name': 'v8-turbofan',
+    'scoutts_cmd': 'npm run start:turbofan bls12pairing_nobignums.yaml',
+    'scoutts_working_dir': '/scoutyamls/scout.ts-bls12/'
+  },
 ]
 
 
@@ -382,6 +466,11 @@ RUST_NATIVE_BENCH_INFOS = [
     'bench_name': 'ecpairing-zkrollup-rust-native-bn128-two-pairings',
     'engine_name': 'rust-native',
     'native_bin_path': '/scoutyamls/rollup-rs-native/target/release/rollup_rs'
+  },
+  {
+    'bench_name': 'bls12-eip1962-rust-native-two-pairings',
+    'engine_name': 'rust-native',
+    'native_bin_path': '/scoutyamls/eip1962-bls12-rs-native/target/release/eip1962-bench'
   }
 ]
 
@@ -438,6 +527,11 @@ def saveResults(benchmarks):
 pairing check time: 10.467ms
 """
 
+"""
+/scoutyamls/eip1962-bls12-rs-native/target/release/eip1962-bench
+Time elapsed in bench() is: 5.178954ms
+"""
+
 def do_rust_native(native_bin_path):
     print("running rust-native benchmark...\n{}".format(native_bin_path))
     rust_cmd = shlex.split(native_bin_path)
@@ -451,6 +545,10 @@ def do_rust_native(native_bin_path):
     exec_time_regex = "pairing check time: ([\.\w\d]+)"
     exec_benchline = stdoutlines[-1]
     exec_time_match = re.search(exec_time_regex, exec_benchline)
+    if exec_time_match is None:
+        exec_time_regex = "Time elapsed in bench\(\) is: ([\.\w\d]+)"
+        exec_time_match = re.search(exec_time_regex, exec_benchline)
+
     exec_us_time = durationpy.from_str(exec_time_match.group(1))
 
     return {'exec_time': exec_us_time.total_seconds()}
@@ -759,9 +857,10 @@ def main():
 
 
     ## do C_ewasm hash function benchmarks
-    generate_all_cewasm_yamls()
-    c_ewasm_bench_runs = do_all_cewasm_benchmarks()
-    scout_benchmarks.extend(c_ewasm_bench_runs)
+    # TODO: temporarily disabled until we replace scout.cpp
+    #generate_all_cewasm_yamls()
+    #c_ewasm_bench_runs = do_all_cewasm_benchmarks()
+    #scout_benchmarks.extend(c_ewasm_bench_runs)
 
 
     # run 10 iterations of rust-native
