@@ -1,7 +1,7 @@
 #!/usr/bin/python3.7
 
-from project.WasmVMBencher import WasmVMBencher
-from project.settings import vm_descriptors
+from fluence_bencher.WasmVMBencher import WasmVMBencher
+from fluence_bencher.settings import vm_descriptors
 
 import csv
 import logging
