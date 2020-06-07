@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Run evmone benchmarks
 docker run --env PYTHONIOENCODING=UTF-8 -v $(pwd)/evmraceresults:/evmraceresults -v $(pwd)/scripts:/scripts -v $(pwd)/input_data:/input_data -it evmone-bench /usr/bin/python3 /scripts/benchevm.py evmone
 

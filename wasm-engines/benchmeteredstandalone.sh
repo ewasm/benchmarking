@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 ## This is intended to benchmark standalone wasm files with injected metering
 # to measure the metering slowdown on wasm engines that aren't integrated into
 # ethereum clients.
