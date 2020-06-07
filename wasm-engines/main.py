@@ -1,4 +1,4 @@
-#!/usr/bin/python3.7
+#!/usr/bin/env python3
 
 from project.WasmVMBencher import WasmVMBencher
 from project.settings import vm_descriptors
