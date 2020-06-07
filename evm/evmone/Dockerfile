@@ -23,7 +23,7 @@ RUN pip3 install durationpy jinja2 pandas
 
 # install evmone
 WORKDIR /root
-RUN git clone --recursive --single-branch --branch bench-evm-codes https://github.com/cdetrio/evmone
+RUN git clone --recursive --single-branch --branch bench-evm-codes https://github.com/ewasm-benchmarking/evmone
 RUN cd evmone && mkdir build
 RUN cd evmone/build && cmake .. -DEVMONE_TESTING=ON
 RUN cd evmone/build && cmake --build . -- -j
