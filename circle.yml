@@ -1,6 +1,9 @@
 version: 2.1
 
 executors:
+  rust:
+    docker:
+      - image: rust:1-buster
   notebook:
     docker:
       - image: circleci/python:3.7.0
@@ -23,9 +26,36 @@ jobs:
           # Ensures the generated images are matching
           git diff --color --exit-code
 
+   build-bench-sources:
+    executor: rust
+    steps:
+    - checkout
+    - run:
+        name: Update rustc
+        command: |
+          rustup target add wasm32-unknown-unknown
+          rustup update
+          cargo --version
+          rustc --version
+    - run:
+        name: Build Rust benchmark sources
+        command: |
+          cd wasm-engines/rust-code
+          cd blake2b && cargo build --release
+          cd bls12-381 && cargo build --release
+          cd bn128_add && cargo build --release
+          cd bn128_mul && cargo build --release
+          cd bn128_pairing && cargo build --release
+          cd ed2559 && cargo build --release
+          cd modexp && cargo build --release
+          cd sha1 && cargo build --release
+
 workflows:
   version: 2
 
   notebook:
     jobs:
       - rebuild-notebook
+  build-bench-sources:
+    jobs:
+      - build-bench-sources
