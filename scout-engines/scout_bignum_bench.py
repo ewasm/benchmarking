@@ -29,6 +29,27 @@ WABT_BENCH_WORKING_DIR = "/engines/wabt-bench-dirs"
 # we can execute `wabt_bin_path` from any directory.
 
 
+FIZZY_BENCH_INFOS = [
+  {
+    'bench_name': 'bls12-wasmsnark-synth-loop',
+    'engine_name': 'fizzy-with-bignums',
+    'fizzy_bin_path': '/engines/fizzy-bls12-hostfuncs/build/bin/fizzy-bench',
+    'fizzy_bench_dir': '/engines/fizzy-bls12-hostfuncs/build/bin/bls12-synth-loop',
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings-standalone',
+    'engine_name': 'fizzy-with-bignums',
+    'fizzy_bin_path': '/engines/fizzy-bls12-hostfuncs/build/bin/fizzy-bench',
+    'fizzy_bench_dir': '/engines/fizzy-bls12-hostfuncs/build/bin/bls12-pairing',
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings-standalone',
+    'engine_name': 'fizzy',
+    'fizzy_bin_path': '/engines/fizzy-bls12-hostfuncs/build/bin/fizzy-bench',
+    'fizzy_bench_dir': '/engines/fizzy-bls12-hostfuncs/build/bin/bls12-pairing-nohostfuncs',
+  }
+]
+
 # TODO: use scout wabt branch without bignums for the no-bignum runs?
 WABT_BENCH_INFOS = [
   {
@@ -628,6 +649,52 @@ def do_scoutcpp_bench(scoutcpp_cmd, yaml_working_dir):
 
 
 """
+root@7afb1b2a9802:/benchscript# /engines/fizzy-bls12-hostfuncs/build/bin/fizzy-bench --benchmark_filter=fizzy/* --benchmark_color=false /engines/fizzy-bls12-hostfuncs/build/bin/bls12-synth-loop
+2020-06-08 17:49:12
+Running /engines/fizzy-bls12-hostfuncs/build/bin/fizzy-bench
+Run on (4 X 2294.68 MHz CPU s)
+CPU Caches:
+  L1 Data 32K (x2)
+  L1 Instruction 32K (x2)
+  L2 Unified 256K (x2)
+  L3 Unified 51200K (x2)
+Load Average: 0.00, 0.00, 0.02
+---------------------------------------------------------------------------------------------------------------------
+Benchmark                                                           Time             CPU   Iterations UserCounters...
+---------------------------------------------------------------------------------------------------------------------
+fizzy/parse/main_with_websnark_bignum_hostfuncs                   655 us          655 us         1044 rate=132.335M/s size=86.734k
+fizzy/instantiate/main_with_websnark_bignum_hostfuncs             788 us          788 us          885
+fizzy/execute/main_with_websnark_bignum_hostfuncs/-e synth      10374 us        10374 us           65
+"""
+
+def do_fizzy_bench(fizzy_cmd):
+    print("\nrunning fizzy benchmark...\n{}\n".format(fizzy_cmd))
+    fizzy_cmd = shlex.split(fizzy_cmd)
+    stdoutlines = []
+    with subprocess.Popen(fizzy_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True) as p:
+        for line in p.stdout: # b'\n'-separated lines
+            print(line, end='')
+            stdoutlines.append(line)  # pass bytes as is
+        p.wait()
+
+    instantiate_time_regex = "fizzy/instantiate\D+(\d+) us"
+    instantiate_benchline = stdoutlines[-2]
+    instantiate_time_match = re.search(instantiate_time_regex, instantiate_benchline)
+    parse_us_time = durationpy.from_str("{}us".format(instantiate_time_match.group(1)))
+
+    exec_time_regex = "fizzy/execute\D+(\d+) us"
+    exec_benchline = stdoutlines[-1]
+    exec_time_match = re.search(exec_time_regex, exec_benchline)
+    exec_us_time = durationpy.from_str("{}us".format(exec_time_match.group(1)))
+    return {'parse_time': parse_us_time.total_seconds(), 'exec_time': exec_us_time.total_seconds()}
+
+
+
+
+
+
+
+"""
 /engines/wabt-bn128/out/clang/Release/wasm-interp /engines/wabt-bench-dirs/daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc-wabt-with-bignums/main_with_websnark_bignum_hostfuncs.wasm
 ReadMemorySection time: 240us
 eth2_savePostStateRoot: E0A30EF7356F67420D65613C3E5F718B12240227C90304CA00916B2618B5B300
@@ -881,7 +948,24 @@ def main():
             print("got rust-native result:", rust_record)
 
 
-    ## do biturbo and bignum benchmarks
+    # run 5 iterations of fizzy
+    for i in range(0, 5):
+        print("\ndoing fizzy bench run i=",i)
+        for fizzy_bench_torun in FIZZY_BENCH_INFOS:
+            bench_name = fizzy_bench_torun['bench_name']
+            fizzy_engine_name = fizzy_bench_torun['engine_name']
+            fizzy_bin_path = fizzy_bench_torun['fizzy_bin_path']
+            fizzy_bench_dir = fizzy_bench_torun['fizzy_bench_dir']
+            print("fizzy bench: ", fizzy_engine_name, bench_name)
+            fizzy_command = "{} --benchmark_filter=fizzy/* --benchmark_color=false {}".format(fizzy_bin_path, fizzy_bench_dir)
+            fizzy_bench_result = do_fizzy_bench(fizzy_command)
+            fizzy_record = {}
+            fizzy_record['engine'] = fizzy_engine_name
+            fizzy_record['bench_name'] = bench_name
+            fizzy_record['exec_time'] = fizzy_bench_result['exec_time']
+            fizzy_record['parse_time'] = fizzy_bench_result['parse_time']
+            scout_benchmarks.append(fizzy_record)
+            print("got fizzy result:", fizzy_record)
 
     # run 10 iterations of wabt_manual (ran using wabt/wasm-interp)
     for i in range(0, 10):

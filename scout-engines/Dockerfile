@@ -242,6 +242,46 @@ RUN git clone --single-branch --branch dev https://github.com/jwasinger/eip1962-
 RUN cd eip1962-bls12-rs-native && git submodule update --init
 RUN cd eip1962-bls12-rs-native && cargo build --release
 
+
+# install fizzy
+WORKDIR /engines
+
+# magic to install cmake 13.5 on ubuntu 19.10
+RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null && \
+  wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb && \
+  dpkg -i libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb && \
+  apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main' && \
+  apt-get update && \
+  apt-get install -y cmake-data=3.15.5-0kitware1 && \
+  apt-get install -y cmake=3.15.5-0kitware1
+
+
+# fizzy for bls12 using host funcs
+RUN git clone --single-branch --branch ewasm-bench-bls12 https://github.com/wasmx/fizzy.git fizzy-bls12-hostfuncs && \
+  cd fizzy-bls12-hostfuncs && \
+  mkdir build && cd build && \
+  cmake -DFIZZY_TESTING=ON .. && \
+  cmake --build .
+
+RUN cd fizzy-bls12-hostfuncs/build/bin && mkdir bls12-synth-loop && \
+  echo -e "synth\nmain\n:\n\n\n\n" > bls12-synth-loop/main_with_websnark_bignum_hostfuncs.inputs && \
+  mkdir bls12-pairing && mkdir bls12-pairing-nohostfuncs && \
+  echo -e "synth\nmain\n:\n\n\n\n" > bls12-pairing/main_with_websnark_bignum_hostfuncs.inputs && \
+  echo -e "synth\nmain\n:\n\n\n\n" > bls12-pairing-nohostfuncs/main_with_websnark.inputs
+
+
+# get non-scout/standalone builds of wasmsnark
+WORKDIR /scoutyamls
+
+RUN git clone https://github.com/ewasm/scout.ts.git --single-branch --branch f6m_mul_loop-standalone scout.ts-bls12-standalone-synth-loop
+RUN git clone https://github.com/ewasm/scout.ts.git --single-branch --branch bls12-bench-standalone scout.ts-bls12-standalone-pairing
+
+
+# copy wasm files to fizzy dir
+RUN cp /scoutyamls/scout.ts-bls12-standalone-synth-loop/assembly/bls12-pairing/out/main_with_websnark_bignum_hostfuncs.wasm /engines/fizzy-bls12-hostfuncs/build/bin/bls12-synth-loop && \
+  cp /scoutyamls/scout.ts-bls12-standalone-pairing/assembly/bls12-pairing/out/main_with_websnark_bignum_hostfuncs.wasm /engines/fizzy-bls12-hostfuncs/build/bin/bls12-pairing && \
+  cp /scoutyamls/scout.ts-bls12-standalone-pairing/assembly/bls12-pairing/out/main_with_websnark.wasm /engines/fizzy-bls12-hostfuncs/build/bin/bls12-pairing-nohostfuncs
+
 # copy the python script to run the benchmarks
 RUN mkdir /benchscript
 COPY nanodurationpy.py /benchscript
