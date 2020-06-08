@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-from project.VMDescriptor import VMDescriptor
+from fluence_bencher.VMDescriptor import VMDescriptor
 
 # export function name that should be called from each Wasm module
 test_export_function_name = "main"
