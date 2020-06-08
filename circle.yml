@@ -1,0 +1,31 @@
+version: 2.1
+
+executors:
+  notebook:
+    docker:
+      - image: circleci/python:3.7.0
+
+jobs:
+  rebuild-notebook:
+    executor: notebook
+    steps:
+    - checkout
+    - run:
+        name: Install dependencies
+        command: |
+          sudo pip3 install -r requirements.txt
+    - run:
+        name: Rebuild notebook
+        command: |
+          make notebook
+          # Ignore differences in the notebook
+          git checkout -f notebooks/wasm-engines.ipynb
+          # Ensures the generated images are matching
+          git diff --color --exit-code
+
+workflows:
+  version: 2
+
+  notebook:
+    jobs:
+      - rebuild-notebook
