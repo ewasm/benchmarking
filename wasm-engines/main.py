@@ -1,4 +1,4 @@
-#!/usr/bin/python3.7
+#!/usr/bin/env python3
 
 from fluence_bencher.WasmVMBencher import WasmVMBencher
 from fluence_bencher.settings import vm_descriptors
