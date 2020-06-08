@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+if (process.argv.length < 3) {
+  console.log('Missing argument (wasm file)');
+  process.exit(1);
+}
+
 var args = process.argv.slice(2);
 var wasmfile = args[0];
 
