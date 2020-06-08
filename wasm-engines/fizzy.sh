@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e 
+
 # $1 = function name
 # $2 = wasm file
 

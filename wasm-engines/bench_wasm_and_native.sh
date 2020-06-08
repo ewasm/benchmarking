@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # first compile standalone wasm files from rust code, and benchmark native rust
 # later, benchmark the standalone wasm files in all the wasm engines
 
