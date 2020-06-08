@@ -156,6 +156,20 @@ WABT_BENCH_INFOS = [
     'wabt_bin_path': '/engines/wabt-bls12-bignums-fasthost-fastmont-no-superops/out/clang/Release/benchmark-interp',
     'yaml_file_dir': '/scoutyamls/scout.ts-bls12/',
     'yaml_file_rel_path': 'bls12pairing-f1m_mul-f1m_add-f1m_sub-int_mul-int_add-int_sub-int_div.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings-standalone',
+    'engine_name': 'wabt-fastmont-fasthost-superops',
+    'wabt_bin_path': '/engines/wabt-bls12-fastmont-fasthost-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12-standalone-pairing/',
+    'yaml_file_rel_path': 'bls12pairing_standalone.yaml'
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-synth-loop',
+    'engine_name': 'wabt-fastmont-fasthost-superops',
+    'wabt_bin_path': '/engines/wabt-bls12-fastmont-fasthost-superops/out/clang/Release/benchmark-interp',
+    'yaml_file_dir': '/scoutyamls/scout.ts-bls12-standalone-synth-loop/',
+    'yaml_file_rel_path': 'bls12_f6m_mul_loop.yaml'
   }
 ]
 
@@ -765,6 +779,10 @@ def do_wabt_bench(isolated_bench_dir, wabt_cmd):
     parse_time_regex = "parse time: (\d+)us"
     parse_benchline = stdoutlines[3]
     parse_time_match = re.search(parse_time_regex, parse_benchline)
+    if parse_time_match is None:
+      # the parse time is on `stdoutlines[2]` if eth2_savePostStateRoot isn't called (one less line printed)
+      parse_benchline = stdoutlines[2]
+      parse_time_match = re.search(parse_time_regex, parse_benchline)
     parse_us_time = durationpy.from_str("{}us".format(parse_time_match.group(1)))
 
     exec_time_regex = "wabt_interp\s+(\d+) us"
