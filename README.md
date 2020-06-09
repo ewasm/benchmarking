@@ -128,3 +128,25 @@ Alternatively extract the images to the `images` directory by running:
 ```shell
 $ make notebook
 ```
+
+## EVM engine versions
+
+- cita-vm: 6fbc4196
+- evmone: 94f4e827 (closest to v0.1.0)
+- geth: v1.9.14 (+ go 1.11)
+- parity/openethereum: ecbafb23 (closest to v2.5.2)
+
+## WebAssembly engine versions
+
+- asmble: v0.4.2-fl (+ openjdk-8-jre)
+- fizzy: v0.1.0
+- life: d05763d1
+- ssvm: dc97dd19 (closest to v0.5.1)
+- v8 (node.js): v11.10.0
+- wabt: 04fe0c41 (closest to v1.0.9)
+- wagon: e9f4420c (closest to v0.4.0)
+- wamr: 130d7d07 (closest to WAMR-02-18-2020)
+- wasm3: 565b5856 (closest to v0.4.2)
+- wasmi: 23b054c0 (closest to v0.4.4)
+- wasmtime: fb7c1b77 (closest to v0.31.0)
+- wavm: d3607084 (closest to nightly-2019-08-28)
