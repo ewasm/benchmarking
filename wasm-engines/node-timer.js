@@ -10,39 +10,40 @@ var wasmfile = args[0];
 
 console.log('args:', args);
 
-console.log('---- reading wasm file..')
+console.log('---- reading wasm file..');
 const readAsBinary = filename => {
-if (typeof process === 'object' && typeof require === 'function') {
+  if (typeof process === 'object' && typeof require === 'function') {
     const binary = require('fs').readFileSync(filename);
     return !binary.buffer ? new Uint8Array(binary) : binary;
-} else
+  } else {
     return typeof readbuffer === 'function'
-        ? new Uint8Array(readbuffer(filename))
-        : read(filename, 'binary');
+      ? new Uint8Array(readbuffer(filename))
+      : read(filename, 'binary');
+  }
 };
 
-const wasmBytes = readAsBinary(wasmfile)
+const wasmBytes = readAsBinary(wasmfile);
 
-console.log('---- wasm file read.')
+console.log('---- wasm file read.');
 
 const imports = {
-    env: {}
+  env: {}
 };
 
-imports.env.memory = new WebAssembly.Memory({ initial: 10 })
+imports.env.memory = new WebAssembly.Memory({ initial: 10 });
 
 console.time('instantiate');
 WebAssembly.instantiate(wasmBytes, imports)
-  .then(r => {
+  .then(result => {
     console.timeEnd('instantiate');
     console.log('---- calling main...')
     console.time('run-main');
     try {
-      const syncReturn = r.instance.exports.main();
+      const syncReturn = result.instance.exports.main();
       console.timeEnd('run-main');
       console.log('---- wasm returns:', syncReturn);
     } catch (e) {
       console.timeEnd('run-main');
-      console.log('caught error:', e)
+      console.log('caught error:', e);
     }
   });
