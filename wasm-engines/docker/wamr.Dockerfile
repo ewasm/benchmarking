@@ -1,5 +1,10 @@
 FROM ewasm/llvm-10:1.0
 
+LABEL maintainer="Ewasm Team"
+LABEL repo="https://github.com/ewasm/benchmarking"
+LABEL version="1.0"
+LABEL description="Ewasm benchmarking (wamr)"
+
 ENV CC=/usr/bin/gcc
 ENV CXX=/usr/bin/g++
 

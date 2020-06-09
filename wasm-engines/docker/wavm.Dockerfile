@@ -1,5 +1,10 @@
 FROM ewasm/bench-build-base:1.0
 
+LABEL maintainer="Ewasm Team"
+LABEL repo="https://github.com/ewasm/benchmarking"
+LABEL version="1.0"
+LABEL description="Ewasm benchmarking (wavm)"
+
 # Use old gcc/g++ for wavm (needed by wavm)
 RUN apt install -y gcc-7 g++-7 &&  \
     update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 10 && \

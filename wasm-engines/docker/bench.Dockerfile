@@ -12,6 +12,11 @@ FROM ewasm/wasmi:1.0 as wasmi
 
 FROM ewasm/bench-build-base:1.0
 
+LABEL maintainer="Ewasm Team"
+LABEL repo="https://github.com/ewasm/benchmarking"
+LABEL version="1.0"
+LABEL description="Benchmarking environment for Ewasm benchmarking"
+
 ## install dependencies for standalone wasm prep
 RUN pip3 install jinja2 pandas click durationpy
 

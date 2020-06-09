@@ -1,5 +1,10 @@
 FROM ubuntu:20.04
 
+LABEL maintainer="Ewasm Team"
+LABEL repo="https://github.com/ewasm/benchmarking"
+LABEL version="1.0"
+LABEL description="Build environment for Ewasm benchmarking (base image)"
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get clean && \
