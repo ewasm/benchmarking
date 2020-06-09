@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
-set -e
-
 # first compile standalone wasm files from rust code, and benchmark native rust
 # later, benchmark the standalone wasm files in all the wasm engines
 
+set -e
 
 # result output paths should be in mounted docker volumes
 CSV_NATIVE_RESULTS=/benchmark_results_data/native_benchmarks.csv
@@ -30,7 +29,7 @@ grep -E '^model name|^cpu MHz' /proc/cpuinfo > /benchmark_results_data/cpuinfo.t
 # fill rust code templates with input vectors. compile rust code to wasm and native. benchmark native
 # wasm will be further processed and benchmarked later
 cd /benchprep
-python3.7 benchnativerust_prepwasm.py --wasmoutdir="${WASM_FILE_DIR}" --csvresults="${CSV_NATIVE_RESULTS}" --rustcodedir="${RUST_CODE_DIR}" --inputvectorsdir="${INPUT_VECTORS_DIR}" |& tee prep-wasm-bench-native-run1.log
+python3.8 benchnativerust_prepwasm.py --wasmoutdir="${WASM_FILE_DIR}" --csvresults="${CSV_NATIVE_RESULTS}" --rustcodedir="${RUST_CODE_DIR}" --inputvectorsdir="${INPUT_VECTORS_DIR}" |& tee prep-wasm-bench-native-run1.log
 
 
 
@@ -57,9 +56,7 @@ do
   /root/sentinel-minify-tool/wasm-utils/target/debug/wasm-minify "${filename}" "$dest"
 done
 
-
-
-# benchmark standalone wasm files in all the engines
-
+echo "running benchmarks"
 cd /benchrunner
-python3.7 main.py --wasmdir="${WASM_MINIFIED_DIR}" --csvfile="${CSV_WASM_RESULTS}" |& tee wasm-engines-run1.log
+python3.8 main.py --wasmdir="${WASM_MINIFIED_DIR}" --csvfile="${CSV_WASM_RESULTS}"
+chown -R 1000:1000 /benchrunner /benchprep /benchmark_results_data

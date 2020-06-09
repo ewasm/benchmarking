@@ -171,7 +171,7 @@ def main():
     #benchdirs = [dI for dI in os.listdir('./') if os.path.isdir(os.path.join('./',dI))]
     native_benchmarks = {}
     for benchname in rustcodes:
-        if benchname in ["__pycache__"]:
+        if benchname in ["__pycache__", ".cargo"]:
             continue
         print("start benching: ", benchname)
 
