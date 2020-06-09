@@ -122,3 +122,9 @@ $ jupyter-notebook
 ```
 
 Follow the instructions on the console to access the notebook from the browser.
+
+Alternatively extract the images to the `images` directory by running:
+
+```shell
+$ make notebook
+```
