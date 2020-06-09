@@ -141,7 +141,7 @@ $ make notebook
 - asmble: v0.4.2-fl (+ openjdk-8-jre)
 - fizzy: v0.1.0
 - life: d05763d1
-- ssvm: dc97dd19 (closest to v0.5.1)
+- ssvm: v0.6.0
 - v8 (node.js): v11.10.0
 - wabt: 04fe0c41 (closest to v1.0.9)
 - wagon: e9f4420c (closest to v0.4.0)
