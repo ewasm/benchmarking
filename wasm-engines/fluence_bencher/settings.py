@@ -30,22 +30,23 @@ test_export_function_name = "main"
 """
 
 vm_descriptors = {
-    "wagon"  : VMDescriptor("/engines/wagon/cmd/wasm-run/wasm-run", "{wasm_file_path}"),
-    "wabt"   : VMDescriptor("/engines/wabt/bin/wasm-interp", "{wasm_file_path} --run-all-exports"),
+    "wagon"  : VMDescriptor("/engines/wagon/wasm-run", "{wasm_file_path}"),
+    "wabt"   : VMDescriptor("/engines/wabt/wasm-interp", "{wasm_file_path} --run-all-exports"),
     "v8-liftoff" : VMDescriptor("/engines/node/node", "--liftoff --no-wasm-tier-up /engines/node/node-timer.js {wasm_file_path}"),
     "v8-turbofan" : VMDescriptor("/engines/node/node", "--no-liftoff /engines/node/node-timer.js {wasm_file_path}"),
     "v8-interpreter" : VMDescriptor("/engines/node/node", "--wasm-interpret-all --liftoff --no-wasm-tier-up /engines/node/node-timer.js {wasm_file_path}"),
-    "wasmtime": VMDescriptor("/engines/wasmtime/target/release/wasmtime", "{wasm_file_path} --invoke=main"),
-    "wavm"   : VMDescriptor("/engines/wavm-build/bin/wavm-run", "{wasm_file_path} -f {function_name}"),
+    "wasmtime": VMDescriptor("/engines/wasmtime/wasmtime", "{wasm_file_path} --invoke=main"),
+    "wavm"   : VMDescriptor("/engines/wavm/bin/wavm-run", "{wasm_file_path} -f {function_name}"),
     "life-polymerase" : VMDescriptor("/engines/life/life", "-polymerase -entry {function_name} {wasm_file_path}"),
     "life"   : VMDescriptor("/engines/life/life", "-entry {function_name} {wasm_file_path}"),
-    "wasmi"  : VMDescriptor("/engines/wasmi/target/release/examples/invoke", "{wasm_file_path} {function_name}"),
+    "wasmi"  : VMDescriptor("/engines/wasmi/invoke", "{wasm_file_path} {function_name}"),
     "asmble" : VMDescriptor("/engines/asmble/bin/asmble", "invoke -in {wasm_file_path} {function_name} -defmaxmempages 20000"),
-    "wamr-interp" : VMDescriptor("/engines/wasm-micro-runtime/product-mini/platforms/linux/build_interp/iwasm", "-f {function_name} {wasm_file_path}"),
-    "wamr-jit" : VMDescriptor("/engines/wasm-micro-runtime/product-mini/platforms/linux/build/iwasm", "-f {function_name} {wasm_file_path}"),
-    "wamr-aot" : VMDescriptor("/engines/wasm-micro-runtime/wamr_aot.sh", "{function_name} {wasm_file_path}"), 
-    "wasm3" : VMDescriptor("/engines/wasm3/build/wasm3", "--func {function_name} {wasm_file_path}"),
+    "wamr-interp" : VMDescriptor("/engines/wamr/iwasm", "-f {function_name} {wasm_file_path}"),
+    "wamr-jit" : VMDescriptor("/engines/wamr/iwasm", "-f {function_name} {wasm_file_path}"),
+    "wamr-aot" : VMDescriptor("/engines/wamr/wamr_aot.sh", "{function_name} {wasm_file_path}"), 
+    "wasm3" : VMDescriptor("/engines/wasm3/wasm3", "--func {function_name} {wasm_file_path}"),
     "fizzy" : VMDescriptor("/engines/fizzy/fizzy.sh", "{function_name} {wasm_file_path}"),
+    "ssvm"  : VMDescriptor("/engines/ssvm/ssvm", "{wasm_file_path} {function_name}"),
 
     # "wasmer" : VMDescriptor("/engines/wasmer/target/release/wasmer", "run {wasm_file_path}", True),
     # we have binaryen, but calling wasm-shell -e main is not working
