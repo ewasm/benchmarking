@@ -122,12 +122,3 @@ $ jupyter-notebook
 ```
 
 Follow the instructions on the console to access the notebook from the browser.
-
-## Generate charts using python script
-
-Execute the python script:
-
-```shell
-$ cd scripts
-$ python3 generate_report.py
-````
