@@ -16,7 +16,7 @@ RESULT_CSV_OUTPUT_PATH = "/evmraceresults"
 # must be an absolute path to evm code dir
 EVM_CODE_DIR = "/input_data/evmcode"
 
-INPUT_VECTORS_DIR = "./input_data/input_vectors"
+INPUT_VECTORS_DIR = "/input_data/input_vectors"
 
 EVMONE_BUILD_DIR = "/root/evmone/build"
 
@@ -126,13 +126,12 @@ def do_geth_bench(geth_cmd):
             print(line.decode(), end='')
             stdoutlines.append(line.decode())  # pass bytes as is
         p.wait()
-
-    msOpRegex = "evm execution time: ([\d]+.[\d]+)ms"
-    qsOpRegex = "evm execution time: ([\d]+.[\d]+)µs"
-    gasregex = "Gas used:\s+(\d+)"
+    msOpRegex = "execution time:\s+([\d]+.[\d]+)ms"
+    qsOpRegex = "execution time:\s+([\d]+.[\d]+)µs"
+    gasregex = "EVM gas used:\s+(\d+)"
     # maybe --benchmark_format=json is better so dont have to parse "36.775k"
-    time_line = stdoutlines[0]
-    gas_line = stdoutlines[-3]
+    time_line = stdoutlines[1]
+    gas_line = stdoutlines[0]
     time_match = re.search(msOpRegex, time_line)
     time = None
     if time_match is None:
