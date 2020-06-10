@@ -1,16 +1,21 @@
-FROM ewasm/life:1.0 as life
-FROM ewasm/wabt:1.0 as wabt
-FROM ewasm/wasm3:1.0 as wasm3
-FROM ewasm/ssvm:1.0 as ssvm
-FROM ewasm/wasmtime:1.0 as wasmtime
-FROM ewasm/wamr:1.0 as wamr
-FROM ewasm/wagon:1.0 as wagon
-FROM ewasm/wavm:1.0 as wavm
-FROM ewasm/fizzy:1.0 as fizzy
-FROM ewasm/asmble:1.0 as asmble
-FROM ewasm/wasmi:1.0 as wasmi
+FROM ewasm/life:1 as life
+FROM ewasm/wabt:1 as wabt
+FROM ewasm/wasm3:1 as wasm3
+FROM ewasm/ssvm:1 as ssvm
+FROM ewasm/wasmtime:1 as wasmtime
+FROM ewasm/wamr:1 as wamr
+FROM ewasm/wagon:1 as wagon
+FROM ewasm/wavm:1 as wavm
+FROM ewasm/fizzy:1 as fizzy
+FROM ewasm/asmble:1 as asmble
+FROM ewasm/wasmi:1 as wasmi
 
-FROM ewasm/bench-build-base:1.0
+FROM ewasm/bench-build-base:1
+
+LABEL maintainer="Ewasm Team"
+LABEL repo="https://github.com/ewasm/benchmarking"
+LABEL version="1"
+LABEL description="Benchmarking environment for Ewasm benchmarking"
 
 ## install dependencies for standalone wasm prep
 RUN pip3 install jinja2 pandas click durationpy

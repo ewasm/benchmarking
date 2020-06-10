@@ -1,4 +1,9 @@
-FROM ewasm/bench-build-base:1.0
+FROM ewasm/bench-build-base:1
+
+LABEL maintainer="Ewasm Team"
+LABEL repo="https://github.com/ewasm/benchmarking"
+LABEL version="1"
+LABEL description="Build environment for Ewasm benchmarking (llvm-10)"
 
 RUN echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main\
     deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main" >> /etc/apt/sources.list && \

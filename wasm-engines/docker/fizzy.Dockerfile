@@ -1,4 +1,9 @@
-FROM ewasm/llvm-10:1.0
+FROM ewasm/llvm-10:1
+
+LABEL maintainer="Ewasm Team"
+LABEL repo="https://github.com/ewasm/benchmarking"
+LABEL version="1"
+LABEL description="Ewasm benchmarking (fizzy)"
 
 # install fizzy
 RUN git clone https://github.com/wasmx/fizzy.git --single-branch --branch v0.1.0 && \
