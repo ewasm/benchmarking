@@ -19,7 +19,7 @@ scout_engines: build_docker_images
 	cd scout-engines && ./run_benchmarks.sh
 
 wasm_engines:
-	docker pull ewasm/bench:1.0
+	docker pull ewasm/bench:1
 	cd wasm-engines && ./run_benchmarks.sh
 
 # Default timeout is 30 seconds, but our cells are quite big, increase it to 120 seconds.
