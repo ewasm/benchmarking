@@ -1,4 +1,4 @@
-all: evm_precompiles evm_engines wasm_engines notebook
+all: evm_precompiles evm_engines wasm_engines scout_engines notebook
 
 build_docker_images:
 	cd evm/geth && docker build . -t geth-bench
@@ -6,6 +6,7 @@ build_docker_images:
 	cd evm/evmone && docker build . -t evmone-bench
 	cd evm/cita-vm && docker build . -t cita-vm-bench
 	cd wasm-engines && ./build_engines.sh
+	cd scout-engines && docker build . -t scout-engines
 
 evm_precompiles: build_docker_images
 	cd evm && ./scripts/run_precompiles_bench.sh geth
@@ -13,6 +14,9 @@ evm_precompiles: build_docker_images
 
 evm_engines: build_docker_images
 	cd evm && ./scripts/run_bench.sh
+
+scout_engines: build_docker_images
+	cd scout-engines && ./run_benchmarks.sh
 
 wasm_engines:
 	docker pull ewasm/bench:1.0
