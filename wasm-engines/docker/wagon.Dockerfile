@@ -1,4 +1,4 @@
-FROM ewasm/bench-build-base:1
+FROM ewasm/bench-build-base:1 as build
 
 LABEL maintainer="Ewasm Team"
 LABEL repo="https://github.com/ewasm/benchmarking"
@@ -8,3 +8,6 @@ LABEL description="Ewasm benchmarking (wagon)"
 # install wagon
 RUN git clone --single-branch --branch bench-times https://github.com/ewasm-benchmarking/wagon && \
     cd wagon/cmd/wasm-run && go build
+
+FROM ewasm/bench-build-base:1
+COPY --from=build /wagon/cmd/wasm-run/wasm-run /wagon/cmd/wasm-run/wasm-run
