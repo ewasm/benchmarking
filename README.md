@@ -134,7 +134,7 @@ $ make notebook
 - cita-vm: v0.1.3 (May 2019)
 - evmone: 94f4e827 (closest to v0.1.0)
 - geth: v1.9.14 (+ go 1.11)
-- parity/openethereum: ecbafb23 (closest to v2.5.2)
+- parity/openethereum: v2.5.1 (May 2019)
 
 ## WebAssembly engine versions
 
