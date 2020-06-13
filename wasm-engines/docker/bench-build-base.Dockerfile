@@ -11,7 +11,8 @@ RUN apt-get clean && \
     apt-get update && \
     apt-get install -y cmake software-properties-common git sudo build-essential wget curl nano python2.7 libc++-dev libc++abi-dev \
     autoconf automake libtool llvm-6.0 make ninja-build unzip zlib1g-dev texinfo libssl-dev golang python3.8 python3-distutils python3-pip && \
-    curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain 1.42.0 -y && . $HOME/.cargo/env
+    curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain 1.42.0 -y && . $HOME/.cargo/env && \
+    rustup target add wasm32-unknown-unknown
 
 RUN export GO111MODULE=on
 

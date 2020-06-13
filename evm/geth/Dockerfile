@@ -18,4 +18,3 @@ RUN mkdir -p /evmraceresults
 RUN mkdir /evmrace
 
 CMD /bin/bash
-
