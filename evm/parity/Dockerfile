@@ -1,5 +1,10 @@
 FROM ewasm/bench-build-base:1
 
+LABEL maintainer="Ewasm Team"
+LABEL repo="https://github.com/ewasm/benchmarking"
+LABEL version="1"
+LABEL description="Ewasm benchmarking (parity)"
+
 # deps required to build full parity for native precompile benchmarks
 RUN apt-get install -y libudev-dev
 
