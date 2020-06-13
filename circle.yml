@@ -1,6 +1,9 @@
 version: 2.1
 
 executors:
+  base:
+    docker:
+      - image: cimg/base:2020.01
   notebook:
     docker:
       - image: circleci/python:3.7.0
@@ -22,6 +25,14 @@ jobs:
           git checkout -f notebooks/wasm-engines.ipynb
           # Ensures the generated images are matching
           git diff --color --exit-code
+  run-wasm-engines:
+    machine: true
+    steps:
+    - checkout
+    - run:
+        name: Run wasm-engines benchmark
+        command: |
+          make wasm_engines
 
 workflows:
   version: 2
@@ -29,3 +40,6 @@ workflows:
   notebook:
     jobs:
       - rebuild-notebook
+  wasm-engines:
+    jobs:
+      - run-wasm-engines
