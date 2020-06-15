@@ -16,4 +16,3 @@ RUN cd evmone/build && cmake --build . -- -j
 
 WORKDIR /
 CMD /bin/bash
-

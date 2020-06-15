@@ -33,9 +33,6 @@ ENV CXX=clang++
 ENV JAVA_VER 8
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
-# rust wasm32 target for compiling wasm
-RUN rustup target add wasm32-unknown-unknown
-
 RUN mkdir -p /benchmark_results_data && mkdir /engines
 
 # install node for v8 benchmarks

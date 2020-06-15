@@ -10,8 +10,8 @@ RUN apt-get install -y libudev-dev
 
 # install python modules needed for benchmarking script
 RUN pip3 install durationpy jinja2 pandas
-RUN rustup default nightly-2019-01-15 && \
-    rustup target add wasm32-unknown-unknown
+
+RUN rustup default nightly-2019-01-15
 
 WORKDIR /
 
