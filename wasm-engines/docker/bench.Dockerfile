@@ -10,7 +10,7 @@ FROM ewasm/fizzy:1 as fizzy
 FROM ewasm/asmble:1 as asmble
 FROM ewasm/wasmi:1 as wasmi
 
-FROM ewasm/bench-build-base:1
+FROM ewasm/llvm-10:1
 
 LABEL maintainer="Ewasm Team"
 LABEL repo="https://github.com/ewasm/benchmarking"
@@ -19,16 +19,6 @@ LABEL description="Benchmarking environment for Ewasm benchmarking"
 
 ## install dependencies for standalone wasm prep
 RUN pip3 install jinja2 pandas click durationpy
-
-RUN echo "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main\
-    deb-src http://apt.llvm.org/focal/ llvm-toolchain-focal-10 main" >> /etc/apt/sources.list
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add - && apt update -y && apt install -y clang-10 lldb-10 lld-10
-
-RUN ln -s /usr/bin/clang++-10  /usr/bin/clang++
-RUN ln -s /usr/bin/clang-10  /usr/bin/clang
-
-ENV CC=clang
-ENV CXX=clang++
 
 ENV JAVA_VER 8
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
