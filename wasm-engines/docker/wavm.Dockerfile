@@ -1,4 +1,4 @@
-FROM ewasm/bench-build-base:1
+FROM ewasm/bench-build-base:1 AS build
 
 LABEL maintainer="Ewasm Team"
 LABEL repo="https://github.com/ewasm/benchmarking"
@@ -14,3 +14,6 @@ RUN apt install -y gcc-7 g++-7 &&  \
     mkdir wavm-build && \
     cd wavm-build && cmake -G Ninja ../WAVM -DCMAKE_BUILD_TYPE=Release && \
     ninja
+
+FROM ewasm/bench-build-base:1
+COPY --from=build /wavm-build /wavm-build
