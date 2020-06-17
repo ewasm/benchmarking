@@ -56,102 +56,102 @@ RUN cd google-benchmark && mkdir build
 #RUN cd google-benchmark/build && cmake -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_ENABLE_LTO=true ../
 # we need BENCHMARK_USE_LIBCXX=true because we're going to use clang to compile wabt
 RUN cd google-benchmark/build && cmake -DCMAKE_BUILD_TYPE=Release -DBENCHMARK_USE_LIBCXX=true ../
-RUN cd google-benchmark/build && make -j8
+RUN cd google-benchmark/build && make -j4
 RUN cd google-benchmark/build && make install
 
 
 
 # wabt branch for websnark-bn128 slowhost slowmont (no superops)
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-websnark-slowhost-slowmont https://github.com/ewasm-benchmarking/wabt.git wabt-bn128-websnark-slowmont-slowhost
-RUN cd wabt-bn128-websnark-slowmont-slowhost && make clang-release
+RUN cd wabt-bn128-websnark-slowmont-slowhost && make clang-release -j4
 # could also use `make gcc-release`, but gcc is slower than clang
 
 # wabt branch for websnark-bn128 slowhost slowmont superops
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-websnark-slowhost-slowmont-superops https://github.com/ewasm-benchmarking/wabt.git wabt-bn128-websnark-slowmont-slowhost-superops
-RUN cd wabt-bn128-websnark-slowmont-slowhost-superops && make clang-release
+RUN cd wabt-bn128-websnark-slowmont-slowhost-superops && make clang-release -j4
 
 # wabt branch for websnark-bn128 fasthost slowmont superops
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-websnark-fasthost-slowmont-superops https://github.com/ewasm-benchmarking/wabt.git wabt-bn128-websnark-slowmont-fasthost-superops
-RUN cd wabt-bn128-websnark-slowmont-fasthost-superops && make clang-release
+RUN cd wabt-bn128-websnark-slowmont-fasthost-superops && make clang-release -j4
 
 # wabt branch for websnark-bn128 fasthost fastmont superops
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-websnark-fasthost-fastmont-superops https://github.com/ewasm-benchmarking/wabt.git wabt-bn128-websnark-fastmont-fasthost-superops
-RUN cd wabt-bn128-websnark-fastmont-fasthost-superops && make clang-release
+RUN cd wabt-bn128-websnark-fastmont-fasthost-superops && make clang-release -j4
 
 # wabt branch for websnark-bn128 fasthost fastmont (no superops)
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-websnark-fasthost-fastmont https://github.com/ewasm-benchmarking/wabt.git wabt-bn128-websnark-fastmont-fasthost
-RUN cd wabt-bn128-websnark-fastmont-fasthost && make clang-release
+RUN cd wabt-bn128-websnark-fastmont-fasthost && make clang-release -j4
 
 
 
 # the branch scout-bignums-daiquiri-withdraw is the same as scout-bignum-hostfuncs, but with a hardcoded prestate returned by eth2_loadPrestateRoot().
 # the ecpairing-zkrollup-bn128 scout benchmark doesn't load the prestate, so this branch is compatible with that and with the daiquiri-withdraw benchmark
 RUN git clone --recursive --single-branch --branch scout-bignums-daiquiri-withdraw https://github.com/ewasm-benchmarking/wabt.git wabt-bn128
-RUN cd wabt-bn128 && make clang-release
+RUN cd wabt-bn128 && make clang-release -j4
 
 
 
 # install wabt with bignum host fuctions for secp256k1 (no superops)
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-secp256k1 https://github.com/ewasm-benchmarking/wabt.git wabt-secp
-RUN cd wabt-secp && make clang-release
+RUN cd wabt-secp && make clang-release -j4
 
 
 
 # install wabt branch with host functions for biturbo/turbo-token-realistic (this branch has superops, but is a bit messy)
 RUN git clone --recursive --single-branch --branch scout-for-biturbo-token https://github.com/ewasm-benchmarking/wabt.git wabt-biturbo
-RUN cd wabt-biturbo && make clang-release
+RUN cd wabt-biturbo && make clang-release -j4
 
 # turbo-token wabt branch without superops
 RUN git clone --recursive --single-branch --branch scout-biturbo-no-superops https://github.com/ewasm-benchmarking/wabt.git wabt-biturbo-no-superops
-RUN cd wabt-biturbo-no-superops && make clang-release
+RUN cd wabt-biturbo-no-superops && make clang-release -j4
 
 
 
 # wabt branch for rollup.rs bignums slowmont slowhost
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-slowmont-slowhost https://github.com/ewasm-benchmarking/wabt.git wabt-bn128-rolluprs-slowmont-slowhost
-RUN cd wabt-bn128-rolluprs-slowmont-slowhost && make clang-release
+RUN cd wabt-bn128-rolluprs-slowmont-slowhost && make clang-release -j4
 
 # wabt branch for rollup.rs bignums slowmont slowhost superops
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-slowmont-slowhost-superops https://github.com/ewasm-benchmarking/wabt.git wabt-bn128-rolluprs-slowmont-slowhost-superops
-RUN cd wabt-bn128-rolluprs-slowmont-slowhost-superops && make clang-release
+RUN cd wabt-bn128-rolluprs-slowmont-slowhost-superops && make clang-release -j4
 
 
 # wabt branch for rollup.rs with bignums slowmont fasthost superops
 # not much diff on rollup.rs, but show anyway
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-slowmont-fasthost-superops https://github.com/ewasm-benchmarking/wabt.git wabt-bn128-rolluprs-slowmont-fasthost-superops
-RUN cd wabt-bn128-rolluprs-slowmont-fasthost-superops && make clang-release
+RUN cd wabt-bn128-rolluprs-slowmont-fasthost-superops && make clang-release -j4
 
 # wabt branch for rollup.rs with bignum fastmont fasthost superops
 # not much diff on rollup.rs, but show anyway
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-fastmont-fasthost-superops https://github.com/ewasm-benchmarking/wabt.git wabt-bn128-rolluprs-fastmont-fasthost-superops
-RUN cd wabt-bn128-rolluprs-fastmont-fasthost-superops && make clang-release
+RUN cd wabt-bn128-rolluprs-fastmont-fasthost-superops && make clang-release -j4
 
 # only missing rollup.rs fastmont slowhost superops
 
 # wabt branch for rollup.rs bignums slowmont fasthost (no superops)
 # not much diff on rollup.rs, ignore
 #RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-fastmont-fasthost https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-fastmont-fasthost
-#RUN cd wabt-bn128-rolluprs-fastmont-fasthost && make clang-release
+#RUN cd wabt-bn128-rolluprs-fastmont-fasthost && make clang-release -j4
 
 # wabt branch for rollup.rs bignums fastmont fasthost (no superops)
 # not much diff on rollup.rs, ignore
 #RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-fastmont-fasthost https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-fastmont-fasthost
-#RUN cd wabt-bn128-rolluprs-fastmont-fasthost && make clang-release
+#RUN cd wabt-bn128-rolluprs-fastmont-fasthost && make clang-release -j4
 
 # wabt branch for rollup.rs bignum fastmont slowhost (no superops)
 # not much diff on rollup.rs, ignore
 #RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-fastmont-slowhost https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-fastmont-slowhost
-#RUN cd wabt-bn128-rolluprs-fastmont-slowhost && make clang-release
+#RUN cd wabt-bn128-rolluprs-fastmont-slowhost && make clang-release -j4
 
 
 # wabt branch for wasmsnark bls12
 RUN git clone --recursive --single-branch --branch bls12-bignums-fastmont-superops https://github.com/ewasm/wabt.git wabt-bls12-fastmont-fasthost-superops
-RUN cd wabt-bls12-fastmont-fasthost-superops && make clang-release
+RUN cd wabt-bls12-fastmont-fasthost-superops && make clang-release -j4
 
 # for the "host func variations" (i.e. using host funcs for [f1m_mul], [f1m_mul, f1m_add], [f1m_mul, f1m_add, f1m_sub], ...)
 # we need to use the no-superops wabt branch because there's a bug in superops triggered by the wasm code in one of {int_mul, int_sub, int_add, int_div} (I can't remember which)
 RUN git clone --recursive --single-branch --branch bls12-bignums-fasthost-fastmont-no-superops https://github.com/ewasm/wabt.git wabt-bls12-bignums-fasthost-fastmont-no-superops
-RUN cd wabt-bls12-bignums-fasthost-fastmont-no-superops && make clang-release
+RUN cd wabt-bls12-bignums-fasthost-fastmont-no-superops && make clang-release -j4
 
 
 # Note: these scout.cpp branches are disabled because the wabt version scout.cpp is based on is slower than the wabt version used in the `github.com/ewasm/wabt` branches
@@ -162,15 +162,15 @@ RUN cd wabt-bls12-bignums-fasthost-fastmont-no-superops && make clang-release
 # install scout.cpp branch with bignum host functions for bn128
 #RUN git clone --recursive --single-branch --branch bignum-host-funcs https://github.com/ewasm-benchmarking/scout_wabt.cpp.git scoutcpp-bn128
 # commit 7afd65dda637436151d69fb47d22034c2ecfea45 (fix interleaved)
-#RUN cd scoutcpp-bn128 && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make
+#RUN cd scoutcpp-bn128 && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make -j4
 
 # install scout.cpp branch with bignum host functions for secp256k1
 #RUN git clone --recursive --single-branch --branch bignum-hostfuncs-secp256k1 https://github.com/ewasm-benchmarking/scout_wabt.cpp.git scoutcpp-secp
-#RUN cd scoutcpp-secp && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make
+#RUN cd scoutcpp-secp && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make -j4
 
 # install scout.cpp branch for rollup.rs
 #RUN git clone --recursive --single-branch --branch bignum-hostfuncs-bn128-rolluprs https://github.com/ewasm-benchmarking/scout_wabt.cpp.git scoutcpp-bn128-rolluprs
-#RUN cd scoutcpp-bn128-rolluprs && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make
+#RUN cd scoutcpp-bn128-rolluprs && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make -j4
 
 
 WORKDIR /scoutyamls
@@ -261,7 +261,7 @@ RUN git clone --single-branch --branch ewasm-bench-bls12 https://github.com/wasm
   cd fizzy-bls12-hostfuncs && \
   mkdir build && cd build && \
   cmake -DFIZZY_TESTING=ON .. && \
-  cmake --build .
+  make -j4
 
 RUN cd fizzy-bls12-hostfuncs/build/bin && mkdir bls12-synth-loop && \
   echo -e "synth\nmain\n:\n\n\n\n" > bls12-synth-loop/main_with_websnark_bignum_hostfuncs.inputs && \
