@@ -9,6 +9,7 @@ import datetime
 import os
 import shutil
 import shlex
+import json
 
 # output paths should be mounted docker volumes
 RESULT_CSV_OUTPUT_PATH = "/evmraceresults"
@@ -17,11 +18,11 @@ RESULT_CSV_FILENAME = "evm_benchmarks_evmone384.csv"
 
 EVMONE_BENCH_INFOS = [
   {
-    "command": "/root/evmone-evm384-v1/build/bin/evmone-bench --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v1-f6m_mul_bench.bin 00 74229fc665e6c3f4401905c1a454ea57c8931739d05a074fd60400f19684d680a9e1305c25f13613dcc6cdd6e6e57d0800000000000000000000000000000000",
+    "command": "/root/evmone-evm384-v1/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v1-f6m_mul_bench.bin 00 74229fc665e6c3f4401905c1a454ea57c8931739d05a074fd60400f19684d680a9e1305c25f13613dcc6cdd6e6e57d0800000000000000000000000000000000",
     "bench_name": "evm384-synth-loop-v1"
   },
   {
-    "command": "/root/evmone-evm384-v2/build/bin/evmone-bench --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v2-f6m_mul_bench.bin 00 74229fc665e6c3f4401905c1a454ea57c8931739d05a074fd60400f19684d680a9e1305c25f13613dcc6cdd6e6e57d0800000000000000000000000000000000",
+    "command": "/root/evmone-evm384-v2/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v2-f6m_mul_bench.bin 00 74229fc665e6c3f4401905c1a454ea57c8931739d05a074fd60400f19684d680a9e1305c25f13613dcc6cdd6e6e57d0800000000000000000000000000000000",
     "bench_name": "evm384-synth-loop-v2"
   }
 ]
@@ -57,15 +58,13 @@ def do_evmone_bench(evmone_bench_cmd):
             stdoutlines.append(line)  # pass bytes as is
         p.wait()
 
-    timeregex = "\S+\s+(\d+) us"
-    gasregex = "gas_used=([\d\.\w]+)"
-    # maybe --benchmark_format=json is better so dont have to parse "36.775k"
-    benchline = stdoutlines[-1]
-    time_match = re.search(timeregex, benchline)
-    us_time = durationpy.from_str("{}us".format(time_match.group(1)))
-    gas_match = re.search(gasregex, benchline)
-    gasused = gas_match.group(1)
-    return {'gas_used': gasused, 'time': us_time.total_seconds()}
+    json_result = json.loads("".join(stdoutlines[2:]))
+    benchmarks = json_result['benchmarks']
+    benchmark_results = benchmarks[0]
+    gasused = int(benchmark_results['gas_used'])
+    total_time = str(benchmark_results['real_time']) + benchmark_results['time_unit']
+    time = durationpy.from_str(total_time)
+    return {'gas_used': gasused, 'time': time.total_seconds()}
 
 
 def saveResults(precompile_benchmarks):

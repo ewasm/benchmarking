@@ -104,5 +104,5 @@ cita-evm,blake2b_huff-8415-bytes,0.02115236,1471220
 cita-evm,blake2b_huff-5610-bytes,0.013129701,988103
 cita-evm,blake2b_huff-2805-bytes,0.006572538,504983
 engine,test_name,total_time,gas_used
-evmone384,evm384-synth-loop-v1,0.032335,1256920
-evmone384,evm384-synth-loop-v2,0.018459,585118
+evmone384,evm384-synth-loop-v1,0.030367294,12569235
+evmone384,evm384-synth-loop-v2,0.018035255,5851179
