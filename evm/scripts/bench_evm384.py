@@ -13,7 +13,7 @@ import shlex
 # output paths should be mounted docker volumes
 RESULT_CSV_OUTPUT_PATH = "/evmraceresults"
 
-RESULT_CSV_FILENAME = "evmone_evm384.csv"
+RESULT_CSV_FILENAME = "evm_benchmarks_evmone384.csv"
 
 EVMONE_BENCH_INFOS = [
   {
@@ -83,11 +83,11 @@ def saveResults(precompile_benchmarks):
         print("existing {} moved to {}".format(RESULT_CSV_FILENAME, dest_backup_path))
 
     with open(result_file, 'w', newline='') as bench_result_file:
-        fieldnames = ['engine', 'bench_name', 'gas_used', 'time']
+        fieldnames = ['engine', 'test_name', 'total_time', 'gas_used']
         writer = csv.DictWriter(bench_result_file, fieldnames=fieldnames)
         writer.writeheader()
         for test_result in precompile_benchmarks:
-            writer.writerow({"engine": test_result['engine'], "bench_name" : test_result['bench_name'], "gas_used" : test_result['gas_used'], "time" : test_result['time']})
+            writer.writerow({"engine": test_result['engine'], "test_name" : test_result['bench_name'], "gas_used" : test_result['gas_used'], "total_time" : test_result['time']})
 
 
 
@@ -97,7 +97,7 @@ def main():
       evmone_cmd = evmone_bench_info['command']
       bench_result = do_evmone_bench(evmone_cmd)
       bench_result['bench_name'] = evmone_bench_info['bench_name']
-      bench_result['engine'] = "evmone-evm348"
+      bench_result['engine'] = "evmone384"
       all_bench_resuls.append(bench_result)
 
     saveResults(all_bench_resuls)
