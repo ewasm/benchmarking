@@ -23,6 +23,13 @@ wasm_engines:
 	docker pull ewasm/bench:1
 	cd wasm-engines && ./run_benchmarks.sh
 
+benchmark-wasm:
+	cd wasm-engines && \
+	#./run_benchmarks.sh && \
+	cp benchmark_results_data/standalone_wasm_results.csv ../benchmark_results_data/standalone_wasm_results.csv
+
+benchmark-scout:
+
 # Default timeout is 30 seconds, but our cells are quite big, increase it to 120 seconds.
 # More info: https://github.com/jupyter/nbconvert/issues/256#issuecomment-188405852
 # TODO: upgrade to newer nbconvert which sets the timeout to off by default
