@@ -147,6 +147,6 @@ $ make notebook
 - wagon: e9f4420c (closest to v0.4.0)
 - wamr: 130d7d07 (closest to WAMR-02-18-2020)
 - wasm3: v0.4.7
-- wasmi: 23b054c0 (closest to v0.4.4)
+- wasmi: v0.4.4
 - wasmtime: fb7c1b77 (closest to v0.31.0)
 - wavm: d3607084 (closest to nightly-2019-08-28)
