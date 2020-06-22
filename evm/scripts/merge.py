@@ -8,7 +8,7 @@ import shutil
 
 INDIVIDUAL_EVM_RESULTS_CSV_PATH = "/evmraceresults/"
 RESULT_CSV_OUTPUT_PATH = "/benchmark_results_data/"
-EVMS = ["evmone", "parity", "geth", "cita-vm"]
+EVMS = ["evmone", "parity", "geth", "cita-vm", "evmone384"]
 RESULT_CSV_FILENAME = "evm_benchmarks.csv"
 RESULT_FILE = os.path.join(RESULT_CSV_OUTPUT_PATH, RESULT_CSV_FILENAME)
 
@@ -38,9 +38,9 @@ def main():
         data_file.close()
         evm_results.append(data)
 
-    for i in range(1, len(evm_results[0])):
-        for e in range(0, len(EVMS)):
-            if EVMS[e] == 'evmone':
+    for e in range(0, len(EVMS)):
+        for i in range(0, len(evm_results[e])):
+            if EVMS[e] == 'evmone' or EVMS[e] == 'evmone384':
                 merged_csv_contents += format_evmone_benchmark(evm_results[e][i]) + '\n'
             else:
                 merged_csv_contents += evm_results[e][i] + '\n'
