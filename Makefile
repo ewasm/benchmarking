@@ -5,6 +5,7 @@ build_docker_images:
 	cd evm/parity && docker build . -t parity-bench
 	cd evm/evmone && docker build . -t evmone-bench
 	cd evm/cita-vm && docker build . -t cita-vm-bench
+	cd evm/evmone-evm384 && docker build . -t evmone-evm384-bench
 	cd wasm-engines && ./build_engines.sh
 	cd scout-engines && docker build . -t scout-engines
 
