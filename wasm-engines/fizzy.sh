@@ -17,5 +17,4 @@ cp $2 ./testcase.wasm
 
 /engines/fizzy/fizzy-bench --benchmark_filter=fizzy/* --benchmark_color=false ./ | sed 's/\([0-9][0-9]*\)\s\([nm]s\)/\1\2/g'
 
-rm *wasm
-
+rm -f testcase.inputs testcase.wasm
