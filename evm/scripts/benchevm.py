@@ -60,7 +60,7 @@ def save_results(evm_name, evm_benchmarks):
 
 
 def get_evmone_cmd(codefile, calldata, expected):
-    cmd_str = "bin/evmone-bench {} {} {} --benchmark_color=false --benchmark_filter=external_evm_code --benchmark_min_time=7".format(codefile, calldata, expected)
+    cmd_str = "bin/evmone-bench {} {} {} --benchmark_color=false --benchmark_min_time=7 --benchmark_format=json".format(codefile, calldata, expected)
     return cmd_str
 
 
@@ -86,15 +86,15 @@ def do_evmone_bench(evmone_cmd):
             stdoutlines.append(line)  # pass bytes as is
             p.wait()
 
-    timeregex = "external_evm_code\s+(\d+) us"
-    gasregex = "gas_used=([\d\.\w]+)"
-    # maybe --benchmark_format=json is better so dont have to parse "36.775k"
-    benchline = stdoutlines[-1]
-    time_match = re.search(timeregex, benchline)
-    us_time = durationpy.from_str("{}us".format(time_match.group(1)))
-    gas_match = re.search(gasregex, benchline)
-    gasused = gas_match.group(1)
-    return {'gas_used': gasused, 'time': us_time.total_seconds()}
+    json_result = json.loads("".join(stdoutlines[2:]))
+
+    benchmarks = json_result['benchmarks']
+    benchmark_results = benchmarks[0]
+    gasused = int(benchmark_results['gas_used'])
+    total_time = str(benchmark_results['real_time']) + benchmark_results['time_unit']
+    time = durationpy.from_str(total_time)
+
+    return { 'gas_used': gasused, 'time': time.total_seconds() }
 
 def do_parity_bench(parity_cmd):
     print("running parity-evm benchmark...\n{}\n".format(parity_cmd))
