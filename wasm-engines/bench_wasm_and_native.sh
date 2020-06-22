@@ -29,9 +29,7 @@ grep -E '^model name|^cpu MHz' /proc/cpuinfo > /benchmark_results_data/cpuinfo.t
 # fill rust code templates with input vectors. compile rust code to wasm and native. benchmark native
 # wasm will be further processed and benchmarked later
 cd /benchprep
-python3.8 benchnativerust_prepwasm.py --wasmoutdir="${WASM_FILE_DIR}" --csvresults="${CSV_NATIVE_RESULTS}" --rustcodedir="${RUST_CODE_DIR}" --inputvectorsdir="${INPUT_VECTORS_DIR}" |& tee prep-wasm-bench-native-run1.log
-
-
+python3.8 benchnativerust_prepwasm.py --wasmoutdir="${WASM_FILE_DIR}" --csvresults="${CSV_NATIVE_RESULTS}" --rustcodedir="${RUST_CODE_DIR}" --inputvectorsdir="${INPUT_VECTORS_DIR}"
 
 # furthur process wasm files by minifying them.
 
