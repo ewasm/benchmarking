@@ -35,7 +35,7 @@ RUN mkdir /engines/node && ln -s /usr/local/bin/node /engines/node/node
 # wasm engine binaries
 COPY --from=wabt /wabt/build/wasm-interp /engines/wabt/wasm-interp
 COPY --from=fizzy /fizzy/build/bin/fizzy-bench /engines/fizzy/fizzy-bench
-COPY --from=wasmi /wasmi/target/release/examples/invoke /engines/wasmi/invoke
+COPY --from=wasmi /wasmi/target/release/invoke /engines/wasmi/invoke
 COPY --from=wavm  /wavm-build/ /engines/wavm
 RUN cd /engines/wavm/Lib && find . -name "*.so" -exec cp -prv '{}' '/usr/lib' ';'
 COPY --from=life  /life/life /engines/life/life

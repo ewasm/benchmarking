@@ -9,4 +9,4 @@ RUN git clone --single-branch --branch v0.4.4-benchmarking https://github.com/ew
     cd wasmi && cargo build --release
 
 FROM ewasm/bench-build-base:1
-COPY --from=build /wasmi/target/release/examples/invoke /wasmi/target/release/examples/invoke
+COPY --from=build /wasmi/target/release/invoke /wasmi/target/release/invoke
