@@ -6,7 +6,7 @@ LABEL version="1"
 LABEL description="Ewasm benchmarking (wagon)"
 
 # install wagon
-RUN git clone --single-branch --branch bench-times https://github.com/ewasm-benchmarking/wagon && \
+RUN git clone --single-branch --branch v0.4.0-benchmarking https://github.com/ewasm-benchmarking/wagon && \
     cd wagon/cmd/wasm-run && go build
 
 FROM ewasm/bench-build-base:1
