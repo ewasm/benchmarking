@@ -19,7 +19,7 @@ RUN cd evmone-evm384-v2 && mkdir build && \
 
 
 # fetch evm384 f6m_mul synthetic loop repo
-RUN git clone --single-branch --branch build-files https://github.com/ewasm/evm384_f6m_mul.git
+RUN git clone --single-branch --branch v0.0.1 https://github.com/ewasm/evm384_f6m_mul.git
 
 WORKDIR /
 CMD /bin/bash
