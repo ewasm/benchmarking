@@ -418,8 +418,8 @@ class WasmVMBencher:
         time_parse_info = {
                 'compile_line_num' : -2,
                 'exec_line_num' : -1,
-                'compile_regex' : "fizzy\/instantiate\/testcase\s+([\w\.]+)",
-                'exec_regex': "fizzy\/execute\/testcase\/test\s+([\w\.]+)"
+                'compile_regex' : "fizzy\/instantiate\/testcase\s+([0-9]+ *[a-z]+)",
+                'exec_regex': "fizzy\/execute\/testcase\/test\s+([0-9]+ *[a-z]+)"
         }
         return self.doCompilerTest(vm_cmd, time_parse_info)
 
@@ -492,14 +492,17 @@ class WasmVMBencher:
             compile_line = stdoutlines[time_parse_info['compile_line_num']]
             print('compile_lines: ', compile_line)
             compile_match = re.search(time_parse_info['compile_regex'], compile_line)
+            compile_match = compile_match[1].replace(' ', '')
             print('compile_match: ', compile_match)
-            compile_time = durationpy.from_str(compile_match[1])
+            compile_time = durationpy.from_str(compile_match)
             print('compile_time: ', compile_time)
+
             exec_line = stdoutlines[time_parse_info['exec_line_num']]
             print('exec_line: ', exec_line)
             exec_match = re.search(time_parse_info['exec_regex'], exec_line)
+            exec_match = exec_match[1].replace(' ', '')
             print('exec_match: ', exec_match)
-            exec_time = durationpy.from_str(exec_match[1])
+            exec_time = durationpy.from_str(exec_match)
             print('exec_time: ', exec_time)
         except Exception as e:
             error_msg = ["Error parsing engine output. exception: {}".format(e)] + \
