@@ -1,4 +1,4 @@
-FROM ewasm/bench-build-base:1 as build
+FROM ewasm/bench-build-base:1 AS build
 
 LABEL maintainer="Ewasm Team"
 LABEL repo="https://github.com/ewasm/benchmarking"

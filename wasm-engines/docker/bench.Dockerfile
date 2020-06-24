@@ -1,14 +1,14 @@
-FROM ewasm/life:1 as life
-FROM ewasm/wabt:1 as wabt
-FROM ewasm/wasm3:1 as wasm3
-FROM ewasm/ssvm:1 as ssvm
-FROM ewasm/wasmtime:1 as wasmtime
-FROM ewasm/wamr:1 as wamr
-FROM ewasm/wagon:1 as wagon
-FROM ewasm/wavm:1 as wavm
-FROM ewasm/fizzy:1 as fizzy
-FROM ewasm/asmble:1 as asmble
-FROM ewasm/wasmi:1 as wasmi
+FROM ewasm/life:1 AS life
+FROM ewasm/wabt:1 AS wabt
+FROM ewasm/wasm3:1 AS wasm3
+FROM ewasm/ssvm:1 AS ssvm
+FROM ewasm/wasmtime:1 AS wasmtime
+FROM ewasm/wamr:1 AS wamr
+FROM ewasm/wagon:1 AS wagon
+FROM ewasm/wavm:1 AS wavm
+FROM ewasm/fizzy:1 AS fizzy
+FROM ewasm/asmble:1 AS asmble
+FROM ewasm/wasmi:1 AS wasmi
 
 FROM ewasm/llvm-10:1
 
