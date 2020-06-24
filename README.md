@@ -132,21 +132,21 @@ $ make notebook
 ## EVM engine versions
 
 - cita-vm: v0.1.3 (May 2019)
-- evmone: v0.5.0 (June 2020)
-- geth: v1.9.14 (+ go 1.11)
+- evmone: v0.5.0 (Jun 2020)
+- geth: v1.9.14 (+ go 1.11) (May 2020)
 - parity/openethereum: v2.5.1 (May 2019)
 
 ## WebAssembly engine versions
 
-- asmble: v0.4.2-fl (+ openjdk-8-jre)
-- fizzy: v0.1.0
-- life: d05763d1
-- ssvm: v0.6.0
-- v8 (node.js): v11.10.0
-- wabt: 04fe0c41 (closest to v1.0.9)
-- wagon: v0.4.0 (March 2019)
-- wamr: 130d7d07 (closest to WAMR-02-18-2020)
-- wasm3: v0.4.7
-- wasmi: v0.4.4
-- wasmtime: fb7c1b77 (closest to v0.31.0)
-- wavm: d3607084 (closest to nightly-2019-08-28)
+- asmble: v0.4.2-fl (+ openjdk-8-jre) (Oct 2018)
+- fizzy: v0.1.0 (Apr 2020)
+- life: d05763d1 (Feb 2019)
+- ssvm: v0.6.0 (Jun 2020)
+- v8 (node.js): v11.10.0 / v12
+- wabt: 04fe0c41 (closest to v1.0.9) (Mar 2019)
+- wagon: v0.4.0 (Mar 2019)
+- wamr: 130d7d07 (closest to WAMR-02-18-2020) (Feb 2020)
+- wasm3: v0.4.7 (Apr 2020)
+- wasmi: v0.4.4 (Mar 2019)
+- wasmtime: fb7c1b77 (closest to v0.31.0) (Feb 2019)
+- wavm: d3607084 (closest to nightly-2019-08-28) (Aug 2019)
