@@ -9,7 +9,7 @@ RUN pip3 install durationpy jinja2 pandas
 
 # install evmone
 WORKDIR /root
-RUN git clone --recursive --single-branch --branch v0.4.1 https://github.com/ethereum/evmone
+RUN git clone --recursive --single-branch --branch v0.5.0 https://github.com/ethereum/evmone
 RUN cd evmone && mkdir build
 RUN cd evmone/build && cmake .. -DEVMONE_TESTING=ON
 RUN cd evmone/build && make -j4
