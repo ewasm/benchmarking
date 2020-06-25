@@ -1,52 +1,6 @@
-FROM ubuntu:19.10
-
-# System deps
-RUN apt-get clean
-RUN apt-get update
-RUN apt-get install -y software-properties-common git sudo build-essential wget curl nano \
-    autoconf automake libtool make ninja-build unzip zlib1g-dev texinfo libssl-dev
-
-RUN sudo apt-get clean autoclean
-RUN sudo apt-get autoremove -y
-
-
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - && \
-    apt-add-repository "deb http://apt.llvm.org/disco/ llvm-toolchain-disco-10 main" && \
-    apt-get update
-
-
-RUN apt-get install -y libllvm10 llvm-10 llvm-10-dev llvm-10-doc llvm-10-examples llvm-10-runtime
-RUN apt-get install -y clang-10 clang-tools-10 clang-10-doc libclang-common-10-dev libclang-10-dev libclang1-10 clang-format-10
-RUN apt-get install -y lldb-10 lld-10 libc++-10-dev libc++abi-10-dev
-
-
-# comment out all this to use gcc instead of clang
-RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-10 60
-RUN update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-10 60
-RUN update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 60
-RUN update-alternatives --install /usr/bin/llvm-ar llvm-ar /usr/bin/llvm-ar-10 60
-RUN update-alternatives --install /usr/bin/llvm-nm llvm-nm /usr/bin/llvm-nm-10 60
-RUN update-alternatives --install /usr/bin/llvm-ranlib llvm-ranlib /usr/bin/llvm-ranlib-10 60
-RUN update-alternatives --install /usr/bin/ld ld.lld-10 /usr/bin/ld.lld-10 60
-
-
-RUN apt-get install -y cmake
-
-RUN apt-get install -y python # python2.7 needed to build wabt
-
-RUN apt-get install -y python3 python3-distutils
-RUN wget https://bootstrap.pypa.io/get-pip.py && python3 get-pip.py
-
-## pandas needed for nanodurationpy (for the benchmarking script)
-RUN pip3 install pandas
-
+FROM ewasm/llvm-10:1 as build
 
 WORKDIR /engines
-
-# install node 12
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
-RUN apt-get install -y nodejs
-
 
 # install google benchmark lib, needed for wabt-secp
 RUN git clone https://github.com/google/benchmark.git google-benchmark
@@ -83,12 +37,10 @@ RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-
 RUN cd wabt-bn128-websnark-fastmont-fasthost && make clang-release -j4
 
 
-
 # the branch scout-bignums-daiquiri-withdraw is the same as scout-bignum-hostfuncs, but with a hardcoded prestate returned by eth2_loadPrestateRoot().
 # the ecpairing-zkrollup-bn128 scout benchmark doesn't load the prestate, so this branch is compatible with that and with the daiquiri-withdraw benchmark
 RUN git clone --recursive --single-branch --branch scout-bignums-daiquiri-withdraw https://github.com/ewasm-benchmarking/wabt.git wabt-bn128
 RUN cd wabt-bn128 && make clang-release -j4
-
 
 
 # install wabt with bignum host fuctions for secp256k1 (no superops)
@@ -99,12 +51,12 @@ RUN cd wabt-secp && make clang-release -j4
 
 # install wabt branch with host functions for biturbo/turbo-token-realistic (this branch has superops, but is a bit messy)
 RUN git clone --recursive --single-branch --branch scout-for-biturbo-token https://github.com/ewasm-benchmarking/wabt.git wabt-biturbo
+
 RUN cd wabt-biturbo && make clang-release -j4
 
 # turbo-token wabt branch without superops
 RUN git clone --recursive --single-branch --branch scout-biturbo-no-superops https://github.com/ewasm-benchmarking/wabt.git wabt-biturbo-no-superops
 RUN cd wabt-biturbo-no-superops && make clang-release -j4
-
 
 
 # wabt branch for rollup.rs bignums slowmont slowhost
@@ -114,7 +66,6 @@ RUN cd wabt-bn128-rolluprs-slowmont-slowhost && make clang-release -j4
 # wabt branch for rollup.rs bignums slowmont slowhost superops
 RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-slowmont-slowhost-superops https://github.com/ewasm-benchmarking/wabt.git wabt-bn128-rolluprs-slowmont-slowhost-superops
 RUN cd wabt-bn128-rolluprs-slowmont-slowhost-superops && make clang-release -j4
-
 
 # wabt branch for rollup.rs with bignums slowmont fasthost superops
 # not much diff on rollup.rs, but show anyway
@@ -127,7 +78,6 @@ RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-
 RUN cd wabt-bn128-rolluprs-fastmont-fasthost-superops && make clang-release -j4
 
 # only missing rollup.rs fastmont slowhost superops
-
 # wabt branch for rollup.rs bignums slowmont fasthost (no superops)
 # not much diff on rollup.rs, ignore
 #RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-fastmont-fasthost https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-fastmont-fasthost
@@ -143,7 +93,6 @@ RUN cd wabt-bn128-rolluprs-fastmont-fasthost-superops && make clang-release -j4
 #RUN git clone --recursive --single-branch --branch scout-bignum-hostfuncs-bn128-rolluprs-fastmont-slowhost https://github.com/ewasm/wabt.git wabt-bn128-rolluprs-fastmont-slowhost
 #RUN cd wabt-bn128-rolluprs-fastmont-slowhost && make clang-release -j4
 
-
 # wabt branch for wasmsnark bls12
 RUN git clone --recursive --single-branch --branch bls12-bignums-fastmont-superops https://github.com/ewasm/wabt.git wabt-bls12-fastmont-fasthost-superops
 RUN cd wabt-bls12-fastmont-fasthost-superops && make clang-release -j4
@@ -152,7 +101,6 @@ RUN cd wabt-bls12-fastmont-fasthost-superops && make clang-release -j4
 # we need to use the no-superops wabt branch because there's a bug in superops triggered by the wasm code in one of {int_mul, int_sub, int_add, int_div} (I can't remember which)
 RUN git clone --recursive --single-branch --branch bls12-bignums-fasthost-fastmont-no-superops https://github.com/ewasm/wabt.git wabt-bls12-bignums-fasthost-fastmont-no-superops
 RUN cd wabt-bls12-bignums-fasthost-fastmont-no-superops && make clang-release -j4
-
 
 # Note: these scout.cpp branches are disabled because the wabt version scout.cpp is based on is slower than the wabt version used in the `github.com/ewasm/wabt` branches
 # We don't know why scout.cpp is slower than `github.com/ewasm/wabt`, in theory it should be the same speed.
@@ -172,8 +120,12 @@ RUN cd wabt-bls12-bignums-fasthost-fastmont-no-superops && make clang-release -j
 #RUN git clone --recursive --single-branch --branch bignum-hostfuncs-bn128-rolluprs https://github.com/ewasm-benchmarking/scout_wabt.cpp.git scoutcpp-bn128-rolluprs
 #RUN cd scoutcpp-bn128-rolluprs && mkdir build && cd build && cmake -DBUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release .. && make -j4
 
-
 WORKDIR /scoutyamls
+
+
+# install node 12
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
+RUN apt-get install -y nodejs
 
 # clone scout.ts branch with secp-sig-verify
 RUN git clone https://github.com/ewasm-benchmarking/scout.ts.git --single-branch --branch secp-sig-verify scout.ts-secp
@@ -208,18 +160,6 @@ RUN git clone https://github.com/ewasm-benchmarking/C_ewasm_contracts.git --sing
 # remove some tests we don't want
 RUN cd C_ewasm_contracts/tests && rm ecrecover.yaml ecrecover_trezor.yaml ed25519verify.yaml helloworld.yaml
 
-
-# install rust
-RUN curl https://sh.rustup.rs -sSf | \
-    sh -s -- --default-toolchain stable -y && . $HOME/.cargo/env
-ENV PATH=/root/.cargo/bin:$PATH
-
-RUN rustup default 1.36.0
-
-# rust wasm32 target for compiling wasm
-RUN rustup target add wasm32-unknown-unknown
-
-
 # clone rollup.rs native
 RUN git clone https://github.com/ewasm-benchmarking/rollup.rs --single-branch --branch benchreport-rust-native rollup-rs-native
 RUN cd rollup-rs-native && cargo build --release
@@ -246,22 +186,14 @@ RUN cd eip1962-bls12-rs-native && cargo build --release
 # install fizzy
 WORKDIR /engines
 
-# magic to install cmake 13.5 on ubuntu 19.10
-RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null && \
-  wget http://archive.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb && \
-  dpkg -i libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb && \
-  apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main' && \
-  apt-get update && \
-  apt-get install -y cmake-data=3.15.5-0kitware1 && \
-  apt-get install -y cmake=3.15.5-0kitware1
-
-
 # fizzy for bls12 using host funcs
 RUN git clone --single-branch --branch ewasm-bench-bls12 https://github.com/wasmx/fizzy.git fizzy-bls12-hostfuncs && \
   cd fizzy-bls12-hostfuncs && \
   mkdir build && cd build && \
   cmake -DFIZZY_TESTING=ON .. && \
   make -j4
+
+WORKDIR /engines
 
 RUN cd fizzy-bls12-hostfuncs/build/bin && mkdir bls12-synth-loop && \
   echo -e "synth\nmain\n:\n\n\n\n" > bls12-synth-loop/main_with_websnark_bignum_hostfuncs.inputs && \
@@ -276,7 +208,6 @@ WORKDIR /scoutyamls
 RUN git clone https://github.com/ewasm/scout.ts.git --single-branch --branch f6m_mul_loop-standalone scout.ts-bls12-standalone-synth-loop
 RUN git clone https://github.com/ewasm/scout.ts.git --single-branch --branch bls12-bench-standalone scout.ts-bls12-standalone-pairing
 
-
 # copy wasm files to fizzy dir
 RUN cp /scoutyamls/scout.ts-bls12-standalone-synth-loop/assembly/bls12-pairing/out/main_with_websnark_bignum_hostfuncs.wasm /engines/fizzy-bls12-hostfuncs/build/bin/bls12-synth-loop && \
   cp /scoutyamls/scout.ts-bls12-standalone-pairing/assembly/bls12-pairing/out/main_with_websnark_bignum_hostfuncs.wasm /engines/fizzy-bls12-hostfuncs/build/bin/bls12-pairing && \
@@ -289,6 +220,9 @@ COPY scout_bignum_bench.py /benchscript
 
 # benchmark_results_data should be a mounted volume
 RUN mkdir -p /benchmark_results_data
+
+## pandas needed for nanodurationpy (for the benchmarking script)
+RUN pip3 install pandas
 
 WORKDIR /benchscript
 
