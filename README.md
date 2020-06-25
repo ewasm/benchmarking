@@ -132,7 +132,7 @@ $ make notebook
 ## EVM engine versions
 
 - cita-vm: v0.1.3 (May 2019)
-- evmone: v0.4.1 (Apr 2020)
+- evmone: v0.5.0 (June 2020)
 - geth: v1.9.14 (+ go 1.11)
 - parity/openethereum: v2.5.1 (May 2019)
 
