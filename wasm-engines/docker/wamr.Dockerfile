@@ -8,8 +8,8 @@ LABEL description="Ewasm benchmarking (wamr)"
 ENV CC=/usr/bin/gcc
 ENV CXX=/usr/bin/g++
 
-RUN git clone https://github.com/ewasm-benchmarking/wasm-micro-runtime.git --single-branch --branch benchmark && \
-    cd wasm-micro-runtime && git pull origin benchmark && \
+RUN git clone https://github.com/ewasm-benchmarking/wasm-micro-runtime.git --single-branch --branch wamr-02-18-2020-benchmarking && \
+    cd wasm-micro-runtime && \
 ## Build LLVM
     cd product-mini/platforms/linux && \
     ./build_llvm.sh
