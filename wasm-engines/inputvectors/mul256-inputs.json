@@ -1,0 +1,7 @@
+[
+  {
+    "name": "mul256-gcolvin-drag-race",
+    "input": "26bceb59802431afcbce1fc194c9eaa417b2fb67dc75a95db0bc7ec6b1c8af11df6a1da9a1f5aac137876480252e5dcac62c354ec0d42b76b0642b6181ed099849ea1d57",
+    "expected": "80baf8d183a4163e36b5076c8ac089871d90f3c75ee88f4a0204ca9ec2833da9"
+  }
+]
