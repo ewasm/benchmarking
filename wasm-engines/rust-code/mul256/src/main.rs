@@ -8,5 +8,4 @@ pub fn main() {
     let duration = start.elapsed();
 
     println!("Time elapsed in bench() is: {:?}", duration);
-    //std::process::exit(bench::bench() as i32)
 }
