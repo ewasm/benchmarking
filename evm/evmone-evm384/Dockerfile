@@ -9,11 +9,11 @@ RUN pip3 install durationpy pandas
 
 # install evmone (need CXXFLAGS=-w or the build fails)
 WORKDIR /root
-RUN git clone --recursive --single-branch --branch evm384 https://github.com/axic/evmone.git evmone-evm384-v1
+RUN git clone --recursive --single-branch --branch v0.5.0-evm384-v1 https://github.com/ethereum/evmone.git evmone-evm384-v1
 RUN cd evmone-evm384-v1 && mkdir build && \
   cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
 
-RUN git clone --recursive --single-branch --branch evm384-v2 https://github.com/axic/evmone.git evmone-evm384-v2
+RUN git clone --recursive --single-branch --branch v0.5.0-evm384-v2 https://github.com/ethereum/evmone.git evmone-evm384-v2
 RUN cd evmone-evm384-v2 && mkdir build && \
   cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
 
