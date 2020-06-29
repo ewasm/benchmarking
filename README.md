@@ -139,7 +139,7 @@ $ make notebook
 ## WebAssembly engine versions
 
 - asmble: v0.4.2-fl (+ openjdk-8-jre) (Oct 2018)
-- fizzy: v0.1.0 (Apr 2020)
+- fizzy: v0.2.0 (Jun 2020)
 - life: d05763d1 (Feb 2019)
 - ssvm: v0.6.0 (Jun 2020)
 - v8 (node.js): v11.10.0 / v12
