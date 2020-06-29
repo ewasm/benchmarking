@@ -32,6 +32,7 @@ test_export_function_name = "main"
 vm_descriptors = {
     "wagon"  : VMDescriptor("/engines/wagon/wasm-run", "{wasm_file_path}"),
     "wabt"   : VMDescriptor("/engines/wabt/wasm-interp", "{wasm_file_path} --run-all-exports"),
+    "vanilla-wabt" : VMDescriptor("/engines/vanilla-wabt/wasm-interp", "{wasm_file_path} --run-all-exports"),
     "v8-liftoff" : VMDescriptor("/engines/node/node", "--liftoff --no-wasm-tier-up /engines/node/node-timer.js {wasm_file_path}"),
     "v8-turbofan" : VMDescriptor("/engines/node/node", "--no-liftoff /engines/node/node-timer.js {wasm_file_path}"),
     "v8-interpreter" : VMDescriptor("/engines/node/node", "--wasm-interpret-all --liftoff --no-wasm-tier-up /engines/node/node-timer.js {wasm_file_path}"),

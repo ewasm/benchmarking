@@ -144,6 +144,7 @@ $ make notebook
 - ssvm: v0.6.0 (Jun 2020)
 - v8 (node.js): v11.10.0 / v12
 - wabt: 04fe0c41 (closest to v1.0.9) (Mar 2019)
+- "vanilla" wabt: v1.0.17 (Jun 2020)
 - wagon: v0.4.0 (Mar 2019)
 - wamr: 130d7d07 (closest to WAMR-02-18-2020) (Feb 2020)
 - wasm3: v0.4.7 (Apr 2020)

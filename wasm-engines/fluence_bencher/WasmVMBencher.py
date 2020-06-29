@@ -142,6 +142,8 @@ class WasmVMBencher:
             result_record = self.do_wasmi_test(cmd)
         elif vm == "wabt":
             result_record = self.do_wabt_test(cmd)
+        elif vm == "vanilla-wabt":
+            result_record = self.do_vanilla_wabt_test(cmd)
         elif vm == "wamr-interp":
             result_record = self.do_wamr_interp_test(cmd)
         elif vm == "wamr-jit":
@@ -285,6 +287,22 @@ class WasmVMBencher:
           'exec_regex': "exec time: ([\w]+)"
         }
         return self.doCompilerTest(vm_cmd, time_parse_info)
+
+    def do_vanilla_wabt_test(self, vm_cmd):
+        """02/16/2019 09:56:43 PM <wasm_bencher>: /engines/vanilla-wabt/bin/wasm-interp /wasmfiles/ecpairing.wasm --run-all-exports
+        ec_pairing() => error: argument type mismatch
+        main() =>
+        parse time: 45430us
+        exec time: 62390657us
+        """
+        time_parse_info = {
+          'compile_line_num' : -2,
+          'exec_line_num' : -1,
+          'compile_regex': "parse time: ([\w]+)",
+          'exec_regex': "exec time: ([\w]+)"
+        }
+        return self.doCompilerTest(vm_cmd, time_parse_info)
+
 
     def do_wagon_test(self, vm_cmd):
         """03/10/2019 12:14:46 AM <wasm_bencher>: /engines/wagon/cmd/wasm-run/wasm-run /wasmfiles/bn128_pairing-one_point.wasm
