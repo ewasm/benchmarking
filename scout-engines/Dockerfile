@@ -187,7 +187,7 @@ RUN cd eip1962-bls12-rs-native && cargo build --release
 WORKDIR /engines
 
 # fizzy for bls12 using host funcs
-RUN git clone --single-branch --branch ewasm-bench-bls12 https://github.com/wasmx/fizzy.git fizzy-bls12-hostfuncs && \
+RUN git clone --single-branch --branch v0.2.0-ewasm-bench-bls12 https://github.com/ewasm-benchmarking/fizzy.git fizzy-bls12-hostfuncs && \
   cd fizzy-bls12-hostfuncs && \
   mkdir build && cd build && \
   cmake -DFIZZY_TESTING=ON .. && \
