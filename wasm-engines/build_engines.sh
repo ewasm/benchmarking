@@ -21,4 +21,4 @@ docker build -t $repo/wasmtime:1 -f docker/wasmtime.Dockerfile .
 docker build -t $repo/wavm:1 -f docker/wavm.Dockerfile .
 docker build -t $repo/asmble:1 -f docker/asmble.Dockerfile .
 
-docker build -t $repo/bench:1 -f docker/bench.Dockerfile .
+docker build -t $repo/wasm-engines-bench:1 -f docker/wasm-engines-bench.Dockerfile .
