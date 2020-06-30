@@ -14,4 +14,4 @@ docker run --privileged \
 	-v $(pwd)/node-timer.js:/engines/node/node-timer.js \
 	-v $(pwd)/wamr_aot.sh:/engines/wamr/wamr_aot.sh \
 	-v $(pwd)/fizzy.sh:/engines/fizzy/fizzy.sh \
---security-opt seccomp=$(pwd)/dockerseccompprofile.json -it ewasm/wasm-engines-bench:1 bash /benchprep/bench_wasm_and_native.sh
+-it ewasm/wasm-engines-bench:1 bash /benchprep/bench_wasm_and_native.sh
