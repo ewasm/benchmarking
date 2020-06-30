@@ -146,7 +146,7 @@ $ make notebook
 - wabt: 04fe0c41 (closest to v1.0.9) (Mar 2019)
 - "vanilla" wabt: v1.0.17 (Jun 2020)
 - wagon: v0.4.0 (Mar 2019)
-- wamr: 130d7d07 (closest to WAMR-02-18-2020) (Feb 2020)
+- wamr: WAMR-02-18-2020 (Feb 2020)
 - wasm3: v0.4.7 (Apr 2020)
 - wasmi: v0.4.4 (Mar 2019)
 - wasmtime: fb7c1b77 (closest to v0.31.0) (Feb 2019)
