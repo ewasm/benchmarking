@@ -1,27 +1,37 @@
-all: evm_precompiles evm_engines wasm_engines scout_engines notebook
+all: build_docker_images benchmark notebook
 
-build_docker_images:
-	cd evm/geth && docker build . -t geth-bench
-	cd evm/parity && docker build . -t parity-bench
-	cd evm/evmone && docker build . -t evmone-bench
-	cd evm/cita-vm && docker build . -t cita-vm-bench
-	cd evm/evmone-evm384 && docker build . -t evmone-evm384-bench
+build_evm_engines:
+	cd evm/geth && docker build . -t ewasm/geth-bench:1
+	cd evm/parity && docker build . -t ewasm/parity-bench:1
+	cd evm/evmone && docker build . -t ewasm/evmone-bench:1
+	cd evm/cita-vm && docker build . -t ewasm/cita-vm-bench:1
+	cd evm/evmone-evm384 && docker build . -t ewasm/evmone-evm384-bench:1
+
+build_wasm_engines:
 	cd wasm-engines && ./build_engines.sh
-	cd scout-engines && docker build . -t scout-engines
 
-evm_precompiles: build_docker_images
+build_scout_engines:
+	cd scout-engines && docker build . -t ewasm/scout-engines:1
+
+build_docker_images: build_evm_engines build_wasm_engines build_scout_engines
+
+benchmark_evm_precompiles:
 	cd evm && ./scripts/run_precompiles_bench.sh geth
 	cd evm && ./scripts/run_precompiles_bench.sh parity
 
-evm_engines: build_docker_images
+benchmark_evm_engines:
 	cd evm && ./scripts/run_bench.sh
 
-scout_engines: build_docker_images
+benchmark_scout_engines:
 	cd scout-engines && ./run_benchmarks.sh
+	cp scout-engines/benchmarks_results_data/scout_bignum_benchmarks.csv benchmark_results_data/
 
-wasm_engines:
-	docker pull ewasm/bench:1
-	cd wasm-engines && ./run_benchmarks.sh
+benchmark_wasm_engines:
+	cd wasm-engines && \
+	./run_benchmarks.sh && \
+	cp benchmark_results_data/standalone_wasm_results.csv ../benchmark_results_data/standalone_wasm_results.csv
+
+benchmark: benchmark_scout_engines benchmark_wasm_engines benchmark_evm_engines benchmark_evm_precompiles
 
 # Default timeout is 30 seconds, but our cells are quite big, increase it to 120 seconds.
 # More info: https://github.com/jupyter/nbconvert/issues/256#issuecomment-188405852

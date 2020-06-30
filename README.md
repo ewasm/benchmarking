@@ -24,17 +24,13 @@ evm/
 Build each one of the evm implementations:
 
 ```shell
-$ cd evm/geth && docker build . -t geth-bench
-$ cd ../parity && docker build . -t parity-bench
-$ cd ../evmone && docker build . -t evmone-bench
-$ cd ../cita-vm && docker build . -t cita-vm-bench
+$ make build_evm_engines
 ```
 
 Run EVM benchmarks:
 
 ```shell
-$ cd evm
-$ ./scripts/run_bench.sh
+$ make benchmark_evm_engines
 ```
 
 The previous command will create a new directory `evmraceresults`, containing the following files:
@@ -67,21 +63,13 @@ $ ./scripts/run_precompiles_bench.py parity
 Build the docker image:
 
 ```shell
-$ cd wasm-engines
-$ docker build . -t wasm-engines
-```
-
-Run the docker container:
-
-```shell
-$ cd ..
-$ docker run --privileged -v $(pwd)/wasm-engines/wasmfiles:/wasmfiles -v $(pwd)/benchmark_results_data:/benchmark_results_data --security-opt seccomp=$(pwd)/wasm-engines/dockerseccompprofile.json -it wasm-engines /bin/bash
+$ make build_wasm_engines
 ```
 
 Build the wasm binaries and execute benchmarks:
 
 ```shell
-root@docker# ./bench_wasm_and_native.sh
+$ cd wasm-engines && ./run_benchmarks.sh
 ```
 
 ### Scout Benchmarks
@@ -89,21 +77,13 @@ root@docker# ./bench_wasm_and_native.sh
 Build the docker image:
 
 ```shell
-$ cd scout-engines
-$ docker build . -t scout-engines
-```
-
-Run the docker container:
-
-```shell
-$ cd ..
-$ docker run --privileged -v $(pwd)/benchmark_results_data:/benchmark_results_data -it scout-engines /bin/bash
+$ make build_scout_engines
 ```
 
 Run benchmarks
 
 ```shell
-root@docker# python3 scout_bignum_bench.py
+make benchmark_scout_engines
 ```
 
 ## Generate charts using jupyter notebooks
