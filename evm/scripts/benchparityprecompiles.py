@@ -11,7 +11,7 @@ import shutil
 import shlex
 
 # output paths should be mounted docker volumes
-RESULT_CSV_OUTPUT_PATH = "/evmraceresults"
+RESULT_CSV_OUTPUT_PATH = "/benchmark_results_data"
 
 RESULT_CSV_FILENAME = "parity_precompile_benchmarks.csv"
 
