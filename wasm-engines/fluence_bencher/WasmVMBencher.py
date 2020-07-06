@@ -375,21 +375,23 @@ class WasmVMBencher:
 
     def do_wamr_aot_test(self, vm_cmd):
         """
-        Runtime load time: 0.046319s
+        engine output:
+        Runtime load time: 0.000205s
         Create AoT compiler with:
           target:        x86_64
-          target cpu:    skylake
+          target cpu:    broadwell
           cpu features:  
           opt level:     3
+          size level:    3
           output format: AoT file
-        Compilation time: 0.245519s
+        Compilation time: 0.002127s
         Compile success, file wasm.aot was generated.
-        Instantiation time: 0.000866s
-
-        execution time: 0.000105s
+        Instantiation time: 0.000860s
+        Exception: invalid input argument count.
+        execution time: 0.000001s
         """
         time_parse_info = {
-          'compile_line_num' : 7,
+          'compile_line_num' : 8,
           'exec_line_num' : -1,
           'compile_regex': "Compilation time: ([\w\.]+)",
           'exec_regex': "execution time: ([\w\.]+)"
