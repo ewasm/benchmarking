@@ -21,12 +21,6 @@ evm/
   parity/
 ```
 
-Build each one of the evm implementations:
-
-```shell
-$ make build_evm_engines
-```
-
 Run EVM benchmarks:
 
 ```shell
@@ -60,12 +54,6 @@ $ ./scripts/run_precompiles_bench.py parity
 
 ### Wasm Engines Benchmarks
 
-Build the docker image:
-
-```shell
-$ make build_wasm_engines
-```
-
 Build the wasm binaries and execute benchmarks:
 
 ```shell
@@ -73,12 +61,6 @@ $ cd wasm-engines && ./run_benchmarks.sh
 ```
 
 ### Scout Benchmarks
-
-Build the docker image:
-
-```shell
-$ make build_scout_engines
-```
 
 Run benchmarks
 
@@ -108,6 +90,10 @@ Alternatively extract the images to the `images` directory by running:
 ```shell
 $ make notebook
 ```
+
+## Build Benchmarks
+
+See the `Makefile` for options to build the various docker images used for benchmarking
 
 ## EVM engine versions
 
