@@ -15,21 +15,20 @@ build_scout_engines:
 
 build_docker_images: build_evm_engines build_wasm_engines build_scout_engines
 
-benchmark_evm_precompiles:
-	cd evm && ./scripts/run_precompiles_bench.sh geth
-	cd evm && ./scripts/run_precompiles_bench.sh parity
-
 benchmark_evm_engines:
-	cd evm && ./scripts/run_bench.sh
+	cd evm && \
+	./scripts/run_bench.sh
 
 benchmark_scout_engines:
-	cd scout-engines && ./run_benchmarks.sh
-	cp scout-engines/benchmarks_results_data/scout_bignum_benchmarks.csv benchmark_results_data/
+	cd scout-engines && \
+	./run_benchmarks.sh && \
+	cp benchmarks_results_data/scout_bignum_benchmarks.csv ../benchmark_results_data/
 
 benchmark_wasm_engines:
 	cd wasm-engines && \
 	./run_benchmarks.sh && \
-	cp benchmark_results_data/standalone_wasm_results.csv ../benchmark_results_data/standalone_wasm_results.csv
+	cp benchmark_results_data/standalone_wasm_results.csv ../benchmark_results_data/ && \
+	cp benchmark_results/data/native_results.csv ../benchmark_results_data/
 
 benchmark: benchmark_scout_engines benchmark_wasm_engines benchmark_evm_engines benchmark_evm_precompiles
 
