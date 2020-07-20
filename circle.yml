@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  shellcheck: circleci/shellcheck@1.3.16
+
 executors:
   notebook:
     docker:
@@ -25,6 +28,10 @@ jobs:
 
 workflows:
   version: 2
+
+  main:
+    jobs:
+      - shellcheck/check
 
   notebook:
     jobs:
