@@ -3785,7 +3785,11 @@ fig_plt.savefig('../images/bignums-bls12-pairings-host-func-variations-total-tim
 # In[183]:
 
 
-fig_plt = plotScoutStackedTest(df_scout_bls12_hostfunc_variations,
+import pdb; pdb.set_trace()
+
+x = df_scout_bls12_hostfunc_variations
+x = x[x.index.isin(["rust-native", "wabt-bignums-*MOD-INTMUL", "wabt-bignums-*MOD-INTMUL-INTADD", "wabt-bignums-*MOD-INTMUL-INTADD-INTSUB", "wabt-bignums-*MOD-INTMUL-INTADD-INTSUB-INTDIV", "wabt-bignums-MULMODMONT", "wabt-bignums-MULDMODMONT-ADDMOD", "wabt-bignums-MULDMODMONT-ADDMOD-SUBMOD", "wabt-bignums-all-hostfuncs-and-superops", "wabt-no-bignums"])]
+fig_plt = plotScoutStackedTest(x,
             suptitle="BLS12-381 two-point pairing check (Rust-eip1962 vs Wasm-wasmsnark)",
             suptitle_pos=1.07,
             #subtitle="ecpairing-zkrollup-websnark-bn128-two-pairings\n",
