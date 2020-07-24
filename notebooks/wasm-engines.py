@@ -3785,8 +3785,6 @@ fig_plt.savefig('../images/bignums-bls12-pairings-host-func-variations-total-tim
 # In[183]:
 
 
-import pdb; pdb.set_trace()
-
 x = df_scout_bls12_hostfunc_variations
 x = x[x.index.isin(["rust-native", "wabt-bignums-*MOD-INTMUL", "wabt-bignums-*MOD-INTMUL-INTADD", "wabt-bignums-*MOD-INTMUL-INTADD-INTSUB", "wabt-bignums-*MOD-INTMUL-INTADD-INTSUB-INTDIV", "wabt-bignums-MULMODMONT", "wabt-bignums-MULDMODMONT-ADDMOD", "wabt-bignums-MULDMODMONT-ADDMOD-SUBMOD", "wabt-bignums-all-hostfuncs-and-superops", "wabt-no-bignums"])]
 fig_plt = plotScoutStackedTest(x,
@@ -4271,17 +4269,32 @@ fig_plt.savefig('../images/bls12-pairings-synth-loop-rust-wasm-evm384.png', bbox
 df_evm384_wasm_synth_loop = df_evm384_wasm_native.copy()
 df_evm384_wasm_synth_loop.reset_index(inplace=True)
 
+df_evm384_wasm_synth_loop = df_evm384_wasm_synth_loop[df_evm384_wasm_synth_loop['engine_bench_name'].str.contains("synth")]
+df_evm384_wasm_synth_loop.set_index('engine_bench_name', inplace=True)
+
+# want 
+# bls12-pairing-rustnative -> df_fizzy_bls12
+# wabt-with-bignums,bls12-two-pairings
+# evmone384, evm384-synth-loop-v2 * adjustment_factor
+
+import pdb; pdb.set_trace()
+
+df_summary_evm384 = df_fizzy_bls12[df_fizzy_bls12.index.isin(['rust-native', 'wabt-with-bignums'])].copy().rename(columns={"exec_time": "time"})
+sl = df_evm384_wasm_synth_loop.copy()
+df_summary_evm384 = pd.concat([df_summary_evm384, sl])
+df_summary_evm384 = df_summary_evm384[df_summary_evm384.index.isin(['rust-native', 'wabt-with-bignums', 'evmone384--evm384-synth-loop-v2'])]
+df_summary_evm384['time'][2] *= 1.24
 
 # In[220]:
 
 
-df_evm384_wasm_synth_loop = df_evm384_wasm_synth_loop[df_evm384_wasm_synth_loop['engine_bench_name'].str.contains("synth")]
+
 
 
 # In[221]:
 
 
-df_evm384_wasm_synth_loop.set_index('engine_bench_name', inplace=True)
+
 
 
 # In[ ]:
@@ -4293,8 +4306,13 @@ df_evm384_wasm_synth_loop.set_index('engine_bench_name', inplace=True)
 # In[222]:
 
 
-fig_plt = plotOneTestUsingTimeCol(df_evm384_wasm_synth_loop,
-            suptitle="BLS12-381 synthetic loop - wasm and evm384",
+# import pdb; pdb.set_trace()
+# x = df_evm384_wasm_synth_loop
+# x["time"][0] *= 1.24
+# x["time"][1] *= 1.24
+
+fig_plt = plotOneTestUsingTimeCol(df_summary_evm384,
+            suptitle="BLS12-381 Pairing - Wasm/EVM384 vs Native",
             suptitle_pos=1.02)
 
 fig_plt.savefig('../images/bls12-synth-loop-wasm-evm384.png', bbox_inches='tight')
