@@ -4282,7 +4282,8 @@ import pdb; pdb.set_trace()
 df_summary_evm384 = df_fizzy_bls12[df_fizzy_bls12.index.isin(['rust-native', 'wabt-with-bignums'])].copy().rename(columns={"exec_time": "time"})
 sl = df_evm384_wasm_synth_loop.copy()
 df_summary_evm384 = pd.concat([df_summary_evm384, sl])
-df_summary_evm384 = df_summary_evm384[df_summary_evm384.index.isin(['rust-native', 'wabt-with-bignums', 'evmone384--evm384-synth-loop-v2'])]
+df_summary_evm384 = df_summary_evm384.rename(index={'evmone384--evm384-synth-loop-v2': 'evm384-v2-estimate'})
+df_summary_evm384 = df_summary_evm384[df_summary_evm384.index.isin(['rust-native', 'wabt-with-bignums', 'evm384-v2-estimate'])]
 df_summary_evm384['time'][2] *= 1.24
 
 # In[220]:
@@ -4312,7 +4313,7 @@ df_summary_evm384['time'][2] *= 1.24
 # x["time"][1] *= 1.24
 
 fig_plt = plotOneTestUsingTimeCol(df_summary_evm384,
-            suptitle="BLS12-381 Pairing - Wasm/EVM384 vs Native",
+            suptitle="BLS12-381 Pairing - Wabt/Evmone384 vs Native",
             suptitle_pos=1.02)
 
 fig_plt.savefig('../images/bls12-synth-loop-wasm-evm384.png', bbox_inches='tight')
