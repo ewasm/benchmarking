@@ -3837,9 +3837,13 @@ df_fizzy_bls12
 
 # In[186]:
 
+import pdb; pdb.set_trace()
+# df_fizzy_bls12 = df_fizzy_bls12[df_fizzy_bls12.
+wasm_engines_evm384 = df_fizzy_bls12[df_fizzy_bls12.index.isin(['rust-native', 'wabt-no-bignums', 'wabt-with-bignums'])]
 
-fig_plt = plotScoutStackedTest(df_fizzy_bls12,
-            suptitle="BLS12-381 two-point pairing check (fizzy vs wabt, rust-eip1962 vs wasmsnark)",
+
+fig_plt = plotScoutStackedTest(wasm_engines_evm384,
+            suptitle="BLS12-381 two-point pairing check (Wabt vs Native)",
             suptitle_pos=1.07,
             #subtitle="ecpairing-zkrollup-websnark-bn128-two-pairings\n",
             #subtitle_size='xx-large'
@@ -4277,7 +4281,6 @@ df_evm384_wasm_synth_loop.set_index('engine_bench_name', inplace=True)
 # wabt-with-bignums,bls12-two-pairings
 # evmone384, evm384-synth-loop-v2 * adjustment_factor
 
-import pdb; pdb.set_trace()
 
 df_summary_evm384 = df_fizzy_bls12[df_fizzy_bls12.index.isin(['rust-native', 'wabt-with-bignums'])].copy().rename(columns={"exec_time": "time"})
 sl = df_evm384_wasm_synth_loop.copy()
@@ -4307,7 +4310,6 @@ df_summary_evm384['time'][2] *= 1.24
 # In[222]:
 
 
-# import pdb; pdb.set_trace()
 # x = df_evm384_wasm_synth_loop
 # x["time"][0] *= 1.24
 # x["time"][1] *= 1.24
