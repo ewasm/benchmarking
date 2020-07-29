@@ -124,8 +124,10 @@ WORKDIR /scoutyamls
 
 
 # install node 12
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash
-RUN apt-get install -y nodejs
+RUN curl -fsSLO --compressed https://nodejs.org/download/release/v12.18.2/node-v12.18.2-linux-x64.tar.gz && \
+  tar -xvf node-v12.18.2-linux-x64.tar.gz -C /usr/local/ --strip-components=1 --no-same-owner
+
+ENV PATH="/usr/local/bin:${PATH}"
 
 # clone scout.ts branch with secp-sig-verify
 RUN git clone https://github.com/ewasm-benchmarking/scout.ts.git --single-branch --branch secp-sig-verify scout.ts-secp
