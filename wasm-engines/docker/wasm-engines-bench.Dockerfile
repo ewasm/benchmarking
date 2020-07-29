@@ -21,7 +21,7 @@ LABEL description="Benchmarking environment for Ewasm benchmarking"
 RUN pip3 install jinja2 pandas click durationpy
 
 # install JRE for asmble
-RUN apt install -y openjdk-8-jre
+RUN apt update -y && apt install -y openjdk-8-jre
 ENV JAVA_VER 8
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
