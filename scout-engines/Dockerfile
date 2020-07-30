@@ -217,8 +217,6 @@ RUN cp /scoutyamls/scout.ts-bls12-standalone-synth-loop/assembly/bls12-pairing/o
 
 # copy the python script to run the benchmarks
 RUN mkdir /benchscript
-COPY nanodurationpy.py /benchscript
-COPY scout_bignum_bench.py /benchscript
 
 # benchmark_results_data should be a mounted volume
 RUN mkdir -p /benchmark_results_data
