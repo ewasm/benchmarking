@@ -28,8 +28,8 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 RUN mkdir /engines
 
 # install node for v8 benchmarks
-RUN curl -fsSLO --compressed https://nodejs.org/dist/v11.10.0/node-v11.10.0-linux-x64.tar.gz && \
-  tar -xvf node-v11.10.0-linux-x64.tar.gz -C /usr/local/ --strip-components=1 --no-same-owner
+RUN curl -fsSLO --compressed https://nodejs.org/download/release/v12.18.2/node-v12.18.2-linux-x64.tar.gz && \
+  tar -xvf node-v12.18.2-linux-x64.tar.gz -C /usr/local/ --strip-components=1 --no-same-owner
 RUN mkdir /engines/node && ln -s /usr/local/bin/node /engines/node/node
 
 # wasm engine binaries
