@@ -1,13 +1,13 @@
 version: 2.1
 
 executors:
-  notebook:
+  charts:
     docker:
       - image: circleci/python:3.7.0
 
 jobs:
-  rebuild-notebook:
-    executor: notebook
+  rebuild-charts:
+    executor: charts 
     steps:
     - checkout
     - run:
@@ -15,11 +15,9 @@ jobs:
         command: |
           sudo pip3 install -r requirements.txt
     - run:
-        name: Rebuild notebook
+        name: Rebuild charts 
         command: |
-          make notebook
-          # Ignore differences in the notebook
-          git checkout -f notebooks/wasm-engines.ipynb
+          make generate_charts 
           # Ensures the generated images are matching
           git diff --color --exit-code
 

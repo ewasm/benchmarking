@@ -1,4 +1,4 @@
-all: build_docker_images benchmark notebook
+all: build_docker_images benchmark generate_charts 
 
 build_evm_engines:
 	cd evm/geth && docker build . -t ewasm/geth-bench:1
@@ -32,8 +32,5 @@ benchmark_wasm_engines:
 
 benchmark: benchmark_scout_engines benchmark_wasm_engines benchmark_evm_engines benchmark_evm_precompiles
 
-# Default timeout is 30 seconds, but our cells are quite big, increase it to 120 seconds.
-# More info: https://github.com/jupyter/nbconvert/issues/256#issuecomment-188405852
-# TODO: upgrade to newer nbconvert which sets the timeout to off by default
-notebook:
-	cd notebooks && jupyter nbconvert --execute --ExecutePreprocessor.timeout=120 --to notebook --inplace wasm-engines.ipynb
+generate_charts:
+	cd notebooks && python3 wasm-engines.py
