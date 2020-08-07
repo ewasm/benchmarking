@@ -9,6 +9,7 @@ FROM ewasm/wavm:1 AS wavm
 FROM ewasm/fizzy:1 AS fizzy
 FROM ewasm/asmble:1 AS asmble
 FROM ewasm/wasmi:1 AS wasmi
+FROM ewasm/vanilla-wabt:1 AS vanilla-wabt
 
 FROM ewasm/llvm-10:1
 
@@ -34,6 +35,7 @@ RUN mkdir /engines/node && ln -s /usr/local/bin/node /engines/node/node
 
 # wasm engine binaries
 COPY --from=wabt /wabt/build/wasm-interp /engines/wabt/wasm-interp
+COPY --from=vanilla-wabt /vanilla-wabt/build/wasm-interp /engines/vanilla-wabt/wasm-interp
 COPY --from=fizzy /fizzy/build/bin/fizzy-bench /engines/fizzy/fizzy-bench
 COPY --from=wasmi /wasmi/target/release/invoke /engines/wasmi/invoke
 COPY --from=wavm  /wavm-build/ /engines/wavm

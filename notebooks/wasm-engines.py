@@ -65,7 +65,7 @@ EVM_RESULT_FILE = "evm_benchmarks.csv"
 # In[6]:
 
 
-INTERPRETER_ENGINES = ['life', 'ssvm', 'wagon', 'wasmi', 'wabt', 'v8-interpreter', 'wasm3', 'wamr-interp', 'fizzy']
+INTERPRETER_ENGINES = ['life', 'ssvm', 'wagon', 'wasmi', 'vanilla-wabt', 'wabt', 'v8-interpreter', 'wasm3', 'wamr-interp', 'fizzy']
 COMPILER_ENGINES = ['lifePolymerase', 'wasmtime', 'wavm', 'v8-liftoff', 'v8-turbofan', 'asmble', 'wamr-jit', 'wamr-aot']
 
 wasm_vm_names = INTERPRETER_ENGINES + COMPILER_ENGINES
