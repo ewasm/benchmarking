@@ -11,7 +11,6 @@ FROM ewasm/asmble:1 AS asmble
 FROM ewasm/wasmi:1 AS wasmi
 FROM ewasm/vanilla-wabt:1 AS vanilla-wabt
 FROM ewasm/eos-bench:1 AS eos
-
 FROM ewasm/llvm-10:1
 
 LABEL maintainer="Ewasm Team"
