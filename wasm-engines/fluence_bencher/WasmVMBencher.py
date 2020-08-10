@@ -156,6 +156,8 @@ class WasmVMBencher:
             result_record = self.do_fizzy_test(cmd)
         elif vm == "ssvm":
             result_record = self.do_ssvm_test(cmd)
+        elif vm == "eos-vm":
+            result_record = self.do_eos_test(cmd)
         else:
             result_record = self.doElapsedTest(cmd)
 
@@ -467,6 +469,18 @@ class WasmVMBencher:
             'exec_line_num': -6,
             'compile_regex' : "Instantiation time: ([\w\.]+)",
             'exec_regex' : "Total execution time: ([\w\.]+)"
+        }
+        return self.doCompilerTest(vm_cmd, time_parse_info)
+    def do_eos_test(self, vm_cmd):
+        """
+        Startup 188835
+        Execution 689115
+        """
+        time_parse_info = {
+            'compile_line_num': 0,
+            'exec_line_num': 1,
+            'compile_regex' : "Startup ([\w\.]+)",
+            'exec_regex' : "Execution ([\w\.]+)"
         }
         return self.doCompilerTest(vm_cmd, time_parse_info)
 
