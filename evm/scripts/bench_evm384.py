@@ -10,6 +10,7 @@ import os
 import shutil
 import shlex
 import json
+from statistics import mean
 
 # output paths should be mounted docker volumes
 RESULT_CSV_OUTPUT_PATH = "/evmraceresults"
@@ -66,6 +67,23 @@ def do_evmone_bench(evmone_bench_cmd):
     time = durationpy.from_str(total_time)
     return {'gas_used': gasused, 'time': time.total_seconds()}
 
+def do_cpp_native_f6m_mul_bench():
+    print("running f6m_mul cpp native benchmark")
+    f6m_mul_cpp_native_cmd = ['/root/evm384_f6m_mul/src/native/build/synth_loop_benchmark']
+
+    stdoutlines = []
+    with subprocess.Popen(f6m_mul_cpp_native_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True) as p:
+        for line in p.stdout: # b'\n'-separated lines
+            print(line, end='')
+            stdoutlines.append(line)  # pass bytes as is
+        p.wait()
+        output = ''.join(stdoutlines)[:-1] + 's'
+
+        return {
+            'time': durationpy.from_str(output).total_seconds(),
+            'bench_name': 'f6m-mul-synth-loop',
+            'engine': 'cpp-native'
+        }
 
 def saveResults(precompile_benchmarks):
     # move existing csv file to backup-datetime-folder
@@ -98,6 +116,21 @@ def main():
       bench_result['bench_name'] = evmone_bench_info['bench_name']
       bench_result['engine'] = "evmone384"
       all_bench_resuls.append(bench_result)
+
+    # do 20 iterations and average results for cpp-native f6m-mul synth loop
+    cpp_native_results = []
+    for i in range(20):
+        result = do_cpp_native_f6m_mul_bench()
+        cpp_native_results.append(result)
+
+    cpp_native_result = {
+        'time': mean(map(lambda x: x['time'], cpp_native_results)),
+        'bench_name': 'f6m-mul-synth-loop',
+        'engine': 'cpp-native',
+        'gas_used': 0
+    }
+
+    all_bench_resuls.append(cpp_native_result)
 
     saveResults(all_bench_resuls)
 
