@@ -192,7 +192,7 @@ WORKDIR /engines
 RUN git clone --single-branch --branch v0.3.0-ewasm-bench-bls12 https://github.com/ewasm-benchmarking/fizzy.git fizzy-bls12-hostfuncs && \
   cd fizzy-bls12-hostfuncs && \
   mkdir build && cd build && \
-  cmake -DFIZZY_TESTING=ON .. && \
+  cmake -DCMAKE_BUILD_TYPE=RELEASE -DFIZZY_TESTING=ON .. && \
   make -j4
 
 WORKDIR /engines
