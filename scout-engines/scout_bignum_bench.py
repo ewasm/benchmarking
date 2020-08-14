@@ -43,6 +43,20 @@ WASM3_BENCH_INFOS = [
   }
 ]
 
+WAMR_BENCH_INFOS = [
+  {
+    'bench_name': 'bls12-wasmsnark-synth-loop',
+    'engine_path': '/engines/scout_wamr.c/build/scout.exec',
+    'engine_name': 'wamr-with-bignums',
+    'scout_yml_path': '/engines/scout_wamr.c/bls12-synth-loop.yaml',
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings-standalone',
+    'engine_path': '/engines/scout_wamr.c/build/scout.exec',
+    'engine_name': 'wamr-with-bignums',
+    'scout_yml_path': '/engines/scout_wamr.c/bls12-two-pairings-standalone.yaml',
+  }
+]
 
 FIZZY_BENCH_INFOS = [
   {
@@ -641,8 +655,25 @@ def do_v8_bench(scoutts_cmd, scoutts_working_dir):
     exec_time = exec_time_seconds + exec_time_milliseconds
     return { 'exec_time': exec_time.total_seconds(), 'parse_time': parse_time.total_seconds() }
 
+def do_wamr_bench(wamr_bench_info):
+    wamr_cmd = [wamr_bench_info['engine_path'], wamr_bench_info['scout_yml_path']]
+    stdoutlines = []
+    wamr_working_dir = os.path.dirname(wamr_bench_info['scout_yml_path'])
 
+    with subprocess.Popen(wamr_cmd, cwd=wamr_working_dir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True) as p:
+        for line in p.stdout: # b'\n'-separated lines
+            print(line, end='')
+            stdoutlines.append(line)  # pass bytes as is
+        p.wait()
 
+    parse_time_regex = 'startup time: (.*)\n'
+    execution_time_regex = 'execution time: (.*)\n'
+    parse_time_match = re.search(parse_time_regex, stdoutlines[0])[1]
+    execution_time_match = re.search(execution_time_regex, stdoutlines[2])[1]
+    return {'engine': wamr_bench_info['engine_name'],
+            'bench_name': wamr_bench_info['bench_name'],
+            'parse_time': float(parse_time_match),
+            'exec_time': float(execution_time_match)}
 
 """
 root@1152c9d9157f:/engines/scout.ts-bn128# /engines/scout-cpp-bn128/build/scout.exec bn128pairing_bignums.yaml
@@ -993,6 +1024,12 @@ def main():
             wasm3_record['parse_time'] = wasm3_bench_result['parse_time']
             scout_benchmarks.append(wasm3_record)
             print("got fizzy result:", wasm3_record)
+
+    # run 10 iterations of scout_wamr.c
+
+    for i in range(10):
+        for bench_to_run in WAMR_BENCH_INFOS:
+            scout_benchmarks.append(do_wamr_bench(bench_to_run))
 
     # run 10 iterations of rust-native
     for i in range(0, 10):
