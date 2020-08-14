@@ -28,6 +28,21 @@ WABT_BENCH_WORKING_DIR = "/engines/wabt-bench-dirs"
 # because wabt reads input data from `./test_block_data.hex` in the working directory,
 # we can execute `wabt_bin_path` from any directory.
 
+WASM3_BENCH_INFOS = [
+  {
+    'bench_name': 'bls12-wasmsnark-synth-loop',
+    'engine_name': 'wasm3-with-bignums',
+    'wasm3_bin_path': '/engines/fizzy-bls12-hostfuncs/build/bin/fizzy-bench',
+    'wasm3_bench_dir': '/engines/fizzy-bls12-hostfuncs/build/bin/bls12-synth-loop',
+  },
+  {
+    'bench_name': 'bls12-wasmsnark-two-pairings-standalone',
+    'engine_name': 'wasm3-with-bignums',
+    'wasm3_bin_path': '/engines/fizzy-bls12-hostfuncs/build/bin/fizzy-bench',
+    'wasm3_bench_dir': '/engines/fizzy-bls12-hostfuncs/build/bin/bls12-pairing',
+  }
+]
+
 
 FIZZY_BENCH_INFOS = [
   {
@@ -702,8 +717,21 @@ def do_fizzy_bench(fizzy_cmd):
     exec_us_time = durationpy.from_str("{}us".format(exec_time_match.group(1)))
     return {'parse_time': parse_us_time.total_seconds(), 'exec_time': exec_us_time.total_seconds()}
 
+def do_wasm3_bench(wasm3_cmd):
+    print("\nrunning wasm3 benchmark...\n{}\n".format(wasm3_cmd))
+    wasm3_cmd = shlex.split(wasm3_cmd)
+    stdoutlines = []
+    with subprocess.Popen(wasm3_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1, universal_newlines=True) as p:
+        for line in p.stdout: # b'\n'-separated lines
+            print(line, end='')
+            stdoutlines.append(line)
+        bench_result = json.loads("".join(stdoutlines))
 
-
+        # count parsing/instantiation in 'init_time'
+        init_time = bench_result['benchmarks'][0]['real_time'] + bench_result['benchmarks'][1]['real_time']
+        exec_time = bench_result['benchmarks'][2]['real_time']
+        p.wait()
+        return {'parse_time': init_time, 'exec_time': exec_time}
 
 
 
@@ -947,6 +975,24 @@ def main():
     #c_ewasm_bench_runs = do_all_cewasm_benchmarks()
     #scout_benchmarks.extend(c_ewasm_bench_runs)
 
+    # run 5 iterations of wasm3
+    for i in range(0, 5):
+        print("\ndoing wasm3 bench run i=",i)
+        for wasm3_bench in WASM3_BENCH_INFOS:
+            bench_name = wasm3_bench['bench_name']
+            wasm3_engine_name = wasm3_bench['engine_name']
+            wasm3_bin_path = wasm3_bench['wasm3_bin_path']
+            wasm3_bench_dir = wasm3_bench['wasm3_bench_dir']
+            print("wasm3 bench: ", wasm3_engine_name, bench_name)
+            wasm3_command = "{} --benchmark_format=json --benchmark_filter=wasm3/* --benchmark_color=false {}".format(wasm3_bin_path, wasm3_bench_dir)
+            wasm3_bench_result = do_wasm3_bench(wasm3_command)
+            wasm3_record = {}
+            wasm3_record['engine'] = wasm3_engine_name
+            wasm3_record['bench_name'] = bench_name
+            wasm3_record['exec_time'] = wasm3_bench_result['exec_time']
+            wasm3_record['parse_time'] = wasm3_bench_result['parse_time']
+            scout_benchmarks.append(wasm3_record)
+            print("got fizzy result:", wasm3_record)
 
     # run 10 iterations of rust-native
     for i in range(0, 10):
