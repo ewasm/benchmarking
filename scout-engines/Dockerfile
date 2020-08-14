@@ -184,9 +184,18 @@ RUN git clone --single-branch --branch dev https://github.com/jwasinger/eip1962-
 RUN cd eip1962-bls12-rs-native && git submodule update --init
 RUN cd eip1962-bls12-rs-native && cargo build --release
 
+WORKDIR /engines
+
+# install scout-wamr
+RUN git clone https://github.com/ewasm-benchmarking/scout_wamr.c -b bls12-test-cases && \
+	cd scout_wamr.c && \
+	git submodule update --init && \
+	mkdir build && \
+	cd build && \
+	cmake .. && \
+	make -j4
 
 # install fizzy
-WORKDIR /engines
 
 # fizzy for bls12 using host funcs
 RUN git clone --single-branch --branch v0.3.0-ewasm-bench-bls12 https://github.com/ewasm-benchmarking/fizzy.git fizzy-bls12-hostfuncs && \
