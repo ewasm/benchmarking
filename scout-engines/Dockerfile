@@ -203,7 +203,6 @@ RUN cd fizzy-bls12-hostfuncs/build/bin && mkdir bls12-synth-loop && \
   echo -e "synth\nmain\n:\n\n\n\n" > bls12-pairing/main_with_websnark_bignum_hostfuncs.inputs && \
   echo -e "synth\nmain\n:\n\n\n\n" > bls12-pairing-nohostfuncs/main_with_websnark.inputs
 
-
 # get non-scout/standalone builds of wasmsnark
 WORKDIR /scoutyamls
 
