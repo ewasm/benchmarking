@@ -18,8 +18,6 @@ jobs:
         name: Rebuild notebook
         command: |
           make notebook
-          # Ignore differences in the notebook
-          git checkout -f notebooks/wasm-engines.ipynb
           # Ensures the generated images are matching
           git diff --color --exit-code
 
