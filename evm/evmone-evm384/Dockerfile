@@ -17,9 +17,16 @@ RUN git clone --recursive --single-branch --branch v0.5.0-evm384-v2 https://gith
 RUN cd evmone-evm384-v2 && mkdir build && \
   cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
 
-
 # fetch evm384 f6m_mul synthetic loop repo
-RUN git clone --single-branch --branch v0.0.1 https://github.com/ewasm/evm384_f6m_mul.git
+RUN git clone --single-branch --branch f6m_mul_native https://github.com/ewasm/evm384_f6m_mul.git
+
+RUN cd evm384_f6m_mul && \
+	git submodule update --init && \
+	cd src/native && \
+	mkdir build && \
+	cd build && \
+	cmake -DCMAKE_BUILD_TYPE=RELEASE .. && \
+	make -j4
 
 WORKDIR /
 CMD /bin/bash
