@@ -65,7 +65,7 @@ EVM_RESULT_FILE = "evm_benchmarks.csv"
 # In[6]:
 
 
-INTERPRETER_ENGINES = ['life', 'ssvm', 'wagon', 'wasmi', 'vanilla-wabt', 'wabt', 'v8-interpreter', 'wasm3', 'wamr-interp', 'fizzy']
+INTERPRETER_ENGINES = ['life', 'ssvm', 'wagon', 'wasmi', 'vanilla-wabt', 'wabt', 'v8-interpreter', 'wasm3', 'wamr-interp', 'vanilla-wabt', 'fizzy', 'eos-vm']
 COMPILER_ENGINES = ['lifePolymerase', 'wasmtime', 'wavm', 'v8-liftoff', 'v8-turbofan', 'asmble', 'wamr-jit', 'wamr-aot']
 
 wasm_vm_names = INTERPRETER_ENGINES + COMPILER_ENGINES
@@ -3271,7 +3271,7 @@ df_evm_vs_wasm_bn128mul.loc[:,'time'] = df_evm_vs_wasm_bn128mul['parse_time'].as
 
 df_evm_vs_wasm_bn128mul = df_evm_vs_wasm_bn128mul[df_evm_vs_wasm_bn128mul['engine'].isin(
     ['parity-evm', 'geth-evm', 'evmone', 'cita-evm',
-    'ssvm', 'wasmi', 'wabt', 'fizzy', 'wasm3']
+     'ssvm', 'wasmi', 'wabt', 'vanilla-wabt', 'fizzy', 'eos-vm', 'wasm3']
 )].copy()
 
 df_evm_vs_wasm_bn128mul = df_evm_vs_wasm_bn128mul.sort_values('time')
@@ -3363,7 +3363,7 @@ df_evm_vs_wasm_mul256.loc[:,'time'] = df_evm_vs_wasm_mul256['parse_time'].astype
 
 df_evm_vs_wasm_mul256 = df_evm_vs_wasm_mul256[df_evm_vs_wasm_mul256['engine'].isin(
     ['parity-evm', 'geth-evm', 'evmone', 'cita-evm',
-     'ssvm', 'wasmi', 'wabt', 'wamr-interp', 'fizzy', 'wasm3']
+     'ssvm', 'wasmi', 'wabt', 'wamr-interp', 'vanilla-wabt', 'fizzy', 'eos-vm', 'wasm3']
 )].copy()
 
 df_evm_vs_wasm_mul256 = df_evm_vs_wasm_mul256.sort_values('time')
@@ -3435,7 +3435,7 @@ df_evm_vs_wasm_blake2b.loc[:,'time'] = df_evm_vs_wasm_blake2b['parse_time'].asty
 
 df_evm_vs_wasm_blake2b = df_evm_vs_wasm_blake2b[df_evm_vs_wasm_blake2b['engine'].isin(
     ['parity-evm', 'geth-evm', 'evmone', 'cita-evm',
-     'ssvm', 'wasmi', 'wabt', 'wamr-interp', 'fizzy', 'wasm3']
+     'ssvm', 'wasmi', 'wabt', 'wamr-interp', 'vanilla-wabt', 'fizzy', 'eos-vm', 'wasm3']
 )].copy()
 
 
