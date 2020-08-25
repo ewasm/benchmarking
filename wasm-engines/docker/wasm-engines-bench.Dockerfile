@@ -10,7 +10,7 @@ FROM ewasm/fizzy:1 AS fizzy
 FROM ewasm/asmble:1 AS asmble
 FROM ewasm/wasmi:1 AS wasmi
 FROM ewasm/vanilla-wabt:1 AS vanilla-wabt
-
+FROM ewasm/eos-vm:1 AS eosvm
 FROM ewasm/llvm-10:1
 
 LABEL maintainer="Ewasm Team"
@@ -48,6 +48,7 @@ COPY --from=wamr /wasm-micro-runtime/product-mini/platforms/linux/build_interp/i
 COPY --from=wamr /wasm-micro-runtime/wamr-compiler/build/wamrc /engines/wamr/wamrc
 COPY --from=asmble /asmble/ /engines/asmble/
 COPY --from=wagon /wagon/cmd/wasm-run/wasm-run /engines/wagon/wasm-run
+COPY --from=eosvm /eos-vm/build/tools/bench-interp /engines/eos-vm/build/tools/bench-interp
 
 RUN mkdir /benchmark_results_data
 

@@ -122,6 +122,7 @@ $ make notebook
 - fizzy: v0.3.0 (Jul 2020)
 - life: d05763d1 (Feb 2019)
 - ssvm: v0.6.0 (Jun 2020)
+- eos-vm: v10.14.6 (Oct 2019)
 - v8 (node.js): v12.18.2 (Jun 2020)
 - modified/optimised wabt: 04fe0c41 (closest to v1.0.9) (Mar 2019)
 - "vanilla" wabt: v1.0.17 (Jun 2020)
