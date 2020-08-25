@@ -1,11 +1,11 @@
 all: build_docker_images benchmark notebook
 
 build_evm_engines:
-	cd evm/geth && docker build . -t ewasm/geth-bench:1
-	cd evm/parity && docker build . -t ewasm/parity-bench:1
-	cd evm/evmone && docker build . -t ewasm/evmone-bench:1
-	cd evm/cita-vm && docker build . -t ewasm/cita-vm-bench:1
-	cd evm/evmone-evm384 && docker build . -t ewasm/evmone-evm384-bench:1
+	cd evm-engines/geth && docker build . -t ewasm/geth-bench:1
+	cd evm-engines/parity && docker build . -t ewasm/parity-bench:1
+	cd evm-engines/evmone && docker build . -t ewasm/evmone-bench:1
+	cd evm-engines/cita-vm && docker build . -t ewasm/cita-vm-bench:1
+	cd evm-engines/evmone-evm384 && docker build . -t ewasm/evmone-evm384-bench:1
 
 build_wasm_engines:
 	cd wasm-engines && ./build_engines.sh
@@ -16,7 +16,7 @@ build_scout_engines:
 build_docker_images: build_evm_engines build_wasm_engines build_scout_engines
 
 benchmark_evm_engines:
-	cd evm && \
+	cd evm-engines && \
 	./scripts/run_bench.sh
 
 benchmark_scout_engines:

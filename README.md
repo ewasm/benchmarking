@@ -3,7 +3,7 @@
 This repository contains instructions for benchmarking evm implementations, ewasm contracts and standalone wasm modules. Directory descriptions follow.
 
 ```
-evm/            - contains benchmarks for different evm implementations (geth, parity, cita-vm, evmone)
+evm-engines/    - contains benchmarks for different evm implementations (geth, parity, cita-vm, evmone)
 ewasm/          - contains benchmarks and tests for ewasm contracts in ewasm engines.
 wasm/           - contains benchmarks for wasm modules in standalone wasm engines.
 wasm-engines/   - contains benchmarks for wasm modules comparing wasm engines.
@@ -11,10 +11,10 @@ wasm-engines/   - contains benchmarks for wasm modules comparing wasm engines.
 
 ## EVM
 
-Directory `/evm` contains a list of the current benchmarked evm implementations:
+Directory `/evm-engines` contains a list of the current benchmarked evm implementations:
 
 ```
-evm/
+evm-engines/
   cita-vm/
   evmone/
   geth/
