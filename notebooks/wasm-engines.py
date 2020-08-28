@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 #%matplotlib widget
@@ -19,7 +19,7 @@ from os.path import join
 from collections import defaultdict
 
 
-# In[2]:
+# In[ ]:
 
 
 plt.style.use('ggplot')
@@ -27,7 +27,7 @@ plt.style.use('ggplot')
 COLORS_DEFAULT ={'blue': '#348ABD', 'red': '#E24A33'}
 
 
-# In[3]:
+# In[ ]:
 
 
 pd.set_option('display.max_rows', 1000)
@@ -39,7 +39,7 @@ pd.set_option('display.max_rows', 1000)
 
 
 
-# In[4]:
+# In[ ]:
 
 
 # conda install -c phlya adjusttext 
@@ -48,7 +48,7 @@ from adjustText import adjust_text
 
 # ## csv result files directory name and file names
 
-# In[5]:
+# In[ ]:
 
 
 CSV_RESULT_DIR = "../benchmark_results_data"
@@ -62,10 +62,10 @@ EVM_RESULT_FILE = "evm_benchmarks.csv"
 
 # ## To add a new engine, add the engine name used in the csv file to this list
 
-# In[6]:
+# In[ ]:
 
 
-INTERPRETER_ENGINES = ['life', 'ssvm', 'wagon', 'wasmi', 'vanilla-wabt', 'wabt', 'v8-interpreter', 'wasm3', 'wamr-interp', 'fizzy']
+INTERPRETER_ENGINES = ['life', 'ssvm', 'wagon', 'wasmi', 'wabt', 'v8-interpreter', 'wasm3', 'wamr-interp', 'fizzy']
 COMPILER_ENGINES = ['lifePolymerase', 'wasmtime', 'wavm', 'v8-liftoff', 'v8-turbofan', 'asmble', 'wamr-jit', 'wamr-aot']
 
 wasm_vm_names = INTERPRETER_ENGINES + COMPILER_ENGINES
@@ -79,7 +79,7 @@ wasm_vm_names = INTERPRETER_ENGINES + COMPILER_ENGINES
 
 # ## Helper funcs
 
-# In[7]:
+# In[ ]:
 
 
 def toMs(secs):
@@ -96,7 +96,7 @@ def toMs(secs):
         return "{}s".format(round(secs, 2))
 
 
-# In[8]:
+# In[ ]:
 
 
 def labelBarHeights(ax, to_ms=True, small=False, to_factor=False, lower_y_bound=True):
@@ -157,7 +157,7 @@ def labelBarHeights(ax, to_ms=True, small=False, to_factor=False, lower_y_bound=
     return labels
 
 
-# In[9]:
+# In[ ]:
 
 
 def labelBarWidths(ax, to_ms=True, to_factor=False, to_kb=False, round_places=None):
@@ -197,7 +197,7 @@ def labelBarWidths(ax, to_ms=True, to_factor=False, to_kb=False, round_places=No
                     weight="bold")
 
 
-# In[10]:
+# In[ ]:
 
 
 def adjust_text_labels(labels, ax=None):
@@ -205,7 +205,7 @@ def adjust_text_labels(labels, ax=None):
                        
 
 
-# In[11]:
+# In[ ]:
 
 
 def read_results(file_name):
@@ -220,7 +220,7 @@ def read_results(file_name):
 
 
 
-# In[12]:
+# In[ ]:
 
 
 def filterDfEngines(df_data, engines):
@@ -245,7 +245,7 @@ def filterDfEngines(df_data, engines):
 
 # ## print benchmark machine cpu type
 
-# In[13]:
+# In[ ]:
 
 
 with open(join(CSV_RESULT_DIR, "cpuinfo.txt"), 'r') as cpuinfofile:
@@ -266,13 +266,13 @@ with open(join(CSV_RESULT_DIR, "cpuinfo.txt"), 'r') as cpuinfofile:
 
 # ## Import EVM engine results
 
-# In[14]:
+# In[ ]:
 
 
 df_evm_raw = read_results(join(CSV_RESULT_DIR, EVM_RESULT_FILE))
 
 
-# In[15]:
+# In[ ]:
 
 
 df_evm_raw
@@ -292,7 +292,7 @@ df_evm_raw
 
 # ## Import scout engine results
 
-# In[16]:
+# In[ ]:
 
 
 df_scout_data = read_results(join(CSV_RESULT_DIR, SCOUT_RESULT_FILE))
@@ -318,7 +318,7 @@ df_scout_data = read_results(join(CSV_RESULT_DIR, SCOUT_RESULT_FILE))
 
 
 
-# In[17]:
+# In[ ]:
 
 
 ## we aren't using this chart style anymore. replaced by plotThreeTestsGrouped()
@@ -352,7 +352,7 @@ def plotTwoEngines(df_benches, two_engines, title="Title"):
 
 
 
-# In[18]:
+# In[ ]:
 
 
 def plotThreeTestsGrouped(df_benches, three_tests, title="Title"):
@@ -403,7 +403,7 @@ def plotThreeTestsGrouped(df_benches, three_tests, title="Title"):
 
 # ## TODO: temporarily disabled until new C_ewasm data
 
-# In[19]:
+# In[ ]:
 
 
 #fig_plt = plotThreeTestsGrouped(df_scout_data, ["blake2b_64", "blake2b_256", "blake2b_1024"], "blake2b C implementations compared")
@@ -417,7 +417,7 @@ def plotThreeTestsGrouped(df_benches, three_tests, title="Title"):
 
 
 
-# In[20]:
+# In[ ]:
 
 
 #fig_plt = plotThreeTestsGrouped(df_scout_data, ["sha256_64", "sha256_256", "sha256_1024"], "sha256 C implementations compared")
@@ -431,7 +431,7 @@ def plotThreeTestsGrouped(df_benches, three_tests, title="Title"):
 
 
 
-# In[21]:
+# In[ ]:
 
 
 #fig_plt = plotThreeTestsGrouped(df_scout_data, ["keccak256_64", "keccak256_256", "keccak256_1024"], "keccak256 C implementations compared")
@@ -477,7 +477,7 @@ def plotThreeTestsGrouped(df_benches, three_tests, title="Title"):
 
 
 
-# In[22]:
+# In[ ]:
 
 
 # non-stacked bar chart, for only plotting exec time or total time
@@ -501,7 +501,7 @@ def plotOneTestUsingTimeCol(df_data, time_col_name="time", suptitle="title", sup
 
 
 
-# In[23]:
+# In[ ]:
 
 
 # non-stacked bar chart, for only plotting exec time or total time
@@ -521,7 +521,7 @@ def plotOneTest(df_data, suptitle="title", suptitle_pos=1.00, subtitle="subchart
     return plt
 
 
-# In[24]:
+# In[ ]:
 
 
 # non-stacked bar chart, for only plotting exec time or total time
@@ -553,7 +553,7 @@ def plotOneTestColoredTicksBLS(df_data, suptitle="title", suptitle_pos=1.00, sub
     return plt
 
 
-# In[25]:
+# In[ ]:
 
 
 # non-stacked bar chart, for only plotting exec time or total time
@@ -585,7 +585,7 @@ def plotOneTestColoredTicks(df_data, suptitle="title", suptitle_pos=1.00, subtit
     return plt
 
 
-# In[26]:
+# In[ ]:
 
 
 def plotOneTestGrouped(df_1, test_title="test_title", title="plot Title", colors=['tab:blue', 'tab:orange'], sort_by='websnark-bn128-two-pairings', group_order=None):
@@ -611,7 +611,7 @@ def plotOneTestGrouped(df_1, test_title="test_title", title="plot Title", colors
     return plt
 
 
-# In[27]:
+# In[ ]:
 
 
 def plotOneTestGroupedExexTime(df_1, test_title="test_title", title="plot Title", colors=['tab:blue', 'tab:orange'], sort_by='websnark-bn128-two-pairings', group_order=None):
@@ -643,7 +643,7 @@ def plotOneTestGroupedExexTime(df_1, test_title="test_title", title="plot Title"
 
 
 
-# In[28]:
+# In[ ]:
 
 
 def plotScoutStackedTest(df_data, suptitle="title", suptitle_pos=1.00, subtitle="subchart", subtitle_size='medium'):
@@ -678,7 +678,7 @@ def plotScoutStackedTest(df_data, suptitle="title", suptitle_pos=1.00, subtitle=
 
 # ## Plot biturbo benchmark: biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof
 
-# In[29]:
+# In[ ]:
 
 
 df_scout_biturbo_token = df_scout_data[df_scout_data['bench_name'] == 'biturbo-token-eth1-mainnet-stateless-block-hexary-trie-keccak256-multiproof']
@@ -694,7 +694,7 @@ df_scout_fast_biturbo_means = df_scout_fast_biturbo_token.groupby(['engine']).me
 
 
 
-# In[30]:
+# In[ ]:
 
 
 fig_plt = plotOneTest(df_scout_means_biturbo_token,
@@ -718,7 +718,7 @@ fig_plt.savefig('../images/scout-biturbo-token-all-engines.png', bbox_inches='ti
 
 
 
-# In[31]:
+# In[ ]:
 
 
 fig_plt = plotScoutStackedTest(df_scout_fast_biturbo_means,
@@ -750,7 +750,7 @@ fig_plt.savefig('../images/scout-biturbo-token-compilers-vs-interpreters.png', b
 
 # ## Plot bignum benchmark: ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs
 
-# In[32]:
+# In[ ]:
 
 
 df_scout_ecrecover_websnark_secp256k1 = df_scout_data[df_scout_data['bench_name'] == 'ecrecover-eth1-txns-websnark-secp256k1-verify-72-sigs']
@@ -767,7 +767,7 @@ df_scout_fast_ecrecover_means = df_scout_fast_ecrecover.groupby(['engine']).mean
 
 
 
-# In[33]:
+# In[ ]:
 
 
 fig_plt = plotOneTest(df_scout_means_ecrecover_websnark_secp256k1,
@@ -792,7 +792,7 @@ fig_plt.savefig('../images/scout-ecrecover-websnark-secp256k1-verify-72-sigs-all
 
 
 
-# In[34]:
+# In[ ]:
 
 
 fig_plt = plotScoutStackedTest(df_scout_fast_ecrecover_means,
@@ -843,7 +843,7 @@ fig_plt.savefig('../images/scout-ecrecover-websnark-secp256k1-verify-72-sigs-wab
 
 
 
-# In[35]:
+# In[ ]:
 
 
 df_scout_ecpairing_zkrollup_bn128_pairings = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-websnark-bn128-two-pairings']
@@ -860,7 +860,7 @@ df_scout_fast_means_ecpairing_zkrollup = df_scout_fast_ecpairing_zkrollup.groupb
 
 
 
-# In[36]:
+# In[ ]:
 
 
 fig_plt = plotOneTest(df_scout_means_ecpairing_zkrollup,
@@ -872,7 +872,7 @@ fig_plt = plotOneTest(df_scout_means_ecpairing_zkrollup,
 fig_plt.savefig('../images/scout-ecpairing-zkrollup-websnark-bn128-two-pairings-all-engines.png', bbox_inches='tight')
 
 
-# In[37]:
+# In[ ]:
 
 
 fig_plt = plotScoutStackedTest(df_scout_fast_means_ecpairing_zkrollup,
@@ -897,7 +897,7 @@ fig_plt.savefig('../images/scout-ecpairing-zkrollup-websnark-bn128-two-pairings-
 
 # ## start with rust bn128 pairings, compare to native, and compare interpreters to compilers
 
-# In[38]:
+# In[ ]:
 
 
 df_scout_rolluprs_bn128_pairings = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-wasm-bn128-two-pairings']
@@ -910,7 +910,7 @@ df_scout_means_rolluprs = df_scout_rolluprs_bn128_pairings.groupby(['engine']).m
 #df_scout_fast_means_rolluprs = df_scout_fast_rolluprs.groupby(['engine']).mean()
 
 
-# In[39]:
+# In[ ]:
 
 
 fig_plt = plotOneTest(df_scout_means_rolluprs,
@@ -962,7 +962,7 @@ fig_plt.savefig('../images/scout-ecpairing-zkrollup-rust-wasm-bn128-two-pairings
 
 
 
-# In[40]:
+# In[ ]:
 
 
 df_scout_rolluprs_bn128_pairings = df_scout_data[df_scout_data['bench_name'].isin(
@@ -989,7 +989,7 @@ df_scout_fast_means_rolluprs = df_scout_fast_rolluprs.groupby(['engine']).mean()
 
 
 
-# In[41]:
+# In[ ]:
 
 
 fig_plt = plotScoutStackedTest(df_scout_fast_means_rolluprs,
@@ -1038,7 +1038,7 @@ fig_plt.savefig('../images/scout-ecpairing-zkrollup-rust-wasm-bn128-two-pairings
 
 
 
-# In[42]:
+# In[ ]:
 
 
 df_scout_rust_vs_websnark = df_scout_data[
@@ -1049,13 +1049,13 @@ df_scout_rust_vs_websnark = df_scout_data[
 ].copy()
 
 
-# In[43]:
+# In[ ]:
 
 
 #df_scout_rust_vs_websnark
 
 
-# In[44]:
+# In[ ]:
 
 
 #df_scout_rust_vs_websnark.replace('ecpairing-zkrollup-rust-wasm-bn128-two-pairings', 'rust-wasm-bn128-two-pairings', inplace=True)
@@ -1066,7 +1066,7 @@ df_scout_rust_vs_websnark.replace('ecpairing-zkrollup-websnark-bn128-two-pairing
 
 
 
-# In[45]:
+# In[ ]:
 
 
 df_scout_rust_vs_websnark = df_scout_rust_vs_websnark[df_scout_rust_vs_websnark['engine'].isin(
@@ -1074,7 +1074,7 @@ df_scout_rust_vs_websnark = df_scout_rust_vs_websnark[df_scout_rust_vs_websnark[
 )].copy()
 
 
-# In[46]:
+# In[ ]:
 
 
 #df_scout_rust_vs_websnark
@@ -1092,13 +1092,13 @@ df_scout_rust_vs_websnark = df_scout_rust_vs_websnark[df_scout_rust_vs_websnark[
 
 
 
-# In[47]:
+# In[ ]:
 
 
 # {'tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive', 'tab:cyan'}
 
 
-# In[48]:
+# In[ ]:
 
 
 fig_plt = plotOneTestGrouped(df_scout_rust_vs_websnark,
@@ -1109,7 +1109,7 @@ fig_plt = plotOneTestGrouped(df_scout_rust_vs_websnark,
                    colors=['tab:blue', 'tab:orange'])
 
 
-# In[49]:
+# In[ ]:
 
 
 fig_plt.savefig('../images/websnark-vs-rust-wasm-zkrollup-bn128-pairings.png', bbox_inches='tight')
@@ -1133,7 +1133,7 @@ fig_plt.savefig('../images/websnark-vs-rust-wasm-zkrollup-bn128-pairings.png', b
 
 
 
-# In[50]:
+# In[ ]:
 
 
 df_rolluprs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
@@ -1151,7 +1151,7 @@ df_scout_rust_vs_websnark_fast_vs_native = df_scout_rust_vs_websnark.append(df_r
 
 
 
-# In[51]:
+# In[ ]:
 
 
 
@@ -1205,7 +1205,7 @@ fig_plt.savefig('../images/websnark-vs-rust-wasm-native-zkrollup-bn128-pairings'
 
 
 
-# In[52]:
+# In[ ]:
 
 
 # print out the engine names
@@ -1234,7 +1234,7 @@ df_websnark_vs_native['engine'].unique().tolist()
 
 
 
-# In[53]:
+# In[ ]:
 
 
 df_websnark_vs_native = df_scout_data[df_scout_data['bench_name'] == 'ecpairing-zkrollup-websnark-bn128-two-pairings'].copy()
@@ -1249,13 +1249,13 @@ df_websnark_vs_native = df_websnark_vs_native.append(df_rolluprs_native)
 df_websnark_vs_native_means = df_websnark_vs_native.groupby(['engine']).mean()
 
 
-# In[54]:
+# In[ ]:
 
 
 #df_websnark_vs_native_means
 
 
-# In[55]:
+# In[ ]:
 
 
 fig_plt = plotScoutStackedTest(df_websnark_vs_native_means,
@@ -1293,7 +1293,7 @@ fig_plt.savefig('../images/websnark-vs-native-bn128-two-pairings-v8.png', bbox_i
 
 # # Try Seaborn with error bars
 
-# In[56]:
+# In[ ]:
 
 
 import seaborn as sns
@@ -1305,13 +1305,13 @@ import seaborn as sns
 
 
 
-# In[57]:
+# In[ ]:
 
 
 df_websnark_vs_native['time'] = df_websnark_vs_native['exec_time'] + df_websnark_vs_native['parse_time']
 
 
-# In[58]:
+# In[ ]:
 
 
 f = plt.figure(figsize=(14,8))
@@ -1331,7 +1331,7 @@ ax = sns.barplot(x='engine', y='time', data=df_websnark_vs_native)
 
 
 
-# In[59]:
+# In[ ]:
 
 
 f = plt.figure(figsize=(14,8))
@@ -1371,7 +1371,7 @@ ax = sns.barplot(x='engine', y='exec_time', hue='bench_name', data=df_scout_rust
 
 
 
-# In[60]:
+# In[ ]:
 
 
 df_scout_daiquiri_zkmixer = df_scout_data[df_scout_data['bench_name'] == 'daiquiri-zkmixer-websnark-bn128-groth16-four-pairings-and-mimc']
@@ -1388,7 +1388,7 @@ df_scout_fast_means_daiquiri_zkmixer = df_scout_fast_daiquiri_zkmixer.groupby(['
 
 
 
-# In[61]:
+# In[ ]:
 
 
 plotOneTest(df_scout_means_daiquiri_zkmixer,
@@ -1400,7 +1400,7 @@ plotOneTest(df_scout_means_daiquiri_zkmixer,
 fig_plt.savefig('../images/scout-daiquiri-all-engines.png', bbox_inches='tight')
 
 
-# In[62]:
+# In[ ]:
 
 
 fig_plt = plotScoutStackedTest(df_scout_fast_means_daiquiri_zkmixer,
@@ -1444,19 +1444,19 @@ fig_plt.savefig('../images/scout-daiquiri-v8-vs-wabt.png', bbox_inches='tight')
 
 # ## Import geth precompile results
 
-# In[63]:
+# In[ ]:
 
 
 df_geth_precompiles = read_results(join(CSV_RESULT_DIR, GETH_PRECOMPILE_RESULT_FILE))
 
 
-# In[64]:
+# In[ ]:
 
 
 #df_geth_precompiles
 
 
-# In[65]:
+# In[ ]:
 
 
 def splitName(test_name):
@@ -1464,25 +1464,25 @@ def splitName(test_name):
     return (test_name[0:ix], test_name[ix+1:])
 
 
-# In[66]:
+# In[ ]:
 
 
 df_geth_precompiles['precompile_name'], df_geth_precompiles['input_name'] = zip(*df_geth_precompiles.apply(lambda row: splitName(row['test_name']), axis=1))
 
 
-# In[67]:
+# In[ ]:
 
 
 df_geth_precompiles = df_geth_precompiles[['precompile_name', 'input_name', 'gas', 'time']]
 
 
-# In[68]:
+# In[ ]:
 
 
 df_geth_native_bn128pairing = df_geth_precompiles[df_geth_precompiles["input_name"] == "two_point_match_rollup_input"].copy()
 
 
-# In[69]:
+# In[ ]:
 
 
 df_geth_native_bn128pairing
@@ -1508,13 +1508,13 @@ df_geth_native_bn128pairing
 
 # ## Import standalone wasm results
 
-# In[70]:
+# In[ ]:
 
 
 df_wasm = read_results(join(CSV_RESULT_DIR, STANDALONE_WASM_RESULT_FILE))
 
 
-# In[71]:
+# In[ ]:
 
 
 df_wasm
@@ -1528,13 +1528,13 @@ df_wasm
 
 # ## Import native results
 
-# In[72]:
+# In[ ]:
 
 
 df_native_raw = read_results(join(CSV_RESULT_DIR, NATIVE_RESULT_FILE))
 
 
-# In[73]:
+# In[ ]:
 
 
 native_results = {}
@@ -1555,7 +1555,7 @@ df_native = pd.DataFrame.from_dict(native_times, orient='index', columns=['elaps
 df_native['engine'] = 'rust-native'
 
 
-# In[74]:
+# In[ ]:
 
 
 df_native
@@ -1581,7 +1581,7 @@ df_native
 
 # ### sorted lists of test names for plotting inputs in order
 
-# In[75]:
+# In[ ]:
 
 
 blake2b_test_names = [name for name in df_wasm['test_name'].unique().tolist() if 'blake2b' in name]
@@ -1590,7 +1590,7 @@ blake2b_test_names_desc = blake2b_test_names.copy()
 blake2b_test_names_desc.reverse()
 
 
-# In[76]:
+# In[ ]:
 
 
 sha1_test_names = [name for name in df_wasm['test_name'].unique().tolist() if 'sha1' in name]
@@ -1599,7 +1599,7 @@ sha1_test_names_desc = sha1_test_names.copy()
 sha1_test_names_desc.reverse()
 
 
-# In[77]:
+# In[ ]:
 
 
 
@@ -1616,7 +1616,7 @@ bn128_add_test_names_desc = ['bn128_add-cdetrio11', 'bn128_add-cdetrio14', 'bn12
 bn128_pairing_test_names_desc = ['bn128_pairing-ten_point_match_1', 'bn128_pairing-two_point_match_2', 'bn128_pairing-one_point']
 
 
-# In[78]:
+# In[ ]:
 
 
 bls12_test_names = ['bls12-381-aggreg-32-pubkeys-verify-sig', 'bls12-381-aggreg-64-pubkeys-verify-sig', 'bls12-381-aggreg-128-pubkeys-verify-sig']
@@ -1624,7 +1624,7 @@ bls12_test_names_desc = bls12_test_names.copy()
 bls12_test_names_desc.reverse()
 
 
-# In[79]:
+# In[ ]:
 
 
 modexp_test_names = [name for name in df_wasm['test_name'].unique().tolist() if 'modexp' in name]
@@ -1633,7 +1633,7 @@ modexp_test_names_desc = modexp_test_names.copy()
 modexp_test_names_desc.reverse()
 
 
-# In[80]:
+# In[ ]:
 
 
 all_tests = sha1_test_names + blake2b_test_names + modexp_test_names + ['ed25519-verify-ten-inputs'] + bls12_test_names     + bn128_add_test_names + bn128_mul_test_names + bn128_pairing_test_names
@@ -1653,7 +1653,7 @@ all_tests = sha1_test_names + blake2b_test_names + modexp_test_names + ['ed25519
 
 # ### Prepare interpreter dataframe
 
-# In[81]:
+# In[ ]:
 
 
 all_interp_test_names = []
@@ -1679,7 +1679,7 @@ df_interp['total_time'] = df_interp['parse_time'] + df_interp['exec_time']
 #df_interp
 
 
-# In[82]:
+# In[ ]:
 
 
 df_wasm['test_name'].unique().tolist()
@@ -1717,7 +1717,7 @@ df_wasm['test_name'].unique().tolist()
 
 # ## Interpreter engines compared
 
-# In[83]:
+# In[ ]:
 
 
 def plotInterpThreeTests(df_testdata, three_names, title="Title", filter_engines=None):
@@ -1764,7 +1764,7 @@ def plotInterpThreeTests(df_testdata, three_names, title="Title", filter_engines
 
 
 
-# In[84]:
+# In[ ]:
 
 
 plt_fig = plotInterpThreeTests(df_interp, blake2b_test_names, title="wasm interpreters compared - blake2b")
@@ -1797,7 +1797,7 @@ plt_fig.savefig('../images/wasm-interp-blake2b.png', bbox_inches='tight')
 
 # ### Interpreters - Execution time
 
-# In[85]:
+# In[ ]:
 
 
 def plotThreeTestsExecTime(df_testdata, three_names, title="Title", filter_engines=None):
@@ -1838,7 +1838,7 @@ def plotThreeTestsExecTime(df_testdata, three_names, title="Title", filter_engin
     return f
 
 
-# In[86]:
+# In[ ]:
 
 
 plt_fig = plotThreeTestsExecTime(df_interp, blake2b_test_names, title="wasm interpreters compared - blake2b")
@@ -1865,7 +1865,7 @@ plt_fig.savefig('../images/wasm-interp-blake2b-exec.png', bbox_inches='tight')
 
 # ## Chart of only the fast interpreters
 
-# In[87]:
+# In[ ]:
 
 
 plt_fig = plotInterpThreeTests(df_interp,
@@ -1875,7 +1875,7 @@ plt_fig = plotInterpThreeTests(df_interp,
 plt_fig.savefig('../images/wasm-interp-blake2b-fast.png', bbox_inches='tight')
 
 
-# In[88]:
+# In[ ]:
 
 
 plt_fig = plotInterpThreeTests(df_interp,
@@ -1885,7 +1885,7 @@ plt_fig = plotInterpThreeTests(df_interp,
 plt_fig.savefig('../images/wasm-interp-modexp.png', bbox_inches='tight')
 
 
-# In[89]:
+# In[ ]:
 
 
 plt_fig = plotInterpThreeTests(df_interp,
@@ -1901,7 +1901,7 @@ plt_fig.savefig('../images/wasm-interp-bn128-add.png', bbox_inches='tight')
 
 
 
-# In[90]:
+# In[ ]:
 
 
 plt_fig = plotThreeTestsExecTime(df_interp,
@@ -1911,7 +1911,7 @@ plt_fig = plotThreeTestsExecTime(df_interp,
 plt_fig.savefig('../images/wasm-interp-blake2b-life-wagon-v8.png', bbox_inches='tight')
 
 
-# In[91]:
+# In[ ]:
 
 
 plt_fig = plotThreeTestsExecTime(df_interp,
@@ -1953,7 +1953,7 @@ plt_fig.savefig('../images/wasm-interp-bls12.png', bbox_inches='tight')
 
 # ## Compiler Results
 
-# In[92]:
+# In[ ]:
 
 
 compiler_results_for_df = []
@@ -1966,7 +1966,7 @@ for engine in COMPILER_ENGINES:
 
 
 
-# In[93]:
+# In[ ]:
 
 
 df_compiler = pd.DataFrame(compiler_results_for_df)
@@ -1992,13 +1992,13 @@ df_compiler['total_time'] = df_compiler['compile_time'] + df_compiler['exec_time
 
 # ## JIT bomb chart - guido-fuzzer-find-1
 
-# In[94]:
+# In[ ]:
 
 
 #df_compiler
 
 
-# In[95]:
+# In[ ]:
 
 
 def plotJitBomb(df_jit, title="jit bomb chart", log_scale=False):
@@ -2034,13 +2034,13 @@ def plotJitBomb(df_jit, title="jit bomb chart", log_scale=False):
 
 
 
-# In[96]:
+# In[ ]:
 
 
 df_jitbomb_1 = df_compiler[df_compiler['test_name'] == 'guido-fuzzer-find-1'].copy()
 
 
-# In[97]:
+# In[ ]:
 
 
 df_jitbomb_1.drop(['elapsed_time'], axis=1, inplace=True)
@@ -2048,20 +2048,20 @@ df_jitbomb_1.drop(['total_time'], axis=1, inplace=True)
 df_jitbomb_1.reset_index(inplace=True)
 
 
-# In[98]:
+# In[ ]:
 
 
 df_jitbomb_1 = df_jitbomb_1.melt(id_vars=["engine", "test_name"], var_name="exec_or_compile")
 
 
-# In[99]:
+# In[ ]:
 
 
 fig_plt = plotJitBomb(df_jitbomb_1, "JIT bomb guido-fuzzer-find-1")
 fig_plt.savefig('../images/standalone-jitbomb-guido-fuzzer-find-1.png', bbox_inches='tight')
 
 
-# In[100]:
+# In[ ]:
 
 
 fig_plt = plotJitBomb(df_jitbomb_1, "JIT bomb guido-fuzzer-find-1 - log scale", log_scale=True)
@@ -2088,7 +2088,7 @@ fig_plt.savefig('../images/standalone-jitbomb-guido-fuzzer-find-1-log-scale.png'
 
 # ### guido-fuzzer-find-2
 
-# In[101]:
+# In[ ]:
 
 
 df_jitbomb_2 = df_compiler[df_compiler['test_name'] == 'guido-fuzzer-find-2'].copy()
@@ -2100,7 +2100,7 @@ df_jitbomb_2.reset_index(inplace=True)
 df_jitbomb_2 = df_jitbomb_2.melt(id_vars=["engine", "test_name"], var_name="exec_or_compile")
 
 
-# In[102]:
+# In[ ]:
 
 
 fig_plt = plotJitBomb(df_jitbomb_2, "JIT bomb guido-fuzzer-find-2 (log scale)", log_scale=True)
@@ -2151,7 +2151,7 @@ fig_plt.savefig('../images/standalone-jitbomb-guido-fuzzer-find-2-log-scale.png'
 # 
 # *Note: Fix scale for v8-turbofan execution time*
 
-# In[103]:
+# In[ ]:
 
 
 def plotCompilerStackedOneTest(df_benchdata, test_name):
@@ -2173,7 +2173,7 @@ def plotCompilerStackedOneTest(df_benchdata, test_name):
     return plt
 
 
-# In[104]:
+# In[ ]:
 
 
 fig_plt = plotCompilerStackedOneTest(df_compiler, "blake2b-8415-bytes")
@@ -2224,7 +2224,7 @@ fig_plt.savefig('../images/standalone-blake2b-8415-bytes-compilers.png',  bbox_i
 
 # ## Add rust-native to compiler engines chart
 
-# In[105]:
+# In[ ]:
 
 
 # merge df_native and df_compiler into one dataframe
@@ -2248,7 +2248,7 @@ df_native_and_compile.set_index('engine', inplace=True)
 
 
 
-# In[106]:
+# In[ ]:
 
 
 fig_plt = plotCompilerStackedOneTest(df_native_and_compile, "bls12-381-aggreg-128-pubkeys-verify-sig")
@@ -2287,7 +2287,7 @@ fig_plt.savefig('../images/standalone-bls12-381-aggreg-128-pubkeys-verify-sig-co
 
 
 
-# In[107]:
+# In[ ]:
 
 
 # merge df_compiler and df_interp
@@ -2303,7 +2303,7 @@ df_interp_and_compile = df_interp_and_compile.reset_index()
 
 
 
-# In[108]:
+# In[ ]:
 
 
 def add_engine_ratio_col(df_two_engines, interp_engine, compiler_engine):
@@ -2324,7 +2324,7 @@ def add_engine_ratio_col(df_two_engines, interp_engine, compiler_engine):
     return df_interp
 
 
-# In[109]:
+# In[ ]:
 
 
 df_wabt_v8liftoff = add_engine_ratio_col(df_interp_and_compile, "wabt", "v8-liftoff")
@@ -2336,7 +2336,7 @@ df_wabt_v8liftoff = add_engine_ratio_col(df_interp_and_compile, "wabt", "v8-lift
 
 
 
-# In[110]:
+# In[ ]:
 
 
 def plotCompilerSpeedup(df_compiler_speedup, interp_name="interp", compiler_name="compiler"):
@@ -2371,7 +2371,7 @@ def plotCompilerSpeedup(df_compiler_speedup, interp_name="interp", compiler_name
     return plt
 
 
-# In[111]:
+# In[ ]:
 
 
 plt_fig = plotCompilerSpeedup(df_wabt_v8liftoff, interp_name="wabt", compiler_name="v8-liftoff")
@@ -2392,7 +2392,7 @@ plt_fig.savefig('../images/standalone-wabt-vs-v8-liftoff-speedup.png',  bbox_inc
 
 # ## All precompiles compared (are interpreters feasible?)
 
-# In[112]:
+# In[ ]:
 
 
 def plotInterpOneEngine(df_benchdata, engine, test_names, title=""):
@@ -2411,7 +2411,7 @@ def plotInterpOneEngine(df_benchdata, engine, test_names, title=""):
     return plt
 
 
-# In[113]:
+# In[ ]:
 
 
 plt_fig = plotInterpOneEngine(df_interp, 'wasmi', all_tests, "Wasmi - all Precompiles (existing and proposed) compared")
@@ -2424,7 +2424,7 @@ plt_fig.savefig('../images/standalone-wasmi-all-precompiles.png',  bbox_inches='
 
 
 
-# In[114]:
+# In[ ]:
 
 
 plt_fig = plotInterpOneEngine(df_interp, 'wabt', all_tests, "Wabt - all Precompiles (existing and proposed) compared")
@@ -2455,7 +2455,7 @@ plt_fig.savefig('../images/standalone-wabt-all-precompiles.png',  bbox_inches='t
 
 
 
-# In[115]:
+# In[ ]:
 
 
 plt_fig = plotThreeTestsExecTime(df_interp,
@@ -2476,7 +2476,7 @@ plt_fig.savefig('../images/standalone-wasm-interp-bn128-pairings.png',  bbox_inc
 
 
 
-# In[116]:
+# In[ ]:
 
 
 fig_plt = plotCompilerStackedOneTest(df_native_and_compile, "bn128_pairing-two_point_match_2")
@@ -2516,20 +2516,20 @@ fig_plt.savefig('../images/standalone-rust-bn128-pairings-compiler-vs-native.png
 
 # ### add geth-native to df_scout_data for the rollup benchmark
 
-# In[117]:
+# In[ ]:
 
 
 df_geth_native_bn128pairing
 
 
-# In[118]:
+# In[ ]:
 
 
 df_geth_native_bn128pairing.loc[:, 'engine'] = "go-native"
 df_geth_native_bn128pairing.loc[:, 'parse_time'] = 0
 
 
-# In[119]:
+# In[ ]:
 
 
 df_geth_native_bn128pairing.rename(columns={'input_name':'bench_name','time':'exec_time'},inplace=True)
@@ -2538,13 +2538,13 @@ df_geth_native_bn128pairing.drop(['gas'],axis=1,inplace=True)
 df_geth_native_bn128pairing = df_geth_native_bn128pairing[['engine', 'bench_name', 'parse_time', 'exec_time']]
 
 
-# In[120]:
+# In[ ]:
 
 
 df_geth_native_bn128pairing.loc[:,'bench_name'] = 'ecpairing-zkrollup-go-native-bn128-two-pairings'
 
 
-# In[121]:
+# In[ ]:
 
 
 df_geth_native_bn128pairing
@@ -2564,7 +2564,7 @@ df_geth_native_bn128pairing
 
 # ## list engine names
 
-# In[122]:
+# In[ ]:
 
 
 
@@ -2591,7 +2591,7 @@ df_scout_rust_vs_websnark['engine'].unique().tolist()
 # ## function to prepare dataframe for rollup.rs and websnark plots
 # 
 
-# In[123]:
+# In[ ]:
 
 
 def prepDfForRollupPlot(df_scout_data, df_geth_native, include_bench_names, only_include_engines=None, rename_engines=None):
@@ -2624,7 +2624,7 @@ def prepDfForRollupPlot(df_scout_data, df_geth_native, include_bench_names, only
 
 
 
-# In[124]:
+# In[ ]:
 
 
 include_bench_names = ['ecpairing-zkrollup-rust-wasm-bn128-two-pairings', 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
@@ -2639,7 +2639,7 @@ df_scout_rolluprs_bignums_vs_nobignums =     prepDfForRollupPlot(df_scout_data,
 df_scout_rolluprs_bignums_vs_nobignums = df_scout_rolluprs_bignums_vs_nobignums.groupby(['engine']).mean()
 
 
-# In[125]:
+# In[ ]:
 
 
 fig_plt = plotOneTestColoredTicks(df_scout_rolluprs_bignums_vs_nobignums,
@@ -2691,7 +2691,7 @@ fig_plt.savefig('../images/bignums-rollup-rs-bn128-pairings-with-vs-without-bign
 
 
 
-# In[126]:
+# In[ ]:
 
 
 include_bench_names = ['ecpairing-zkrollup-rust-wasm-bn128-two-pairings', 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
@@ -2708,7 +2708,7 @@ df_scout_rolluprs_bignums =     prepDfForRollupPlot(df_scout_data,
 df_scout_rolluprs_bignums = df_scout_rolluprs_bignums.groupby(['engine']).mean()
 
 
-# In[127]:
+# In[ ]:
 
 
 fig_plt = plotOneTestColoredTicks(df_scout_rolluprs_bignums,
@@ -2741,7 +2741,7 @@ fig_plt.savefig('../images/bignums-rollup-rs-bn128-pairings-wabt-with-bignums.pn
 
 
 
-# In[128]:
+# In[ ]:
 
 
 include_bench_names = ['ecpairing-zkrollup-rust-wasm-bn128-two-pairings', 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
@@ -2768,7 +2768,7 @@ df_scout_rollup_rustwasm_superops = df_scout_rollup_rustwasm_superops.groupby(['
 
 
 
-# In[129]:
+# In[ ]:
 
 
 fig_plt = plotOneTestColoredTicks(df_scout_rollup_rustwasm_superops,
@@ -2801,7 +2801,7 @@ fig_plt.savefig('../images/bignums-rollup-rs-bn128-pairings-superops.png', bbox_
 
 
 
-# In[130]:
+# In[ ]:
 
 
 include_bench_names = ['ecpairing-zkrollup-rust-wasm-bn128-two-pairings', 'ecpairing-zkrollup-rust-native-bn128-two-pairings']
@@ -2824,7 +2824,7 @@ df_scout_rolluprs_all_combos =     prepDfForRollupPlot(df_scout_data,
 df_scout_rolluprs_all_combos = df_scout_rolluprs_all_combos.groupby(['engine']).mean()
 
 
-# In[131]:
+# In[ ]:
 
 
 fig_plt = plotOneTestColoredTicks(df_scout_rolluprs_all_combos,
@@ -2857,7 +2857,7 @@ fig_plt.savefig('../images/bignums-rollup-rs-bn128-pairings-all-combos.png', bbo
 
 
 
-# In[132]:
+# In[ ]:
 
 
 include_bench_names = ['ecpairing-zkrollup-rust-wasm-bn128-two-pairings', 'ecpairing-zkrollup-websnark-bn128-two-pairings']
@@ -2877,7 +2877,7 @@ df_scout_rust_vs_websnark =     prepDfForRollupPlot(df_scout_data,
                         ])
 
 
-# In[133]:
+# In[ ]:
 
 
 fig_plt = plotOneTestGrouped(df_scout_rust_vs_websnark,
@@ -2905,7 +2905,7 @@ fig_plt.savefig('../images/bignums-zkrollup-rust-vs-websnark-bn128-pairings.png'
 
 # ### drop rust-wasm, just plot websnark-wasm on different engines
 
-# In[134]:
+# In[ ]:
 
 
 include_engines_list = ['go-native', 'rust-native', 'v8-liftoff', 'v8-turbofan',
@@ -2927,7 +2927,7 @@ df_scout_websnark = prepDfForRollupPlot(df_scout_data,
 df_scout_means_websnark = df_scout_websnark.groupby(['engine']).mean()
 
 
-# In[135]:
+# In[ ]:
 
 
 fig_plt = plotOneTestColoredTicks(df_scout_means_websnark,
@@ -2967,7 +2967,7 @@ fig_plt.savefig('../images/bignums-websnark-bn128-pairings-superops.png', bbox_i
 # ### websnark-wasm optimization: "fast-host"
 # 
 
-# In[136]:
+# In[ ]:
 
 
 include_engines_list = ['go-native', 'rust-native', 'v8-liftoff', 'v8-turbofan',
@@ -2991,7 +2991,7 @@ df_scout_websnark_fasthost = prepDfForRollupPlot(df_scout_data,
 df_scout_websnark_fasthost = df_scout_websnark_fasthost.groupby(['engine']).mean()
 
 
-# In[137]:
+# In[ ]:
 
 
 fig_plt  = plotOneTestColoredTicks(df_scout_websnark_fasthost,
@@ -3018,7 +3018,7 @@ fig_plt.savefig('../images/bignums-websnark-bn128-pairings-fasthost.png', bbox_i
 
 
 
-# In[138]:
+# In[ ]:
 
 
 include_engines_list = ['go-native', 'rust-native', 'v8-liftoff', 'v8-turbofan', 'wabt-bignums-slowhost-slowmont',
@@ -3042,7 +3042,7 @@ df_scout_websnark_fastmont =     prepDfForRollupPlot(df_scout_data,
 df_scout_websnark_fastmont = df_scout_websnark_fastmont.groupby(['engine']).mean()
 
 
-# In[139]:
+# In[ ]:
 
 
 fig_plt = plotOneTestColoredTicks(df_scout_websnark_fastmont,
@@ -3063,7 +3063,7 @@ fig_plt.savefig('../images/bignums-websnark-bn128-pairings-fastmont.png', bbox_i
 
 # ### websnark-wasm: Show startup time and execution time, for interleaved montgomery and other optimizations
 
-# In[140]:
+# In[ ]:
 
 
 fig_plt = plotScoutStackedTest(df_scout_websnark_fastmont,
@@ -3096,7 +3096,7 @@ fig_plt.savefig('../images/bignums-websnark-bn128-pairings-startup-and-execution
 # ## plot v8 with bignums versus without
 # 
 
-# In[141]:
+# In[ ]:
 
 
 include_engines_list = ['go-native', 'rust-native', 'v8-liftoff', 'v8-turbofan',
@@ -3121,13 +3121,13 @@ df_scout_v8_with_hostfuncs = prepDfForRollupPlot(df_scout_data,
 df_scout_v8_with_hostfuncs = df_scout_v8_with_hostfuncs.groupby(['engine']).mean()
 
 
-# In[142]:
+# In[ ]:
 
 
 plt.style.use('ggplot')
 
 
-# In[143]:
+# In[ ]:
 
 
 fig_plt = plotOneTestColoredTicks(df_scout_v8_with_hostfuncs,
@@ -3156,7 +3156,7 @@ fig_plt.savefig('../images/bignums-websnark-bn128-pairings-v8-with-bignums.png',
 
 # ## plot function for EVM vs Wasm
 
-# In[144]:
+# In[ ]:
 
 
 def plotEVMvsWasm(df_evm_vs_wasm, colors=['tab:blue', 'tab:orange'], dodge=False):
@@ -3205,25 +3205,25 @@ def plotEVMvsWasm(df_evm_vs_wasm, colors=['tab:blue', 'tab:orange'], dodge=False
 # ## EVM vs wasm shootout: bn128mul (Weierstrudel vs bn128mul.rust.wasm)
 # 
 
-# In[145]:
+# In[ ]:
 
 
 df_evm_raw
 
 
-# In[146]:
+# In[ ]:
 
 
 df_evm_raw.columns = df_evm_raw.columns.str.replace(' ','')
 
 
-# In[147]:
+# In[ ]:
 
 
 df_evm_raw.keys()
 
 
-# In[148]:
+# In[ ]:
 
 
 df_evm_raw[df_evm_raw['test_name'] == "bn128_mul_weierstrudel-chfast2"]
@@ -3235,7 +3235,7 @@ df_evm_raw[df_evm_raw['test_name'] == "bn128_mul_weierstrudel-chfast2"]
 
 
 
-# In[149]:
+# In[ ]:
 
 
 # get wasm data for bn128_mul-chfast2
@@ -3248,7 +3248,7 @@ df_wasm_bn128mul.reset_index(inplace=True)
 df_wasm_bn128mul.replace('bn128_mul-chfast2', 'bn128mul.rust.wasm', inplace=True)
 
 
-# In[150]:
+# In[ ]:
 
 
 # get evm data
@@ -3261,7 +3261,7 @@ df_evm_bn128mul = df_evm_bn128mul[['engine', 'bench_name', 'parse_time', 'exec_t
 df_evm_bn128mul.replace('bn128_mul_weierstrudel-chfast2', 'bn128mul.weierstrudel.evm', inplace=True)
 
 
-# In[151]:
+# In[ ]:
 
 
 df_evm_vs_wasm_bn128mul = df_evm_bn128mul.append(df_wasm_bn128mul, sort=False).copy()
@@ -3277,7 +3277,7 @@ df_evm_vs_wasm_bn128mul = df_evm_vs_wasm_bn128mul[df_evm_vs_wasm_bn128mul['engin
 df_evm_vs_wasm_bn128mul = df_evm_vs_wasm_bn128mul.sort_values('time')
 
 
-# In[152]:
+# In[ ]:
 
 
 #df_evm_vs_wasm_bn128mul[df_evm_vs_wasm_bn128mul['bench_name'] == '']
@@ -3291,7 +3291,7 @@ df_evm_vs_wasm_bn128mul.replace('bn128mul.rust.wasm', 'Wasm (bn128mul.rs)', inpl
 
 
 
-# In[153]:
+# In[ ]:
 
 
 f = plotEVMvsWasm(df_evm_vs_wasm_bn128mul)
@@ -3327,7 +3327,7 @@ f.savefig('../images/evm-vs-wasm-bn128mul-huff-rust.png', bbox_inches='tight')
 
 
 
-# In[154]:
+# In[ ]:
 
 
 df_wasm_mul256 = df_interp[df_interp['test_name'] == "mul256-gcolvin-drag-race"].copy()
@@ -3342,7 +3342,7 @@ df_wasm_mul256.reset_index(inplace=True)
 df_wasm_mul256.replace('mul256-gcolvin-drag-race', 'mul256.rust.wasm', inplace=True)
 
 
-# In[155]:
+# In[ ]:
 
 
 df_evm_mul256 = df_evm_raw[df_evm_raw['test_name'] == "mul256-gcolvin-drag-race"].copy()
@@ -3355,7 +3355,7 @@ df_evm_mul256 = df_evm_mul256[['engine', 'bench_name', 'parse_time', 'exec_time'
 df_evm_mul256.replace('mul256-gcolvin-drag-race', 'mul256.sol.evm', inplace=True)
 
 
-# In[156]:
+# In[ ]:
 
 
 df_evm_vs_wasm_mul256 = df_evm_mul256.append(df_wasm_mul256, sort=False).copy()
@@ -3369,14 +3369,14 @@ df_evm_vs_wasm_mul256 = df_evm_vs_wasm_mul256[df_evm_vs_wasm_mul256['engine'].is
 df_evm_vs_wasm_mul256 = df_evm_vs_wasm_mul256.sort_values('time')
 
 
-# In[157]:
+# In[ ]:
 
 
 df_evm_vs_wasm_mul256.replace('mul256.sol.evm', 'EVM (Solidity)', inplace=True)
 df_evm_vs_wasm_mul256.replace('mul256.rust.wasm', 'Wasm (Rust)', inplace=True)
 
 
-# In[158]:
+# In[ ]:
 
 
 f = plotEVMvsWasm(df_evm_vs_wasm_mul256)
@@ -3399,7 +3399,7 @@ f.savefig('../images/evm-vs-wasm-mul256-sol-rust.png', bbox_inches='tight')
 
 # ## EVM vs wasm shootout: blake2b
 
-# In[159]:
+# In[ ]:
 
 
 df_evm_blake2b = df_evm_raw[df_evm_raw['test_name'].isin(['blake2b-8415-bytes', 'blake2b_huff-8415-bytes'])].copy()
@@ -3413,7 +3413,7 @@ df_evm_blake2b.replace('blake2b-8415-bytes', 'blake2b-8kb.sol.evm', inplace=True
 df_evm_blake2b.replace('blake2b_huff-8415-bytes', 'blake2b-8kb.huff.evm', inplace=True)
 
 
-# In[160]:
+# In[ ]:
 
 
 df_wasm_blake2b = df_interp[df_interp['test_name'] == "blake2b-8415-bytes"].copy()
@@ -3426,7 +3426,7 @@ df_wasm_blake2b.reset_index(inplace=True)
 df_wasm_blake2b.replace('blake2b-8415-bytes', 'blake2b-8kb.rust.wasm', inplace=True)
 
 
-# In[161]:
+# In[ ]:
 
 
 df_evm_vs_wasm_blake2b = df_evm_blake2b.append(df_wasm_blake2b, sort=False).copy()
@@ -3439,7 +3439,7 @@ df_evm_vs_wasm_blake2b = df_evm_vs_wasm_blake2b[df_evm_vs_wasm_blake2b['engine']
 )].copy()
 
 
-# In[162]:
+# In[ ]:
 
 
 df_evm_vs_wasm_blake2b_sorted = df_evm_vs_wasm_blake2b.sort_values('time')
@@ -3447,7 +3447,7 @@ df_evm_vs_wasm_blake2b_sorted = df_evm_vs_wasm_blake2b.sort_values('time')
 
 # ### blake2b.huff.evm vs blake2b.rust.wasm
 
-# In[163]:
+# In[ ]:
 
 
 df_blake2b_huff_vs_wasm = df_evm_vs_wasm_blake2b[df_evm_vs_wasm_blake2b['bench_name'].isin(
@@ -3455,20 +3455,20 @@ df_blake2b_huff_vs_wasm = df_evm_vs_wasm_blake2b[df_evm_vs_wasm_blake2b['bench_n
 )].copy()
 
 
-# In[164]:
+# In[ ]:
 
 
 df_blake2b_huff_vs_wasm = df_blake2b_huff_vs_wasm.sort_values('time')
 
 
-# In[165]:
+# In[ ]:
 
 
 df_blake2b_huff_vs_wasm.replace('blake2b-8kb.huff.evm', 'EVM (Huff)', inplace=True)
 df_blake2b_huff_vs_wasm.replace('blake2b-8kb.rust.wasm', 'Wasm (Rust)', inplace=True)
 
 
-# In[166]:
+# In[ ]:
 
 
 f = plotEVMvsWasm(df_blake2b_huff_vs_wasm, colors=['tab:orange', 'tab:blue'])
@@ -3486,7 +3486,7 @@ f.savefig('../images/evm-vs-wasm-blake2b-huff-rust.png', bbox_inches='tight')
 # ### blake2b.sol.evm vs blake2b.huff.evm
 # 
 
-# In[167]:
+# In[ ]:
 
 
 df_blake2b_sol_vs_huff = df_evm_vs_wasm_blake2b[df_evm_vs_wasm_blake2b['bench_name'].isin(
@@ -3496,20 +3496,20 @@ df_blake2b_sol_vs_huff = df_evm_vs_wasm_blake2b[df_evm_vs_wasm_blake2b['bench_na
 df_blake2b_sol_vs_huff = df_blake2b_sol_vs_huff.sort_values('time')
 
 
-# In[168]:
+# In[ ]:
 
 
 df_blake2b_sol_vs_huff
 
 
-# In[169]:
+# In[ ]:
 
 
 df_blake2b_sol_vs_huff.replace('blake2b-8kb.huff.evm', 'EVM (Huff)', inplace=True)
 df_blake2b_sol_vs_huff.replace('blake2b-8kb.sol.evm', 'EVM (Solidity)', inplace=True)
 
 
-# In[170]:
+# In[ ]:
 
 
 f = plotEVMvsWasm(df_blake2b_sol_vs_huff, colors=['tab:blue', 'tab:olive'], dodge=True)
@@ -3538,7 +3538,7 @@ f.savefig('../images/evm-vs-wasm-blake2b-sol-huff.png', bbox_inches='tight')
 
 # ## plot blake2b.sol.evm against blake2b.rust.wasm
 
-# In[171]:
+# In[ ]:
 
 
 df_blake2b_sol_vs_rust = df_evm_vs_wasm_blake2b[df_evm_vs_wasm_blake2b['bench_name'].isin(
@@ -3554,14 +3554,14 @@ df_blake2b_sol_vs_rust = df_blake2b_sol_vs_rust.sort_values('time')
 
 
 
-# In[172]:
+# In[ ]:
 
 
 df_blake2b_sol_vs_rust.replace('blake2b-8kb.rust.wasm', 'Wasm (Rust)', inplace=True)
 df_blake2b_sol_vs_rust.replace('blake2b-8kb.sol.evm', 'EVM (Solidity)', inplace=True)
 
 
-# In[173]:
+# In[ ]:
 
 
 f = plotEVMvsWasm(df_blake2b_sol_vs_rust, colors=['tab:orange', 'tab:olive'], dodge=False)
@@ -3584,7 +3584,7 @@ f.savefig('../images/evm-vs-wasm-blake2b-sol-rust.png', bbox_inches='tight')
 
 # ## blake2b: solidity vs huff vs rust
 
-# In[174]:
+# In[ ]:
 
 
 df_blake2b_sol_huff_rust = df_evm_vs_wasm_blake2b[df_evm_vs_wasm_blake2b['bench_name'].isin(
@@ -3594,7 +3594,7 @@ df_blake2b_sol_huff_rust = df_evm_vs_wasm_blake2b[df_evm_vs_wasm_blake2b['bench_
 df_blake2b_sol_huff_rust = df_blake2b_sol_huff_rust.sort_values('time')
 
 
-# In[175]:
+# In[ ]:
 
 
 df_blake2b_sol_huff_rust.replace('blake2b-8kb.rust.wasm', 'Wasm (Rust)', inplace=True)
@@ -3602,7 +3602,7 @@ df_blake2b_sol_huff_rust.replace('blake2b-8kb.sol.evm', 'EVM (Solidity)', inplac
 df_blake2b_sol_huff_rust.replace('blake2b-8kb.huff.evm', 'EVM (Huff)', inplace=True)
 
 
-# In[176]:
+# In[ ]:
 
 
 f = plt.figure(figsize=(14,8))
@@ -3676,13 +3676,13 @@ f.savefig('../images/evm-vs-wasm-blake2b-huff-sol-rust.png', bbox_inches='tight'
 
 
 
-# In[177]:
+# In[ ]:
 
 
 df_scout_data[df_scout_data['bench_name'].str.contains('bls')]
 
 
-# In[178]:
+# In[ ]:
 
 
 include_engines_list = ['rust-native', 'v8-liftoff', 'v8-turbofan',
@@ -3703,13 +3703,13 @@ df_scout_bls12 =     prepDfForRollupPlot(df_scout_data,
 df_scout_bls12 = df_scout_bls12.groupby(['engine']).mean()
 
 
-# In[179]:
+# In[ ]:
 
 
 df_scout_bls12
 
 
-# In[180]:
+# In[ ]:
 
 
 fig_plt = plotOneTestColoredTicks(df_scout_bls12,
@@ -3722,7 +3722,7 @@ fig_plt = plotOneTestColoredTicks(df_scout_bls12,
 fig_plt.savefig('../images/bignums-bls12-pairings-rust-vs-wasm-total-time.png', bbox_inches='tight')
 
 
-# In[181]:
+# In[ ]:
 
 
 fig_plt = plotScoutStackedTest(df_scout_bls12,
@@ -3737,7 +3737,7 @@ fig_plt.savefig('../images/bignums-bls12-pairings-rust-vs-wasm-exec-startup-time
 
 # ## spectrum of bignum host funcs
 
-# In[182]:
+# In[ ]:
 
 
 include_engines_list = ['rust-native', 'v8-liftoff', 'v8-turbofan',
@@ -3774,7 +3774,7 @@ df_scout_bls12_hostfunc_variations =     prepDfForRollupPlot(df_scout_data,
 df_scout_bls12_hostfunc_variations = df_scout_bls12_hostfunc_variations.groupby(['engine']).mean()
 
 
-# In[183]:
+# In[ ]:
 
 
 fig_plt = plotOneTestColoredTicksBLS(df_scout_bls12_hostfunc_variations,
@@ -3787,7 +3787,7 @@ fig_plt = plotOneTestColoredTicksBLS(df_scout_bls12_hostfunc_variations,
 fig_plt.savefig('../images/bignums-bls12-pairings-host-func-variations-total-time.png', bbox_inches='tight')
 
 
-# In[184]:
+# In[ ]:
 
 
 fig_plt = plotScoutStackedTest(df_scout_bls12_hostfunc_variations,
@@ -3806,9 +3806,70 @@ fig_plt.savefig('../images/bignums-bls12-pairings-host-func-variations-exec-star
 
 
 
+# ## BLS12 - wabt vs wabt-with-bignums vs native
+
+# In[ ]:
+
+
+plt.style.use('seaborn-white')
+
+
+# In[ ]:
+
+
+include_engines_list = ['rust-native', 'wabt-fastmont-fasthost-superops',
+                        'wabt-no-bignums']
+
+include_bench_names = ['bls12-wasmsnark-two-pairings',
+                       'bls12-wasmsnark-two-pairings-standalone',
+                       'bls12-eip1962-rust-native-two-pairings']
+
+# bls12-wasmsnark-two-pairings-standalone
+# bls12-wasmsnark-synth-loop
+
+df_wabt_bls12 =     prepDfForRollupPlot(df_scout_data,
+                        None,
+                        include_bench_names,
+                        only_include_engines=include_engines_list,
+                        rename_engines=[
+                            ['wabt-fastmont-fasthost-superops', 'wabt-with-bignums']
+                        ])
+
+df_wabt_bls12 = df_wabt_bls12.groupby(['engine']).mean()
+
+
+# In[ ]:
+
+
+fig_plt = plotScoutStackedTest(df_wabt_bls12,
+            suptitle="BLS12-381 two-point pairing check",
+            suptitle_pos=0.94,
+            subtitle="",
+            #subtitle="wasmnark (on wabt and wabt-with-bigums) vs eip1962 (rust-native)\n",
+            #subtitle_size='xx-large'
+            )
+
+
+fig_plt.grid(False)
+
+fig_plt.savefig('../images/bignums-bls12-pairings-wabt-vs-native-exec-startup-time.png', bbox_inches='tight')
+
+
+# In[ ]:
+
+
+plt.style.use('ggplot')
+
+
+# In[ ]:
+
+
+
+
+
 # ## fizzy vs wabt - BLS12
 
-# In[185]:
+# In[ ]:
 
 
 include_engines_list = ['rust-native', 'fizzy-with-bignums', 'wabt-fastmont-fasthost-superops',
@@ -3832,13 +3893,13 @@ df_fizzy_bls12 =     prepDfForRollupPlot(df_scout_data,
 df_fizzy_bls12 = df_fizzy_bls12.groupby(['engine']).mean()
 
 
-# In[186]:
+# In[ ]:
 
 
 df_fizzy_bls12
 
 
-# In[187]:
+# In[ ]:
 
 
 fig_plt = plotScoutStackedTest(df_fizzy_bls12,
@@ -3853,7 +3914,7 @@ fig_plt.savefig('../images/bignums-bls12-pairings-fizzy-vs-wabt-exec-startup-tim
 
 # ## BLS12 synth loop
 
-# In[188]:
+# In[ ]:
 
 
 include_engines_list = ['fizzy-with-bignums', 'wabt-fastmont-fasthost-superops']
@@ -3874,13 +3935,13 @@ df_bls12_synth_loop =     prepDfForRollupPlot(df_scout_data,
 df_bls12_synth_loop = df_bls12_synth_loop.groupby(['engine']).mean()
 
 
-# In[189]:
+# In[ ]:
 
 
 df_bls12_synth_loop
 
 
-# In[190]:
+# In[ ]:
 
 
 fig_plt = plotScoutStackedTest(df_bls12_synth_loop,
@@ -3893,7 +3954,7 @@ fig_plt = plotScoutStackedTest(df_bls12_synth_loop,
 fig_plt.savefig('../images/bignums-bls12-synth-loop-fizzy-vs-wabt-exec-startup-time.png', bbox_inches='tight')
 
 
-# In[191]:
+# In[ ]:
 
 
 include_engines_list = ['fizzy-with-bignums', 'wabt-fastmont-fasthost-superops']
@@ -3911,11 +3972,12 @@ df_bls12_synth_vs_pairing =     prepDfForRollupPlot(df_scout_data,
                         ])
 
 
-# In[192]:
+# In[ ]:
 
 
 fig_plt = plotOneTestGroupedExexTime(df_bls12_synth_vs_pairing,
-                   title="BLS12-381 two pairings vs synthetic loop - wasmsnark (fizzy vs wabt)",
+                   #title="BLS12-381 two pairings vs synthetic loop - wasmsnark (fizzy vs wabt)",
+                   title="Figure 2: BLS12-381 two pairings vs synthetic loop",
                    test_title="",
                    group_order=['bls12-synth-loop', 'bls12-two-pairings'],
                    sort_by=['bls12-synth-loop'],
@@ -3939,19 +4001,19 @@ fig_plt.savefig('../images/evm384-bls12-synth-loop-vs-pairings.png', bbox_inches
 
 
 
-# In[193]:
+# In[ ]:
 
 
 df_evm384 = df_evm_raw[df_evm_raw['engine'] == 'evmone384']
 
 
-# In[194]:
+# In[ ]:
 
 
 df_evm384
 
 
-# In[195]:
+# In[ ]:
 
 
 df_scout_rust_native = df_scout_data[df_scout_data['engine'] == 'rust-native']
@@ -3961,7 +4023,7 @@ df_scout_rust_native_bls12 = df_scout_rust_native[df_scout_rust_native['bench_na
 df_scout_rust_native_bls12 = df_scout_rust_native_bls12.groupby(['engine']).mean()
 
 
-# In[196]:
+# In[ ]:
 
 
 # proposed gas from EIP-2537, for a BLS12-381 pairing operation is 23000*k + 115000 where k is a number of pairs.
@@ -3972,7 +4034,7 @@ df_scout_rust_native_bls12['gas'] = eip2537_proposed_gas
 df_scout_rust_native_bls12['test_name'] = "bls12-eip1962-rust-native-two-pairings"
 
 
-# In[197]:
+# In[ ]:
 
 
 df_scout_rust_native_bls12
@@ -3984,7 +4046,7 @@ df_scout_rust_native_bls12
 
 
 
-# In[198]:
+# In[ ]:
 
 
 df_scout_rust_native_bls12_merge = df_scout_rust_native_bls12.copy()
@@ -3994,7 +4056,7 @@ df_scout_rust_native_bls12_merge.columns = ['engine', 'time', 'gas', 'test_name'
 df_scout_rust_native_bls12_merge = df_scout_rust_native_bls12_merge[['engine','test_name','time','gas']]
 
 
-# In[199]:
+# In[ ]:
 
 
 df_scout_rust_native_bls12_merge
@@ -4006,14 +4068,14 @@ df_scout_rust_native_bls12_merge
 
 
 
-# In[200]:
+# In[ ]:
 
 
 df_evm384_merge = df_evm384.copy()
 df_evm384_merge.columns = ['engine', 'test_name', 'time', 'gas']
 
 
-# In[201]:
+# In[ ]:
 
 
 df_evm384_merge
@@ -4021,7 +4083,7 @@ df_evm384_merge
 
 # ## TODO: scale synthetic loop time/gas by a factor determined from the wasm runtimes (wasm-pairing / wasm-synth-loop)
 
-# In[202]:
+# In[ ]:
 
 
 df_evm384_native = pd.concat([df_evm384_merge, df_scout_rust_native_bls12_merge], sort=False)
@@ -4029,13 +4091,13 @@ df_evm384_native.reset_index(drop=True, inplace=True)
 df_evm384_native.set_index('engine', inplace=True)
 
 
-# In[203]:
+# In[ ]:
 
 
 df_evm384_native
 
 
-# In[204]:
+# In[ ]:
 
 
 df_evm384_native['time'] = pd.to_numeric(df_evm384_native['time'])
@@ -4044,7 +4106,7 @@ df_evm384_native['gas'] = pd.to_numeric(df_evm384_native['gas'])
 df_evm384_native['Mgas/s'] = (df_evm384_native['gas'] / df_evm384_native['time']) * (1 / 10**6)
 
 
-# In[205]:
+# In[ ]:
 
 
 df_evm384_native
@@ -4062,7 +4124,7 @@ df_evm384_native
 
 
 
-# In[206]:
+# In[ ]:
 
 
 def byEngineExecTime(df_benchdata, engine):
@@ -4122,7 +4184,7 @@ def plotTimeVsGas(df_benchdata, title=""):
     return f
 
 
-# In[207]:
+# In[ ]:
 
 
 fig_plt = plotTimeVsGas(df_evm384_native, "bls12-381 pairings: rust-native precompile vs evm384 synthetic loop")
@@ -4144,13 +4206,13 @@ fig_plt.savefig('../images/evm384-bls12-synth-loop-vs-native-rust.png', bbox_inc
 
 # ## bls12 pairings and synth loop - wasm, evm384, rust-native
 
-# In[208]:
+# In[ ]:
 
 
 df_bls_wasm_merge = df_bls12_synth_vs_pairing.copy()
 
 
-# In[209]:
+# In[ ]:
 
 
 df_bls_wasm_merge.drop(columns=['parse_time', 'exec_time'], inplace=True)
@@ -4159,14 +4221,14 @@ df_bls_wasm_merge['engine_bench_name'] = df_bls_wasm_merge['engine'] + "--" + df
 df_bls_wasm_merge.drop(columns=['engine', 'bench_name'], inplace=True)
 
 
-# In[210]:
+# In[ ]:
 
 
 df_bls_wasm_merge = df_bls_wasm_merge.groupby(['engine_bench_name']).mean()
 df_bls_wasm_merge.reset_index(inplace=True)
 
 
-# In[211]:
+# In[ ]:
 
 
 df_bls_wasm_merge
@@ -4184,7 +4246,7 @@ df_bls_wasm_merge
 
 
 
-# In[212]:
+# In[ ]:
 
 
 df_evm384_native_merge = df_evm384_native.copy()
@@ -4193,26 +4255,26 @@ df_evm384_native_merge.reset_index(inplace=True)
 df_evm384_native_merge.columns = ['engine', 'bench_name', 'time']
 
 
-# In[213]:
+# In[ ]:
 
 
 df_evm384_native_merge
 
 
-# In[214]:
+# In[ ]:
 
 
 df_evm384_native_merge['engine_bench_name'] = df_evm384_native_merge['engine'] + "--" + df_evm384_native_merge['bench_name']
 
 
-# In[215]:
+# In[ ]:
 
 
 df_evm384_native_merge.drop(columns=['engine', 'bench_name'], inplace=True)
 df_evm384_native_merge = df_evm384_native_merge[['engine_bench_name', 'time']]
 
 
-# In[216]:
+# In[ ]:
 
 
 df_evm384_native_merge
@@ -4230,7 +4292,7 @@ df_evm384_native_merge
 
 
 
-# In[217]:
+# In[ ]:
 
 
 df_evm384_wasm_native = pd.concat([df_evm384_native_merge, df_bls_wasm_merge], sort=False)
@@ -4238,13 +4300,13 @@ df_evm384_wasm_native.reset_index(drop=True, inplace=True)
 df_evm384_wasm_native.set_index('engine_bench_name', inplace=True)
 
 
-# In[218]:
+# In[ ]:
 
 
 df_evm384_wasm_native
 
 
-# In[219]:
+# In[ ]:
 
 
 fig_plt = plotOneTestUsingTimeCol(df_evm384_wasm_native,
@@ -4266,20 +4328,20 @@ fig_plt.savefig('../images/evm384-bls12-pairings-synth-loop-rust-wasm.png', bbox
 
 
 
-# In[220]:
+# In[ ]:
 
 
 df_evm384_wasm_synth_loop = df_evm384_wasm_native.copy()
 df_evm384_wasm_synth_loop.reset_index(inplace=True)
 
 
-# In[221]:
+# In[ ]:
 
 
 df_evm384_wasm_synth_loop = df_evm384_wasm_synth_loop[df_evm384_wasm_synth_loop['engine_bench_name'].str.contains("synth")]
 
 
-# In[222]:
+# In[ ]:
 
 
 df_evm384_wasm_synth_loop.set_index('engine_bench_name', inplace=True)
@@ -4291,7 +4353,7 @@ df_evm384_wasm_synth_loop.set_index('engine_bench_name', inplace=True)
 
 
 
-# In[223]:
+# In[ ]:
 
 
 fig_plt = plotOneTestUsingTimeCol(df_evm384_wasm_synth_loop,
@@ -4300,6 +4362,649 @@ fig_plt = plotOneTestUsingTimeCol(df_evm384_wasm_synth_loop,
 
 fig_plt.savefig('../images/evm384-bls12-synth-loop-wasm.png', bbox_inches='tight')
 fig_plt.show()
+
+
+# In[ ]:
+
+
+
+
+
+# ## evm384 concluding tldr chart
+
+# In[ ]:
+
+
+df_bls_wasm_merge_tldr = df_bls12_synth_vs_pairing.copy()
+df_bls_wasm_merge_tldr.drop(columns=['parse_time', 'exec_time'], inplace=True)
+
+
+# In[ ]:
+
+
+df_evm384_native_merge_tldr = df_evm384_native.copy()
+df_evm384_native_merge_tldr.drop(columns=['gas', 'Mgas/s'], inplace=True)
+df_evm384_native_merge_tldr.reset_index(inplace=True)
+df_evm384_native_merge_tldr.columns = ['engine', 'bench_name', 'time']
+
+
+# In[ ]:
+
+
+df_evm384_wasm_native_tldr = pd.concat([df_evm384_native_merge_tldr, df_bls_wasm_merge_tldr], sort=False)
+df_evm384_wasm_native_tldr.reset_index(drop=True, inplace=True)
+
+
+# In[ ]:
+
+
+df_evm384_wasm_native_tldr
+
+
+# In[ ]:
+
+
+df_evm384_wasm_native_tldr = df_evm384_wasm_native_tldr.drop(df_evm384_wasm_native_tldr[df_evm384_wasm_native_tldr['engine'] == 'fizzy-with-bignums'].index)
+
+
+# In[ ]:
+
+
+df_evm384_wasm_native_tldr = df_evm384_wasm_native_tldr.sort_values('time')
+
+
+# In[ ]:
+
+
+df_evm384_wasm_native_tldr.replace('bls12-eip1962-rust-native-two-pairings', 'Native two-pairings (Rust)', inplace=True)
+df_evm384_wasm_native_tldr.replace('evm384-synth-loop-v3', 'EVM384 synth-loop-v3 (Yul)', inplace=True)
+df_evm384_wasm_native_tldr.replace('evm384-synth-loop-v2', 'EVM384 synth-loop-v2 (Yul)', inplace=True)
+df_evm384_wasm_native_tldr.replace('evm384-synth-loop-v1', 'EVM384 synth-loop-v1 (Yul)', inplace=True)
+df_evm384_wasm_native_tldr.replace('bls12-synth-loop', 'Wasm synth-loop (wasmsnark)', inplace=True)
+df_evm384_wasm_native_tldr.replace('bls12-two-pairings', 'Wasm two-pairings (wasmsnark)', inplace=True)
+#df_evm384_wasm_native_tldr.replace('blake2b-8kb.huff.evm', 'EVM (Huff)', inplace=True)
+
+
+# In[ ]:
+
+
+df_evm384_wasm_synth_pairing_yul = df_evm384_wasm_native_tldr.copy()
+
+
+# In[ ]:
+
+
+# drop rust-native - this chart focuses on synth loop vs pairing (and evmone384 synth loop)
+df_evm384_wasm_synth_pairing_yul = df_evm384_wasm_synth_pairing_yul.drop(df_evm384_wasm_synth_pairing_yul[df_evm384_wasm_synth_pairing_yul['engine'] == 'rust-native'].index)
+
+
+# In[ ]:
+
+
+f = plt.figure(figsize=(14,8))
+sns.reset_defaults() # use default colors, orange and blue
+splot = sns.barplot(x='engine', y='time', hue='bench_name', dodge=True, ci=None,
+            palette=['tab:blue', 'tab:olive', 'tab:purple', 'tab:brown', 'tab:cyan'],
+            data=df_evm384_wasm_synth_pairing_yul)
+
+
+
+# this customizes the widths of each bar-group. Because orange bars (wasm) stand alone,
+# versus blue and olive that are grouped together (evm-huff, evm-sol), but the default
+# widths are all the same, the orange bars are too skinny.
+# This makes the orange bars fatter (`current_width*2`) than the blue and olive bars (`current_width*1.3`)
+
+# It also adjusts the x position of the bars so that they're centered (by default they were positioned
+# as if all three groups would appear in every column)
+
+orange_bars_rgba = (0.8818627450980391, 0.5053921568627451, 0.17303921568627467, 1.0)
+blue_bars_rgba = (0.19460784313725488, 0.45343137254901944, 0.632843137254902, 1.0)
+olive_bars_rgba = (0.6622549019607844, 0.6651960784313725, 0.2093137254901961, 1.0)
+purple_bars_rgba = (0.5784313725490194, 0.446078431372549, 0.6990196078431372, 1.0)
+brown_bars_rgba = (0.5171568627450981, 0.3583333333333334, 0.3259803921568628, 1.0)
+cyan_bars_rgba = (0.180392156862745, 0.6715686274509803, 0.7215686274509805, 1.0)
+
+
+for patch in splot.patches:
+    current_width = patch.get_width()
+    # factor 1.3 to make bars 30% wider?
+    diff = current_width*1.3 - current_width
+
+    # couldn't find a way to look up patch color names nor covert RGB to name,
+    # so we look up the bar groups using these HSLA(?) values like (0.8818627450980391, 0.5053921568627451, 0.17303921568627467, 1.0)
+
+    #blue
+    if patch.get_facecolor() == blue_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() + diff * 3.4)
+
+    #olive
+    if patch.get_facecolor() == olive_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() + diff * 3.4)
+
+    # purple
+    if patch.get_facecolor() == purple_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() - diff * 3.4)
+
+    # brown
+    if patch.get_facecolor() == brown_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() - diff * 3.4)
+    
+    # cyan
+    if patch.get_facecolor() == cyan_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() - diff * 3.4)
+    
+    
+    #print(dir(patch))
+    #print(patch)
+    #print(patch.get_facecolor())
+
+
+# annotate the bars with the ms values
+for p in splot.patches:
+    splot.annotate(
+                    toMs(p.get_height()),
+                    (p.get_x() + p.get_width() / 2., p.get_height()),
+                    ha = 'center', va = 'center',
+                    xytext = (0, 10),
+                    textcoords = 'offset points')
+
+
+# adjust legend placement
+plt.legend(fontsize='x-large', title_fontsize='40', loc='upper left')
+#leg = splot.get_legend()
+#leg.set_bbox_to_anchor([0.212,0.95])
+
+splot.set_xticklabels(splot.get_xticklabels(), size = 14)
+splot.set(xlabel='')
+
+#f.suptitle("Two-pairings (Rust-native, wasm) vs Synthetic loop (wasm, evm384)", fontsize=18, y=0.96)
+#f.suptitle("Two-pairings (Rust-native, wasm) vs Synthetic loop (wasm, evm384)", fontsize=18, y=0.96)
+f.savefig('../images/evm384-wasm-native-pairings-and-synth-loop.png', bbox_inches='tight')
+
+
+# In[ ]:
+
+
+
+
+
+# ## just wasm - synth loop vs pairing
+
+# In[ ]:
+
+
+df_evm384_synth_wasm = df_evm384_wasm_native_tldr.copy()
+# drop rust-native - this chart focuses on synth loop vs pairing (and evmone384 synth loop)
+df_evm384_synth_wasm = df_evm384_synth_wasm.drop(df_evm384_synth_wasm[df_evm384_synth_wasm['engine'] == 'rust-native'].index)
+
+df_evm384_synth_wasm = df_evm384_synth_wasm.drop(df_evm384_synth_wasm[df_evm384_synth_wasm['engine'] == 'evmone384'].index)
+
+
+# In[ ]:
+
+
+df_evm384_synth_wasm
+
+
+# In[ ]:
+
+
+#df_evm384_synth_wasm.loc[(df_evm384_synth_wasm['bench_name'] == 'Wasm two-pairings (wasmsnark)'), 'engine'] = "wasm-two-pairings"
+#df_evm384_synth_wasm.loc[(df_evm384_synth_wasm['bench_name'] == 'Wasm synth-loop (wasmsnark)'), 'engine'] = "wasm-synth-loop"
+
+df_evm384_synth_wasm.loc[(df_evm384_synth_wasm['bench_name'] == 'Wasm two-pairings (wasmsnark)'), 'engine'] = "wabt-with-bignums (two-pairings)"
+df_evm384_synth_wasm.loc[(df_evm384_synth_wasm['bench_name'] == 'Wasm synth-loop (wasmsnark)'), 'engine'] = "wabt-with-bignums (synth-loop)"
+
+
+# In[ ]:
+
+
+df_evm384_synth_wasm
+
+
+# In[ ]:
+
+
+f = plt.figure(figsize=(14,8))
+sns.reset_defaults() # use default colors, orange and blue
+splot = sns.barplot(x='engine', y='time', hue='bench_name', dodge=True, ci=None,
+            palette=['tab:blue', 'tab:olive', 'tab:purple', 'tab:brown', 'tab:cyan'],
+            data=df_evm384_synth_wasm)
+
+
+
+# this customizes the widths of each bar-group. Because orange bars (wasm) stand alone,
+# versus blue and olive that are grouped together (evm-huff, evm-sol), but the default
+# widths are all the same, the orange bars are too skinny.
+# This makes the orange bars fatter (`current_width*2`) than the blue and olive bars (`current_width*1.3`)
+
+# It also adjusts the x position of the bars so that they're centered (by default they were positioned
+# as if all three groups would appear in every column)
+
+orange_bars_rgba = (0.8818627450980391, 0.5053921568627451, 0.17303921568627467, 1.0)
+blue_bars_rgba = (0.19460784313725488, 0.45343137254901944, 0.632843137254902, 1.0)
+olive_bars_rgba = (0.6622549019607844, 0.6651960784313725, 0.2093137254901961, 1.0)
+purple_bars_rgba = (0.5784313725490194, 0.446078431372549, 0.6990196078431372, 1.0)
+brown_bars_rgba = (0.5171568627450981, 0.3583333333333334, 0.3259803921568628, 1.0)
+cyan_bars_rgba = (0.180392156862745, 0.6715686274509803, 0.7215686274509805, 1.0)
+
+
+for patch in splot.patches:
+    current_width = patch.get_width()
+    diff = current_width*1.3 - current_width
+
+    # couldn't find a way to look up patch color names nor covert RGB to name,
+    # so we look up the bar groups using these HSLA(?) values like (0.8818627450980391, 0.5053921568627451, 0.17303921568627467, 1.0)
+
+    #blue
+    if patch.get_facecolor() == blue_bars_rgba:
+        patch.set_width(current_width*0.7)
+        patch.set_x(patch.get_x() + diff * 2.1)
+
+    #olive
+    if patch.get_facecolor() == olive_bars_rgba:
+        patch.set_width(current_width*0.7)
+        patch.set_x(patch.get_x() - diff * 1.1)
+
+    # purple
+    if patch.get_facecolor() == purple_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() - diff * 3.4)
+
+    # brown
+    if patch.get_facecolor() == brown_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() - diff * 3.4)
+    
+    # cyan
+    if patch.get_facecolor() == cyan_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() - diff * 3.4)
+    
+    
+    #print(dir(patch))
+    #print(patch)
+    #print(patch.get_facecolor())
+
+
+# annotate the bars with the ms values
+for p in splot.patches:
+    splot.annotate(
+                    toMs(p.get_height()),
+                    (p.get_x() + p.get_width() / 2., p.get_height()),
+                    ha = 'center', va = 'center',
+                    xytext = (0, 10),
+                    textcoords = 'offset points')
+
+
+# adjust legend placement
+plt.legend(fontsize='x-large', title_fontsize='40', loc='upper left')
+#leg = splot.get_legend()
+#leg.set_bbox_to_anchor([0.212,0.95])
+
+splot.set_xticklabels(splot.get_xticklabels(), size = 14)
+splot.set(xlabel='')
+
+#f.suptitle("Two-pairings (Rust-native, wasm) vs Synthetic loop (wasm, evm384)", fontsize=18, y=0.96)
+#f.suptitle("Two-pairings (Rust-native, wasm) vs Synthetic loop (wasm, evm384)", fontsize=18, y=0.96)
+f.savefig('../images/evm384-wasm-pairings-vs-synth-loop.png', bbox_inches='tight')
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# ## just evmone384 - v1 v2 v3
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+df_evm384_synth_v1v2v3 = df_evm384_wasm_native_tldr.copy()
+# drop rust-native - this chart focuses on synth loop vs pairing (and evmone384 synth loop)
+df_evm384_synth_v1v2v3 = df_evm384_synth_v1v2v3.drop(df_evm384_synth_v1v2v3[df_evm384_synth_v1v2v3['engine'] == 'rust-native'].index)
+
+
+# In[ ]:
+
+
+df_evm384_synth_v1v2v3
+
+
+# In[ ]:
+
+
+df_evm384_synth_v1v2v3 = df_evm384_synth_v1v2v3.drop(df_evm384_synth_v1v2v3[df_evm384_synth_v1v2v3['engine'] == 'wabt-with-bignums'].index)
+
+
+# In[ ]:
+
+
+df_evm384_synth_v1v2v3
+
+
+# In[ ]:
+
+
+#df_evm384_synth_v1v2v3.replace('evm384-synth-loop-v3', 'EVM384 synth-loop-v3 (Yul)', inplace=True)
+#df_evm384_synth_v1v2v3.replace('evm384-synth-loop-v2', 'EVM384 synth-loop-v2 (Yul)', inplace=True)
+#df_evm384_synth_v1v2v3.replace('evm384-synth-loop-v1', 'EVM384 synth-loop-v1 (Yul)', inplace=True)
+
+
+# In[ ]:
+
+
+df_evm384_synth_v1v2v3.loc[(df_evm384_synth_v1v2v3['bench_name'] == 'EVM384 synth-loop-v3 (Yul)'), 'engine'] = "evmone-evm384-v3"
+df_evm384_synth_v1v2v3.loc[(df_evm384_synth_v1v2v3['bench_name'] == 'EVM384 synth-loop-v2 (Yul)'), 'engine'] = "evmone-evm384-v2"
+df_evm384_synth_v1v2v3.loc[(df_evm384_synth_v1v2v3['bench_name'] == 'EVM384 synth-loop-v1 (Yul)'), 'engine'] = "evmone-evm384-v1"
+
+
+# In[ ]:
+
+
+df_evm384_synth_v1v2v3
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+f = plt.figure(figsize=(14,8))
+sns.reset_defaults() # use default colors, orange and blue
+splot = sns.barplot(x='engine', y='time', hue='bench_name', dodge=True, ci=None,
+            palette=['tab:purple', 'tab:brown', 'tab:cyan'],
+            data=df_evm384_synth_v1v2v3)
+
+
+
+# this customizes the widths of each bar-group. Because orange bars (wasm) stand alone,
+# versus blue and olive that are grouped together (evm-huff, evm-sol), but the default
+# widths are all the same, the orange bars are too skinny.
+# This makes the orange bars fatter (`current_width*2`) than the blue and olive bars (`current_width*1.3`)
+
+# It also adjusts the x position of the bars so that they're centered (by default they were positioned
+# as if all three groups would appear in every column)
+
+orange_bars_rgba = (0.8818627450980391, 0.5053921568627451, 0.17303921568627467, 1.0)
+blue_bars_rgba = (0.19460784313725488, 0.45343137254901944, 0.632843137254902, 1.0)
+olive_bars_rgba = (0.6622549019607844, 0.6651960784313725, 0.2093137254901961, 1.0)
+purple_bars_rgba = (0.5784313725490194, 0.446078431372549, 0.6990196078431372, 1.0)
+brown_bars_rgba = (0.5171568627450981, 0.3583333333333334, 0.3259803921568628, 1.0)
+cyan_bars_rgba = (0.180392156862745, 0.6715686274509803, 0.7215686274509805, 1.0)
+
+
+for patch in splot.patches:
+    current_width = patch.get_width()
+    # factor 1.3 to make bars 30% wider?
+    diff = current_width*1.3 - current_width
+
+    # couldn't find a way to look up patch color names nor covert RGB to name,
+    # so we look up the bar groups using these HSLA(?) values like (0.8818627450980391, 0.5053921568627451, 0.17303921568627467, 1.0)
+
+    #blue
+    if patch.get_facecolor() == purple_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() + diff * 3.4)
+
+    #olive
+    if patch.get_facecolor() == brown_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() + diff * 0.0)
+
+    # purple
+    if patch.get_facecolor() == cyan_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() - diff * 3.4)
+    
+    
+    #print(dir(patch))
+    #print(patch)
+    #print(patch.get_facecolor())
+
+
+# annotate the bars with the ms values
+for p in splot.patches:
+    splot.annotate(
+                    toMs(p.get_height()),
+                    (p.get_x() + p.get_width() / 2., p.get_height()),
+                    ha = 'center', va = 'center',
+                    xytext = (0, 10),
+                    textcoords = 'offset points')
+
+
+# adjust legend placement
+plt.legend(fontsize='x-large', title_fontsize='40', loc='upper left')
+#leg = splot.get_legend()
+#leg.set_bbox_to_anchor([0.212,0.95])
+
+splot.set_xticklabels(splot.get_xticklabels(), size = 14)
+splot.set(xlabel='')
+
+#f.suptitle("Two-pairings (Rust-native, wasm) vs Synthetic loop (wasm, evm384)", fontsize=18, y=0.96)
+#f.suptitle("Two-pairings (Rust-native, wasm) vs Synthetic loop (wasm, evm384)", fontsize=18, y=0.96)
+f.savefig('../images/evm384-synth-loop-v1-v2-v3.png', bbox_inches='tight')
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# ## Plot the evm384 adjusted time
+
+# In[ ]:
+
+
+df_evm384_wasm_native_tldr_adjusted = df_evm384_wasm_native_tldr.copy()
+
+
+# In[ ]:
+
+
+df_evm384_wasm_native_tldr_adjusted
+
+
+# In[ ]:
+
+
+wasm_pairing_time = df_evm384_wasm_native_tldr_adjusted.loc[(df_evm384_wasm_native_tldr_adjusted['bench_name'] == 'Wasm two-pairings (wasmsnark)'), 'time']
+wasm_synth_time = df_evm384_wasm_native_tldr_adjusted.loc[(df_evm384_wasm_native_tldr_adjusted['bench_name'] == 'Wasm synth-loop (wasmsnark)'), 'time']
+
+adjustment_factor = wasm_pairing_time.mean() / wasm_synth_time.mean()
+
+
+# In[ ]:
+
+
+adjustment_factor
+
+
+# In[ ]:
+
+
+df_evm384_wasm_native_tldr_adjusted = df_evm384_wasm_native_tldr_adjusted.drop(df_evm384_wasm_native_tldr_adjusted[df_evm384_wasm_native_tldr_adjusted['bench_name'] == 'Wasm synth-loop (wasmsnark)'].index)
+df_evm384_wasm_native_tldr_adjusted = df_evm384_wasm_native_tldr_adjusted.drop(df_evm384_wasm_native_tldr_adjusted[df_evm384_wasm_native_tldr_adjusted['bench_name'] == 'EVM384 synth-loop-v1 (Yul)'].index)
+df_evm384_wasm_native_tldr_adjusted = df_evm384_wasm_native_tldr_adjusted.drop(df_evm384_wasm_native_tldr_adjusted[df_evm384_wasm_native_tldr_adjusted['bench_name'] == 'EVM384 synth-loop-v2 (Yul)'].index)
+
+
+# In[ ]:
+
+
+df_evm384_wasm_native_tldr_adjusted.loc[(df_evm384_wasm_native_tldr_adjusted['engine'] == 'evmone384'), 'time'] *= adjustment_factor
+
+
+# In[ ]:
+
+
+df_evm384_wasm_native_tldr_adjusted.loc[(df_evm384_wasm_native_tldr_adjusted['bench_name'] == 'EVM384 synth-loop-v3 (Yul)'), 'engine'] = "evmone-evm384-v3"
+
+
+# In[ ]:
+
+
+evm384_legend_label = "EVM384 estimate (after synthetic adjustment factor of {:0.2f}x)".format(adjustment_factor)
+
+df_evm384_wasm_native_tldr_adjusted.replace('EVM384 synth-loop-v3 (Yul)', evm384_legend_label, inplace=True)
+
+
+# In[ ]:
+
+
+f = plt.figure(figsize=(14,8))
+sns.reset_defaults() # use default colors, orange and blue
+splot = sns.barplot(x='engine', y='time', hue='bench_name', dodge=True, ci=None,
+            palette=['tab:orange', 'tab:olive', 'tab:pink'],
+            data=df_evm384_wasm_native_tldr_adjusted)
+
+
+
+# this customizes the widths of each bar-group. Because orange bars (wasm) stand alone,
+# versus blue and olive that are grouped together (evm-huff, evm-sol), but the default
+# widths are all the same, the orange bars are too skinny.
+# This makes the orange bars fatter (`current_width*2`) than the blue and olive bars (`current_width*1.3`)
+
+# It also adjusts the x position of the bars so that they're centered (by default they were positioned
+# as if all three groups would appear in every column)
+
+orange_bars_rgba = (0.8818627450980391, 0.5053921568627451, 0.17303921568627467, 1.0)
+blue_bars_rgba = (0.19460784313725488, 0.45343137254901944, 0.632843137254902, 1.0)
+olive_bars_rgba = (0.6622549019607844, 0.6651960784313725, 0.2093137254901961, 1.0)
+purple_bars_rgba = (0.5784313725490194, 0.446078431372549, 0.6990196078431372, 1.0)
+brown_bars_rgba = (0.5171568627450981, 0.3583333333333334, 0.3259803921568628, 1.0)
+pink_bars_rgba = (0.8372549019607844, 0.5196078431372548, 0.7401960784313724, 1.0)
+
+
+for patch in splot.patches:
+    current_width = patch.get_width()
+    # factor 1.3 to make bars 30% wider?
+    diff = current_width*1.3 - current_width
+
+    # orange - couldn't find a way to look up patch color names nor covert RGB to name,
+    # so we look up the bar groups using these HSLA(?) values like (0.8818627450980391, 0.5053921568627451, 0.17303921568627467, 1.0)
+    if patch.get_facecolor() == orange_bars_rgba:
+        diff = current_width*2 - current_width
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() + diff * 1.0)
+
+    #olive
+    if patch.get_facecolor() == olive_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() + diff * 0.1)
+
+    # pink
+    if patch.get_facecolor() == pink_bars_rgba:
+        patch.set_width(current_width*1.0)
+        patch.set_x(patch.get_x() - diff * 3.2)
+    
+
+    #print(dir(patch))
+    #print(patch)
+    #print(patch.get_facecolor())
+
+
+# annotate the bars with the ms values
+for p in splot.patches:
+    splot.annotate(
+                    toMs(p.get_height()),
+                    (p.get_x() + p.get_width() / 2., p.get_height()),
+                    ha = 'center', va = 'center',
+                    xytext = (0, 10),
+                    textcoords = 'offset points')
+
+
+# adjust legend placement
+plt.legend(fontsize='x-large', title_fontsize='40', loc='upper left')
+#leg = splot.get_legend()
+#leg.set_bbox_to_anchor([0.212,0.95])
+
+splot.set_xticklabels(splot.get_xticklabels(), size = 14)
+splot.set(xlabel='')
+
+#f.suptitle("Two-pairings (Rust-native, wasm) vs Estimated-two-pairings (evm384 adjusted-synth-loop)", fontsize=18, y=0.96)
+#f.suptitle("BLS12-381: Estimated runtime for two pairings on EVM384", fontsize=18, y=0.96)
+f.savefig('../images/evm384-wasm-native-pairings-vs-adjusted-synth-loop.png', bbox_inches='tight')
+
+
+# In[ ]:
+
+
+
+# test to make  sure that scout wasm3 data is present
+test_scout_wasm3_plot = plotOneTestColoredTicks(df_scout_data[df_scout_data['engine'].isin(['wasm3-with-bignums'])],)
+
+
+# In[ ]:
+
+
+
+# test to make sure that scout_wamr.c data is present
+test_scout_wasm3_plot = plotOneTestColoredTicks(df_scout_data[df_scout_data['engine'].isin(['wasm3-with-bignums'])],)
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:

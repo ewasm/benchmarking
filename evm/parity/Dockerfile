@@ -6,7 +6,8 @@ LABEL version="1"
 LABEL description="Ewasm benchmarking (parity)"
 
 # deps required to build full parity for native precompile benchmarks
-RUN apt-get install -y libudev-dev
+RUN apt-get update && \
+        apt-get install -y libudev-dev
 
 # install python modules needed for benchmarking script
 RUN pip3 install durationpy jinja2 pandas
