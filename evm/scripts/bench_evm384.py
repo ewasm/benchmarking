@@ -28,6 +28,10 @@ EVMONE_BENCH_INFOS = [
   {
     "command": "/root/evmone-evm384-v2-unsafe/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/mem-check-disable-evm384_f6m_mul/build/v2-f6m_mul_bench.bin 00 74229fc665e6c3f4401905c1a454ea57c8931739d05a074fd60400f19684d680a9e1305c25f13613dcc6cdd6e6e57d0800000000000000000000000000000000",
     "bench_name": "evm384-synth-loop-v3"
+  },
+  {
+    "command": "/root/evmone-evm384-v2-no-curve-params/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/v2-no-curve-params-evm384_f6m_mul/build/v2-no-curve-params-f6m_mul_bench.bin 00 76bd76603d302cf114e5d8b22cab590ed640d48bccedaa893ab742a6ca8b003ebb93c06952711b9d92c641b74829610d00000000000000000000000000000000",
+    "bench_name": "evm384-synth-loop-v2-no-curve-params"
   }
 ]
 
