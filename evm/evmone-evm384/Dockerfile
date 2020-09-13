@@ -32,12 +32,17 @@ RUN cd evmone-evm384-v3 && mkdir build && \
 
 # v4
 RUN git clone --recursive --single-branch https://github.com/ethereum/evmone -b evm384-v4 evmone-evm384-v4
-RUN cd evm384-v4 && mkdir build && \
+RUN cd evmone-evm384-v4 && mkdir build && \
   cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
 
 # v5 - v3 with curve parameters hardcoded
-RUN git clone --recursive --single-branch https://github.com/ethereum/evmone -b evm384-v5 evmone-evm384-v5
-RUN cd evm384-v5 && mkdir build && \
+RUN git clone --recursive --single-branch https://github.com/jwasinger/evmone -b evm384-v5 evmone-evm384-v5
+RUN cd evmone-evm384-v5 && mkdir build && \
+  cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
+
+# v6 - mapped register space in memory with evm384 opcode arguments reduced to one stack element
+RUN git clone --recursive --single-branch https://github.com/jwasinger/evmone -b evm384-v6 evmone-evm384-v6
+RUN cd evmone-evm384-v6 && mkdir build && \
   cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
 
 WORKDIR /
