@@ -9,24 +9,36 @@ RUN pip3 install durationpy pandas
 
 # install evmone (need CXXFLAGS=-w or the build fails)
 WORKDIR /root
+
+# fetch evm384 binaries for different variants
+RUN git clone --single-branch --branch v6 https://github.com/ewasm/evm384_f6m_mul.git
+
+# clone and build evmone branches
+
+# v1
 RUN git clone --recursive --single-branch --branch v0.5.0-evm384-v1 https://github.com/ethereum/evmone.git evmone-evm384-v1
 RUN cd evmone-evm384-v1 && mkdir build && \
   cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
 
-RUN git clone --recursive --single-branch --branch v0.5.0-evm384-v2 https://github.com/ethereum/evmone.git evmone-evm384-v2
+# v2 - v1 with `out` parameter added
+RUN git clone --recursive --single-branch https://github.com/ethereum/evmone -b v0.5.0-evm384-v2 evmone-evm384-v2
 RUN cd evmone-evm384-v2 && mkdir build && \
   cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
 
-# evmone branch with mem check disabled
-RUN git clone --recursive --single-branch https://github.com/ethereum/evmone -b v0.5.0-evm384-v2-unsafe evmone-evm384-v2-unsafe
-RUN cd evmone-evm384-v2-unsafe && mkdir build && \
+# v3 - v2 with memory checks disabled for arguments in evm384 opcodes
+RUN git clone --recursive --single-branch https://github.com/ethereum/evmone -b v0.5.0-evm384-v2-unsafe evmone-evm384-v3
+RUN cd evmone-evm384-v3 && mkdir build && \
   cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
 
-# fetch evm384 f6m_mul synthetic loop repo
-RUN git clone --single-branch --branch v0.0.1 https://github.com/ewasm/evm384_f6m_mul.git
+# v4
+RUN git clone --recursive --single-branch https://github.com/ethereum/evmone -b evm384-v4 evmone-evm384-v4
+RUN cd evm384-v4 && mkdir build && \
+  cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
 
-# branch that pre-allocates a page of memory to remain safe (because mem check is disabled)
-RUN git clone --single-branch --branch mem-check-disable https://github.com/ewasm/evm384_f6m_mul.git mem-check-disable-evm384_f6m_mul
+# v5 - v3 with curve parameters hardcoded
+RUN git clone --recursive --single-branch https://github.com/ethereum/evmone -b evm384-v5 evmone-evm384-v5
+RUN cd evm384-v5 && mkdir build && \
+  cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
 
 WORKDIR /
 CMD /bin/bash
