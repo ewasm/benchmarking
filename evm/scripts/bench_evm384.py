@@ -44,6 +44,10 @@ EVMONE_BENCH_INFOS = [
   {
     "command": "/root/evmone-evm384-v4/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v4-huff-f6m_mul_bench.hex 00 ff",
     "bench_name": "evm384-synth-loop-v4-huff"
+  },
+  {
+    "command": "/root/evmone-evm384-v7/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v7-f6m_mul_bench.hex \"\" \"\"",
+    "bench_name": "evm384-synth-loop-v7-huff"
   }
 ]
 

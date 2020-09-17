@@ -45,5 +45,10 @@ RUN git clone --recursive --single-branch https://github.com/jwasinger/evmone -b
 RUN cd evmone-evm384-v6 && mkdir build && \
   cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
 
+# v7 -
+RUN git clone --recursive --single-branch https://github.com/jwasinger/evmone -b evm384-v7 evmone-evm384-v7
+RUN cd evmone-evm384-v7 && mkdir build && \
+  cd build && CXXFLAGS="-w" cmake .. -DEVMONE_TESTING=ON && make -j4
+
 WORKDIR /
 CMD /bin/bash
