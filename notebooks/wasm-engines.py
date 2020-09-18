@@ -18,6 +18,8 @@ import math
 from os.path import join
 from collections import defaultdict
 
+import itertools
+
 
 # In[214]:
 
@@ -4334,13 +4336,28 @@ df_evm384_versions_and_native = df_evm384_versions_and_native[~df_evm384_version
 
 # want 'rust-native--bls12-eip1962-rust-native-two-pairings'
 
-import pdb; pdb.set_trace()
+def plot_evm384_yul_vs_huff(df):
+    import pdb; pdb.set_trace()
+    yul_times = list(df[df['engine_bench_name'].str.contains(pat='yul')]['time']) + [None, None]
+    x = df[df['engine_bench_name'].str.contains(pat='huff')]['time']
+    huff_times = [None, None, None, x[1], None, x[0], x[2]]
+    import pdb; pdb.set_trace()
+
+    fig, ax = plt.subplots()
+
+    ind = np.arange(7)    # the x locations for the groups
+    width = 0.35         # the width of the bars
+    p1 = ax.bar(ind, x, width, bottom=0)
+
 
 # TODO rename these to be shorter
+
+plot_evm384_yul_vs_huff(df_evm384_versions_and_native)
 
 df_evm384_versions_summarized = df_evm384_versions_and_native.copy()
 df_evm384_versions_summarized = df_evm384_versions_summarized[df_evm384_versions_summarized['engine_bench_name'].isin([
 'evmone384--evm384-synth-loop-v7-huff',
+'evmone384--evm384-synth-loop-v3-yul',
 'rust-native--bls12-eip1962-rust-native-two-pairings',
 'wabt-with-bignums--bls12-two-pairings'
 ])]
