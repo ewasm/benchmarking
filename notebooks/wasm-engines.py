@@ -4338,16 +4338,28 @@ df_evm384_versions_and_native = df_evm384_versions_and_native[~df_evm384_version
 
 def plot_evm384_yul_vs_huff(df):
     import pdb; pdb.set_trace()
-    yul_times = list(df[df['engine_bench_name'].str.contains(pat='yul')]['time']) + [None, None]
-    x = df[df['engine_bench_name'].str.contains(pat='huff')]['time']
-    huff_times = [None, None, None, x[1], None, x[0], x[2]]
+    yul_times = list(df[df['engine_bench_name'].str.contains(pat='yul')]['time']) + [0.0, 0.0]
+    x = list(df[df['engine_bench_name'].str.contains(pat='huff')]['time'])
+    huff_times = [0.0, 0.0, 0.0, x[1], 0.0, x[0], x[2]]
     import pdb; pdb.set_trace()
 
     fig, ax = plt.subplots()
 
     ind = np.arange(7)    # the x locations for the groups
     width = 0.35         # the width of the bars
-    p1 = ax.bar(ind, x, width, bottom=0)
+    yul_bars = ax.bar(ind, yul_times, width, bottom=0)
+
+    huff_bars = ax.bar(ind, huff_times, bottom=0)
+
+    # ax.set_title('Scores by group and gender')
+    ax.set_xticks(ind + width / 2)
+    ax.set_xticklabels(('v1', 'v2', 'v3', 'v4', 'v5', 'v6', 'v7'))
+
+    ax.legend((yul_bars[0], huff_bars[0]), ('Yul', 'Huff'))
+    # ax.yaxis.set_units(inch)
+    ax.autoscale_view()
+
+    plt.savefig('../images/jared_new1.png', bbox_inches='tight')
 
 
 # TODO rename these to be shorter
