@@ -17,7 +17,8 @@ jobs:
     - run:
         name: Rebuild notebook
         command: |
-          make charts
+          rm -rf images/*
+          make generate_charts
           # Ensures the generated images are matching
           git diff --color --exit-code
 
