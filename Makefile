@@ -1,4 +1,4 @@
-all: build_docker_images benchmark notebook
+all: build_docker_images benchmark generate_charts 
 
 build_evm_engines:
 	cd evm/geth && docker build . -t ewasm/geth-bench:1
