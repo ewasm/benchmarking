@@ -17,7 +17,8 @@ jobs:
     - run:
         name: Rebuild notebook
         command: |
-          rm -rf images/*
+          # I accidentally deleted the source code for these charts :'(
+          # rm -rf images/*
           make generate_charts
           # Ensures the generated images are matching
           git diff --color --exit-code
