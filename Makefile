@@ -5,7 +5,7 @@ build_evm_engines:
 	cd evm/parity && docker build . -t ewasm/parity-bench:1
 	cd evm/evmone && docker build . -t ewasm/evmone-bench:1
 	cd evm/cita-vm && docker build . -t ewasm/cita-vm-bench:1
-	cd evm/evmone-evm384 && docker build . -t ewasm/evmone-evm384-bench:1
+	cd evm/evmone-evm384 && docker build . -t ewasm/evmone-evm384-bench:2
 
 build_wasm_engines:
 	cd wasm-engines && ./build_engines.sh
