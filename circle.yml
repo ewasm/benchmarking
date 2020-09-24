@@ -1,13 +1,13 @@
 version: 2.1
 
 executors:
-  notebook:
+  charts:
     docker:
       - image: circleci/python:3.7.0
 
 jobs:
-  rebuild-notebook:
-    executor: notebook
+  rebuild-charts:
+    executor: charts 
     steps:
     - checkout
     - run:
@@ -17,13 +17,13 @@ jobs:
     - run:
         name: Rebuild notebook
         command: |
-          make notebook
+          make charts
           # Ensures the generated images are matching
           git diff --color --exit-code
 
 workflows:
   version: 2
 
-  notebook:
+  charts:
     jobs:
-      - rebuild-notebook
+      - rebuild-charts

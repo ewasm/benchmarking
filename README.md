@@ -86,27 +86,13 @@ Run benchmarks
 make benchmark_scout_engines
 ```
 
-## Generate charts using jupyter notebooks
+## Generate charts
 
 Install python deps for plotting benchmark graphs:
 
 ```shell
 $ pip install -r requirements.txt
-```
-
-Launch a server to access generated charts in Jupyter notebooks:
-
-```shell
-$ cd notebooks
-$ jupyter-notebook
-```
-
-Follow the instructions on the console to access the notebook from the browser.
-
-Alternatively extract the images to the `images` directory by running:
-
-```shell
-$ make notebook
+$ make generate_charts
 ```
 
 ## EVM engine versions
