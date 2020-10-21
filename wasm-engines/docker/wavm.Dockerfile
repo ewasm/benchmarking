@@ -12,7 +12,7 @@ RUN apt install -y gcc-7 g++-7 &&  \
 # install wavm
     git clone --single-branch --branch bench-compile-time https://github.com/ewasm-benchmarking/WAVM && \
     mkdir wavm-build && \
-    cd wavm-build && cmake -G Ninja ../WAVM -DCMAKE_BUILD_TYPE=Release && \
+    cd wavm-build && cmake -G Ninja ../WAVM -DCMAKE_BUILD_TYPE=Release -DWAVM_ENABLE_STATIC_LINKING=ON && \
     ninja
 
 FROM ewasm/bench-build-base:1
