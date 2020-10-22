@@ -37,7 +37,7 @@ def fill_rust(benchname, input, rust_code_dir, wasm_out_dir, native_out_dir):
         return False
 
     #filldir = os.path.abspath("{}/rust-code-filled".format(benchname))
-    filldir = os.path.abspath(os.path.join("./rust-code-filled/", benchname))
+    filldir = os.path.abspath(os.path.join("/results/rust-code-filled", benchname))
     if os.path.exists(filldir):
         shutil.rmtree(filldir)
     shutil.copytree(rustsrc, filldir)

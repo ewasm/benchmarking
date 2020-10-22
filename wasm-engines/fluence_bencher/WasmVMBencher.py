@@ -58,7 +58,7 @@ class WasmVMBencher:
         self.logger.info(error_msg)
         print(error_msg, file=open(self.error_log, 'a'))
 
-    def run_tests(self, test_descriptors, vm_descriptors):
+    def run_tests(self, test_descriptors, vm_bin_path, vm_descriptors):
         """Launches provided tests and returns their execution time.
 
         Parameters
@@ -86,6 +86,8 @@ class WasmVMBencher:
                 if vm not in vm_descriptors:
                     continue
 
+                # ------------------- TODO don't hardcode the below
+                bin_path = "./results/bin"
                 vm_binary_full_path = join(vm_descriptors[vm].vm_binary_path)
                 cmd = vm_binary_full_path + " " \
                       + vm_descriptors[vm].vm_launch_cmd.format(wasm_file_path=test_path,
