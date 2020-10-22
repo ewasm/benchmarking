@@ -24,7 +24,7 @@ def get_rust_bytes(hex_str):
     tmp = reduce(lambda x, y: x+', '+y, tmp)
     return '[ '+tmp+' ]'
 
-def fill_rust(benchname, input, rust_code_dir, wasm_out_dir):
+def fill_rust(benchname, input, rust_code_dir, wasm_out_dir, native_out_dir):
     #rustsrc = "{}/rust-code/src/bench.rs".format(os.path.abspath(benchname))
     #rustsrc = "{}/rust-code".format(os.path.abspath(benchname))
     rust_code_path = os.path.abspath(os.path.join(rust_code_dir, benchname))
@@ -71,7 +71,7 @@ def fill_rust(benchname, input, rust_code_dir, wasm_out_dir):
 
     # compile rust code
     benchname_rust = benchname.replace("-", "_")
-    rust_native_cmd = "cargo build --release --bin {}_native".format(benchname_rust)
+    rust_native_cmd = "cargo build --release -j4 --bin {}_native".format(benchname_rust)
     print("compiling rust native {}...\n{}".format(input['name'], rust_native_cmd))
     rust_process = subprocess.Popen(rust_native_cmd, cwd=filldir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
     return_code = rust_process.wait(None)
@@ -89,7 +89,7 @@ def fill_rust(benchname, input, rust_code_dir, wasm_out_dir):
     # TODO: also build with optimization turned off
 
     # TODO: run wasm through wasm-gc
-    rust_wasm_cmd = "cargo build --release --lib --target wasm32-unknown-unknown"
+    rust_wasm_cmd = "cargo build --release -j4 --lib --target wasm32-unknown-unknown"
     print("compiling rust wasm {}...\n{}".format(input['name'], rust_wasm_cmd))
     rust_process = subprocess.Popen(rust_wasm_cmd, cwd=filldir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
     return_code = rust_process.wait(None)
@@ -98,58 +98,32 @@ def fill_rust(benchname, input, rust_code_dir, wasm_out_dir):
     if return_code != 0:
         sys.exit(-1)
     # wasm is at ./target/wasm32-unknown-unkown/release/sha1_wasm.wasm
+    exec_out_path=os.path.join(native_out_dir, input['name'])
+
     wasmbin = "{}/target/wasm32-unknown-unknown/release/{}_wasm.wasm".format(filldir, benchname_rust)
     wasmdir = os.path.abspath(wasm_out_dir)
     wasmoutfile = os.path.join(wasmdir, "{}.wasm".format(input['name']))
     if not os.path.exists(wasmdir):
         os.mkdir(wasmdir)
+
     shutil.copy(wasmbin, wasmoutfile)
-
-def main():
-    wasm_out_dir = args['wasmoutdir']
-    csv_file_path = args['csvresults']
-    rust_code_dir = args['rustcodedir']
-    input_vectors_dir = args['inputvectorsdir']
-    rustcodes = [dI for dI in os.listdir(rust_code_dir) if os.path.isdir(os.path.join(rust_code_dir,dI))]
-    #benchdirs = [dI for dI in os.listdir('./') if os.path.isdir(os.path.join('./',dI))]
-    native_benchmarks = {}
-    for benchname in rustcodes:
-        if benchname in ["__pycache__", ".cargo"]:
-            continue
-        print("start benching: ", benchname)
-
-        #rust_code_path = os.path.join(RUST_CODES_DIR, benchname)
-
-        ## TODO: move input vectors to their own "standalone" folder
-        # use "ewasm" folder
-        inputvecs_path = os.path.join(input_vectors_dir, "{}-inputs.json".format(benchname))
-        with open(inputvecs_path) as f:
-            bench_inputs = json.load(f)
-
-            for input in bench_inputs:
-                print("bench input:", input['name'])
-                native_input_times = do_rust_bench(benchname, input, rust_code_dir, wasm_out_dir)
-                if native_input_times:
-                    native_benchmarks[input['name']] = native_input_times
-
-                print("done with input:", input['name'])
-
-        print("done benching: ", benchname)
-
-    print("got native_benchmarks:", native_benchmarks)
-    saveResults(native_benchmarks, csv_file_path)
+    shutil.copy(exec_path, native_out_dir+"/"+input['name']+'_native')
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--wasmoutdir', help='full path of dir containing wasm files')
     parser.add_argument('--rustcodedir', help='comma-separated list of engines to benchmark')
     parser.add_argument('--inputvectorsdir', help='comma-separated list of engines to benchmark')
+    parser.add_argument('--nativeoutdir', help='directory to put binaries compiled from rust code')
 
     args = vars(parser.parse_args())
 
     wasm_out_dir = args['wasmoutdir']
+    native_out_dir = args['nativeoutdir']
     rust_code_dir = args['rustcodedir']
     input_vectors_dir = args['inputvectorsdir']
+
+    import pdb; pdb.set_trace()
 
     rustcodes = [dI for dI in os.listdir(rust_code_dir) if os.path.isdir(os.path.join(rust_code_dir,dI))]
     #benchdirs = [dI for dI in os.listdir('./') if os.path.isdir(os.path.join('./',dI))]
@@ -169,7 +143,7 @@ def main():
 
             for input in bench_inputs:
                 print("bench input:", input['name'])
-                native_input_times = do_rust_bench(benchname, input, rust_code_dir, wasm_out_dir)
+                native_input_times = fill_rust(benchname, input, rust_code_dir, wasm_out_dir, native_out_dir)
 
 if __name__ == "__main__":
     main()

@@ -18,21 +18,21 @@ CSV_WASM_RESULTS=$BENCHMARK_RESULTS_DIR/standalone_wasm_results.csv
 # these files will be benchmarked in all the engines
 
 RESULTS_DIR=$(pwd)/results #./benchmark_results_data
-RUST_CODE_DIR=$RESULTS_DIR/rust-code
-INPUT_VECTORS_DIR=$RESULTS_DIR/inputvectors
+RUST_CODE_DIR=$(pwd)/rust-code
+INPUT_VECTORS_DIR=$(pwd)/inputvectors
 WASM_FILE_DIR=$RESULTS_DIR/wasmfiles
 WASM_MINIFIED_DIR=$RESULTS_DIR/wasmfilesminified
+RUST_BIN_DIR=$RESULTS_DIR/bin
 
 rm -rf $RESULTS_DIR && mkdir $RESULTS_DIR
-mkdir $RUST_CODE_DIR
-mkdir $INPUT_VECTORS_DIR
 mkdir $WASM_FILE_DIR
 mkdir $WASM_MINIFIED_DIR
+mkdir $RUST_BIN_DIR
 
 # save cpu info to a file, so we know what machine was used to run the benchmarks
 
 # fill all rust benchmarks, rust test cases and compile them
-docker run -v $RESULTS_DIR:/results -v $(pwd)/scripts:/scripts -t ewasm/bench-build-base:1 bash /scripts/fill_rust.sh --wasmoutdir="${WASM_FILE_DIR}" --rustcodedir="${RUST_CODE_DIR}" --inputvectorsdir="${INPUT_VECTORS_DIR}"
+docker run -v $RUST_BIN_DIR:/rust-bin -v $INPUT_VECTORS_DIR:/inputvectors -v $RESULTS_DIR:/results -v $(pwd)/rust-code:/rust-code -v $(pwd)/scripts:/scripts -it ewasm/bench-build-base:1 bash /scripts/fill_rust.sh
 sudo chown -R 1000:1000 $RESULTS_DIR
 
 echo "great success!"
