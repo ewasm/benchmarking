@@ -9,14 +9,6 @@ set -e
 CSV_NATIVE_RESULTS=$BENCHMARK_RESULTS_DIR/native_benchmarks.csv
 CSV_WASM_RESULTS=$BENCHMARK_RESULTS_DIR/standalone_wasm_results.csv
 
-# benchnativerust_prepwasm.py will use rust code templates and input vectors to
-# prepare standalone wasm files and native rust executables
-
-# benchnativerust_prepwasm.py will compile rust code to wasm and save them to WASM_FILE_DIR
-
-# files in WASM_FILE_DIR will be minified, and outputted to WASM_MINIFIED_DIR
-# these files will be benchmarked in all the engines
-
 RESULTS_DIR=$(pwd)/results #./benchmark_results_data
 RUST_CODE_DIR=$(pwd)/rust-code
 INPUT_VECTORS_DIR=$(pwd)/inputvectors
@@ -30,6 +22,10 @@ mkdir $WASM_FILE_DIR
 mkdir $WASM_MINIFIED_DIR
 mkdir $RUST_BIN_DIR
 mkdir $WASM_ENGINE_BIN_DIR
+
+grep -E '^model name|^cpu MHz' /proc/cpuinfo > $RESULTS_DIR/cpuinfo.txt
+
+echo "TODO some standalone wasm benchmarks are missing their source, incorporate them.  (don't delete the entire results directory on each run"
 
 # copy all wasm engine binaries to the host machine from the container images where they were built
 docker cp $(docker run -d -t ewasm/asmble:1 sleep 3s):/asmble/bin/asmble $WASM_ENGINE_BIN_DIR/asmble
@@ -52,13 +48,17 @@ docker cp $(docker run -d -t ewasm/wasmtime:1 sleep 3s):/wasmtime/target/release
 docker cp $(docker run -d -t ewasm/wavm:1 sleep 3s):/wavm-build/bin/wavm-compile $WASM_ENGINE_BIN_DIR/wavm-compile
 docker cp $(docker run -d -t ewasm/wavm:1 sleep 3s):/wavm-build/bin/wavm-run $WASM_ENGINE_BIN_DIR/wavm-run
 
-# save cpu info to a file, so we know what machine was used to run the benchmarks
-
-# fill all rust benchmarks, rust test cases and compile them
 docker run -v $RUST_BIN_DIR:/rust-bin -v $INPUT_VECTORS_DIR:/inputvectors -v $RESULTS_DIR:/results -v $(pwd)/rust-code:/rust-code -v $(pwd)/scripts:/scripts -it ewasm/bench-build-base:1 bash /scripts/fill_rust.sh
 sudo chown -R 1000:1000 $RESULTS_DIR
 
-# TODO copy binaries for wasm engines from the containers they were built on
+echo "TODO minify rust wasm"
 
-# run rust benchmarks
-# docker run -t ewasm/bench-build-base:1 python3.8 bench_native.py
+# run rust (native) benchmarks
+
+python3 scripts/bench_native.py --rustbindir=$RUST_BIN_DIR --csvresults=$RESULTS_DIR
+
+# run wasm benchmarks
+
+echo "TODO run rust native benchmarks"
+
+# do stuff with the output
