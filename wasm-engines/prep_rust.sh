@@ -1,13 +1,7 @@
-#!/usr/bin/env bash
+cd /benchprep
 
-# first compile standalone wasm files from rust code, and benchmark native rust
-# later, benchmark the standalone wasm files in all the wasm engines
-
-set -e
-
-# result output paths should be in mounted docker volumes
-CSV_NATIVE_RESULTS=/benchmark_results_data/native_benchmarks.csv
-CSV_WASM_RESULTS=/benchmark_results_data/standalone_wasm_results.csv
+# CSV_NATIVE_RESULTS=$OUTPUT_DIR/native_benchmarks.csv
+# CSV_WASM_RESULTS=$OUTPUT_DIR/standalone_wasm_results.csv
 
 # benchnativerust_prepwasm.py will use rust code templates and input vectors to
 # prepare standalone wasm files and native rust executables
@@ -19,17 +13,12 @@ WASM_FILE_DIR=/wasmfiles
 
 # files in WASM_FILE_DIR will be minified, and outputted to WASM_MINIFIED_DIR
 # these files will be benchmarked in all the engines
+
 WASM_MINIFIED_DIR=/wasmfilesminified
 
+# Fill rust code and build it
 
-# save cpu info to a file, so we know what machine was used to run the benchmarks
-grep -E '^model name|^cpu MHz' /proc/cpuinfo > /benchmark_results_data/cpuinfo.txt
-
-
-# fill rust code templates with input vectors. compile rust code to wasm and native. benchmark native
-# wasm will be further processed and benchmarked later
-cd /benchprep
-python3.8 benchnativerust_prepwasm.py --wasmoutdir="${WASM_FILE_DIR}" --csvresults="${CSV_NATIVE_RESULTS}" --rustcodedir="${RUST_CODE_DIR}" --inputvectorsdir="${INPUT_VECTORS_DIR}"
+python3.8 fill_rust.py --wasmoutdir="${WASM_FILE_DIR}" --rustcodedir="${RUST_CODE_DIR}" --inputvectorsdir="${INPUT_VECTORS_DIR}"
 
 # furthur process wasm files by minifying them.
 
@@ -53,8 +42,3 @@ do
   dest="${WASM_MINIFIED_DIR}/${filename}"
   /root/sentinel-minify-tool/wasm-utils/target/debug/wasm-minify "${filename}" "$dest"
 done
-
-echo "running benchmarks"
-cd /benchrunner
-python3.8 main.py --wasmdir="${WASM_MINIFIED_DIR}" --csvfile="${CSV_WASM_RESULTS}"
-chown -R 1000:1000 /benchrunner /benchprep /benchmark_results_data

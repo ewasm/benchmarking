@@ -1,37 +1,3 @@
-#!/usr/bin/env python3
-
-import jinja2, json, re
-from functools import reduce
-import subprocess
-import nanodurationpy as durationpy
-import csv
-import time
-import datetime
-import os
-import shutil
-import glob
-import argparse
-import sys
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--wasmoutdir', help='full path of dir containing wasm files')
-parser.add_argument('--csvresults', help='full path of csv result file')
-parser.add_argument('--rustcodedir', help='comma-separated list of engines to benchmark')
-parser.add_argument('--inputvectorsdir', help='comma-separated list of engines to benchmark')
-
-args = vars(parser.parse_args())
-
-
-# how many times to run native exec
-RUST_BENCH_REPEATS = 50
-
-def get_rust_bytes(hex_str):
-    tmp = map(''.join, zip(*[iter(hex_str)]*2))
-    tmp = map(lambda x: int(x, 16), tmp)
-    tmp = map(lambda x: '{}u8'.format(x), tmp)
-    tmp = reduce(lambda x, y: x+', '+y, tmp)
-    return '[ '+tmp+' ]'
-
 def bench_rust_binary(rustdir, input_name, native_exec):
     print("running rust native {}...\n{}".format(input_name, native_exec))
     bench_times = []
@@ -130,71 +96,9 @@ def do_rust_bench(benchname, input, rust_code_dir, wasm_out_dir):
     # TODO: get cargo build compiler time and report along with exec time.
 
     # run rust binary
-    native_times = bench_rust_binary(filldir, input['name'], "./target/release/{}_native".format(benchname_rust))
-    return { 'bench_times': native_times, 'exec_size': exec_size }
-
-
-def saveResults(native_benchmarks, result_file):
-    #result_file = os.path.join(RESULT_CSV_OUTPUT_PATH, RESULT_CSV_FILENAME)
-    # move existing files to old-datetime-folder
-    ts = time.time()
-    date_str = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
-    ts_folder_name = "{}-{}".format(date_str, round(ts))
-    result_path = os.path.dirname(result_file)
-    dest_backup_path = os.path.join(result_path, ts_folder_name)
-    os.makedirs(dest_backup_path)
-
-    #for file in glob.glob(r"{}/*.csv".format(RESULT_CSV_OUTPUT_PATH)):
-    #    print("backing up existing {}".format(file))
-    #    shutil.move(file, dest_backup_path)
-    if os.path.isfile(result_file):
-        print("backing up existing {}".format(result_file))
-        shutil.move(result_file, dest_backup_path)
-    print("existing csv file backed up to {}".format(dest_backup_path))
-
-    with open(result_file, 'w', newline='') as bench_result_file:
-        fieldnames = ['test_name', 'elapsed_times', 'native_file_size']
-        writer = csv.DictWriter(bench_result_file, fieldnames=fieldnames)
-        writer.writeheader()
-        for test_name, test_results in native_benchmarks.items():
-            bench_times = [str(t) for t in test_results['bench_times']]
-            times_str = ", ".join(bench_times)
-            writer.writerow({"test_name" : test_name, "elapsed_times" : times_str, "native_file_size" : test_results['exec_size']})
-
 
 def main():
-    wasm_out_dir = args['wasmoutdir']
-    csv_file_path = args['csvresults']
-    rust_code_dir = args['rustcodedir']
-    input_vectors_dir = args['inputvectorsdir']
-    rustcodes = [dI for dI in os.listdir(rust_code_dir) if os.path.isdir(os.path.join(rust_code_dir,dI))]
-    #benchdirs = [dI for dI in os.listdir('./') if os.path.isdir(os.path.join('./',dI))]
-    native_benchmarks = {}
-    for benchname in rustcodes:
-        if benchname in ["__pycache__", ".cargo"]:
-            continue
-        print("start benching: ", benchname)
-
-        #rust_code_path = os.path.join(RUST_CODES_DIR, benchname)
-
-        ## TODO: move input vectors to their own "standalone" folder
-        # use "ewasm" folder
-        inputvecs_path = os.path.join(input_vectors_dir, "{}-inputs.json".format(benchname))
-        with open(inputvecs_path) as f:
-            bench_inputs = json.load(f)
-
-            for input in bench_inputs:
-                print("bench input:", input['name'])
-                native_input_times = do_rust_bench(benchname, input, rust_code_dir, wasm_out_dir)
-                if native_input_times:
-                    native_benchmarks[input['name']] = native_input_times
-
-                print("done with input:", input['name'])
-
-        print("done benching: ", benchname)
-
-    print("got native_benchmarks:", native_benchmarks)
-    saveResults(native_benchmarks, csv_file_path)
+    pass
 
 if __name__ == "__main__":
     main()
