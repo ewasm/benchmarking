@@ -36,7 +36,7 @@ docker cp $(docker run -d -t ewasm/vanilla-wabt:1 sleep 3s):/vanilla-wabt/build/
 docker cp $(docker run -d -t ewasm/wabt:1 sleep 3s):/wabt/build/wasm-interp $WASM_ENGINE_BIN_DIR/wabt
 docker cp $(docker run -d -t ewasm/wagon:1 sleep 3s):/wagon/cmd/wasm-run/wasm-run $WASM_ENGINE_BIN_DIR/wagon
 
-docker cp $(docker run -d -t ewasm/wamr:1 sleep 3s):/wasm-micro-runtime/product-mini/platforms/linux/build_interp/iwasm $WASM_ENGINE_BIN_DIR/wamr-interp
+docker cp $(docker run -d -t ewasm/wamr:1 sleep 3s):/wasm-micro-runtime/product-mini/platforms/linux/build_interp/iwasm $WASM_ENGINE_BIN_DIR/iwasm
 docker cp $(docker run -d -t ewasm/wamr:1 sleep 3s):/wasm-micro-runtime/wamr-compiler/build/wamrc $WASM_ENGINE_BIN_DIR/wamrc
 
 docker cp $(docker run -d -t ewasm/wasm3:1 sleep 3s):/wasm3/build/wasm3 $WASM_ENGINE_BIN_DIR/wasm3
@@ -49,6 +49,13 @@ docker cp $(docker run -d -t ewasm/wavm:1 sleep 3s):/wavm-build/bin/wavm-compile
 docker cp $(docker run -d -t ewasm/wavm:1 sleep 3s):/wavm-build/bin/wavm-run $WASM_ENGINE_BIN_DIR/wavm-run
 
 docker run -v $RUST_BIN_DIR:/rust-bin -v $INPUT_VECTORS_DIR:/inputvectors -v $RESULTS_DIR:/results -v $(pwd)/rust-code:/rust-code -v $(pwd)/scripts:/scripts -it ewasm/bench-build-base:1 bash /scripts/fill_rust.sh
+
+ln -s $(which node) $WASM_ENGINE_BIN_DIR/node
+
+# copy scripts which invoke engines to wasm_bin_dir (fizzy and wamr-aot)
+cp scripts/fizzy.sh $WASM_ENGINE_BIN_DIR/
+cp scripts/wamr-aot.sh $WASM_ENGINE_BIN_DIR/
+
 sudo chown -R 1000:1000 $RESULTS_DIR
 
 echo "TODO minify rust wasm"
@@ -58,6 +65,8 @@ echo "TODO minify rust wasm"
 python3 scripts/bench_native.py --rustbindir=$RUST_BIN_DIR --csvresults=$RESULTS_DIR
 
 # run wasm benchmarks
+
+python3 scripts/bench_wasm.py --wasmenginedir $WASM_ENGINE_BIN_DIR --csvfile $RESULTS_DIR/wasm_engines.csv --wasmdir $WASM_FILE_DIR
 
 echo "TODO run rust native benchmarks"
 

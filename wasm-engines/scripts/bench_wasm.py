@@ -24,6 +24,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--wasmdir', help='full path of dir containing wasm files')
 parser.add_argument('--csvfile', help='name of csv result file')
 parser.add_argument('--engines', help='comma-separated list of engines to benchmark')
+parser.add_argument('--wasmenginedir', help='directory containing executables for all wasm engines')
 
 args = vars(parser.parse_args())
 
@@ -77,6 +78,7 @@ def main():
     wasm_dir = args['wasmdir']
     csv_file_path = args['csvfile']
     engines_to_run = args['engines']
+    engine_bin_dir = args['wasmenginedir']
     # "wagon,wabt,v8-liftoff,v8-turbofan,v8-interpreter,wasmtime,wavm,life-polymerase,life,wasmi,asmble"
     vms_to_run = {}
     if engines_to_run is not None:
@@ -87,13 +89,15 @@ def main():
         vms_to_run = vm_descriptors
 
     print("vms_to_run:", vms_to_run)
-    ## TODO: print version of each engine
 
     vm_bencher = WasmVMBencher()
     test_descriptors = getTestDescriptors(wasm_dir)
-    test_results = vm_bencher.run_tests(test_descriptors, vms_to_run)
+    # TODO no hardcode script path here
+    test_results = vm_bencher.run_tests(test_descriptors, engine_bin_dir, vms_to_run)
     print("test_results:")
     print(test_results)
+
+    import pdb; pdb.set_trace()
     save_test_results(csv_file_path, test_results)
 
 

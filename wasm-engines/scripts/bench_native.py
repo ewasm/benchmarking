@@ -62,7 +62,6 @@ def main():
         result_times = ",".join(list(map(lambda x: str(x), result_times)))
         results.append({"test_name": os.path.basename(binary).strip("_native"), "elapsed_times": result_times})
 
-    import pdb; pdb.set_trace()
     write_output_to_csv(results, os.path.join(args['csvresults'], "native_benchmarks.csv"))
 
 if __name__ == "__main__":
