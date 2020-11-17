@@ -11,6 +11,7 @@ CSV_WASM_RESULTS=$BENCHMARK_RESULTS_DIR/standalone_wasm_results.csv
 
 RESULTS_DIR=$(pwd)/../benchmark_results_data/wasm-results #./benchmark_results_data
 RUST_CODE_DIR=$(pwd)/rust-code
+WASM_SOURCE_DIR=$(pwd)/wasmfiles # we don't have corresponding source code for some of the wasm benchmarking blobs
 INPUT_VECTORS_DIR=$(pwd)/inputvectors
 WASM_FILE_DIR=$RESULTS_DIR/wasmfiles
 WASM_MINIFIED_DIR=$RESULTS_DIR/wasmfilesminified
@@ -22,6 +23,8 @@ mkdir $WASM_FILE_DIR
 mkdir $WASM_MINIFIED_DIR
 mkdir $RUST_BIN_DIR
 mkdir $WASM_ENGINE_BIN_DIR
+
+cp -r $WASM_SOURCE_DIR/* $WASM_FILE_DIR
 
 grep -E '^model name|^cpu MHz' /proc/cpuinfo > $RESULTS_DIR/cpuinfo.txt
 
