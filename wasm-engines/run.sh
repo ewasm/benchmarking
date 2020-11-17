@@ -9,7 +9,7 @@ set -e
 CSV_NATIVE_RESULTS=$BENCHMARK_RESULTS_DIR/native_benchmarks.csv
 CSV_WASM_RESULTS=$BENCHMARK_RESULTS_DIR/standalone_wasm_results.csv
 
-RESULTS_DIR=$(pwd)/results #./benchmark_results_data
+RESULTS_DIR=$(pwd)/../benchmark_results_data/wasm-results #./benchmark_results_data
 RUST_CODE_DIR=$(pwd)/rust-code
 INPUT_VECTORS_DIR=$(pwd)/inputvectors
 WASM_FILE_DIR=$RESULTS_DIR/wasmfiles
@@ -54,7 +54,7 @@ ln -s $(which node) $WASM_ENGINE_BIN_DIR/node
 
 # copy scripts which invoke engines to wasm_bin_dir (fizzy and wamr-aot)
 cp scripts/fizzy.sh $WASM_ENGINE_BIN_DIR/
-cp scripts/wamr-aot.sh $WASM_ENGINE_BIN_DIR/
+cp scripts/wamr_aot.sh $WASM_ENGINE_BIN_DIR/
 
 sudo chown -R 1000:1000 $RESULTS_DIR
 
@@ -66,8 +66,7 @@ python3 scripts/bench_native.py --rustbindir=$RUST_BIN_DIR --csvresults=$RESULTS
 
 # run wasm benchmarks
 
-python3 scripts/bench_wasm.py --wasmenginedir $WASM_ENGINE_BIN_DIR --csvfile $RESULTS_DIR/wasm_engines.csv --wasmdir $WASM_FILE_DIR
+python3 scripts/bench_wasm.py --wasmenginedir $WASM_ENGINE_BIN_DIR --csvfile $RESULTS_DIR/wasm_engines.csv --wasmdir $WASM_FILE_DIR --engines "wabt"
 
-echo "TODO run rust native benchmarks"
-
-# do stuff with the output
+mv $RESULTS_DIR/native_benchmarks.csv $RESULTS_DIR/../native_benchmarks.csv
+mv $RESULTS_DIR/wasm_engines.csv $RESULTS_DIR/../standalone_wasm_results.csv
