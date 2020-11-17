@@ -123,8 +123,6 @@ def main():
     rust_code_dir = args['rustcodedir']
     input_vectors_dir = args['inputvectorsdir']
 
-    import pdb; pdb.set_trace()
-
     rustcodes = [dI for dI in os.listdir(rust_code_dir) if os.path.isdir(os.path.join(rust_code_dir,dI))]
     #benchdirs = [dI for dI in os.listdir('./') if os.path.isdir(os.path.join('./',dI))]
     native_benchmarks = {}

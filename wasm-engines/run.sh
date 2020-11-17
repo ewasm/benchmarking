@@ -66,7 +66,7 @@ python3 scripts/bench_native.py --rustbindir=$RUST_BIN_DIR --csvresults=$RESULTS
 
 # run wasm benchmarks
 
-python3 scripts/bench_wasm.py --wasmenginedir $WASM_ENGINE_BIN_DIR --csvfile $RESULTS_DIR/wasm_engines.csv --wasmdir $WASM_FILE_DIR --engines "wabt"
+python3 scripts/bench_wasm.py --wasmenginedir $WASM_ENGINE_BIN_DIR --csvfile $RESULTS_DIR/wasm_engines.csv --wasmdir $WASM_FILE_DIR
 
 mv $RESULTS_DIR/native_benchmarks.csv $RESULTS_DIR/../native_benchmarks.csv
 mv $RESULTS_DIR/wasm_engines.csv $RESULTS_DIR/../standalone_wasm_results.csv

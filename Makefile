@@ -26,9 +26,7 @@ benchmark_scout_engines:
 
 benchmark_wasm_engines:
 	cd wasm-engines && \
-	./run_benchmarks.sh && \
-	cp benchmark_results_data/standalone_wasm_results.csv ../benchmark_results_data/ && \
-	cp benchmark_results/data/native_results.csv ../benchmark_results_data/
+	./run.sh
 
 benchmark: benchmark_scout_engines benchmark_wasm_engines benchmark_evm_engines benchmark_evm_precompiles
 

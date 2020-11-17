@@ -97,7 +97,6 @@ def main():
     print("test_results:")
     print(test_results)
 
-    import pdb; pdb.set_trace()
     save_test_results(csv_file_path, test_results)
 
 
