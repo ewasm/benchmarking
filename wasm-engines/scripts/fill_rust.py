@@ -24,6 +24,16 @@ def get_rust_bytes(hex_str):
     tmp = reduce(lambda x, y: x+', '+y, tmp)
     return '[ '+tmp+' ]'
 
+def minify_wasm(wasm_out_dir, wasm_minified_dir):
+    rust_wasm_minify_cmd = "/scripts/wasm_minify.sh {} {}".format(wasm_out_dir, wasm_minified_dir)
+    proc = subprocess.Popen(rust_wasm_minify_cmd, cwd='/root', stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
+    return_code = proc.wait(None)
+    if return_code != 0:
+        stdoutlines = [str(line, 'utf8') for line in proc.stdout]
+        print("error:")
+        print("".join(stdoutlines))
+        sys.exit(-1)
+
 def fill_rust(benchname, input, rust_code_dir, wasm_out_dir, native_out_dir):
     #rustsrc = "{}/rust-code/src/bench.rs".format(os.path.abspath(benchname))
     #rustsrc = "{}/rust-code".format(os.path.abspath(benchname))
@@ -97,7 +107,6 @@ def fill_rust(benchname, input, rust_code_dir, wasm_out_dir, native_out_dir):
     print(("").join(stdoutlines), end="")
     if return_code != 0:
         sys.exit(-1)
-    # wasm is at ./target/wasm32-unknown-unkown/release/sha1_wasm.wasm
     exec_out_path=os.path.join(native_out_dir, input['name'])
 
     wasmbin = "{}/target/wasm32-unknown-unknown/release/{}_wasm.wasm".format(filldir, benchname_rust)
@@ -111,7 +120,8 @@ def fill_rust(benchname, input, rust_code_dir, wasm_out_dir, native_out_dir):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--wasmoutdir', help='full path of dir containing wasm files')
+    parser.add_argument("--wasmminifieddir", help='full path to output minified wasm files')
+    parser.add_argument('--wasmoutdir', help='full path of dir containing non-minified wasm files')
     parser.add_argument('--rustcodedir', help='comma-separated list of engines to benchmark')
     parser.add_argument('--inputvectorsdir', help='comma-separated list of engines to benchmark')
     parser.add_argument('--nativeoutdir', help='directory to put binaries compiled from rust code')
@@ -119,6 +129,7 @@ def main():
     args = vars(parser.parse_args())
 
     wasm_out_dir = args['wasmoutdir']
+    wasm_minified_dir = args['wasmminifieddir']
     native_out_dir = args['nativeoutdir']
     rust_code_dir = args['rustcodedir']
     input_vectors_dir = args['inputvectorsdir']
@@ -141,7 +152,9 @@ def main():
 
             for input in bench_inputs:
                 print("bench input:", input['name'])
-                native_input_times = fill_rust(benchname, input, rust_code_dir, wasm_out_dir, native_out_dir)
+                fill_rust(benchname, input, rust_code_dir, wasm_out_dir, native_out_dir)
+        
+    minify_wasm(wasm_out_dir, wasm_minified_dir)
 
 if __name__ == "__main__":
     main()

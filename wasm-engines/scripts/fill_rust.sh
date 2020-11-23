@@ -9,4 +9,4 @@ NATIVE_DIR=$RESULTS_DIR/rustnative
 
 cd /scripts
 pip3 install -r ./requirements.txt
-python3.8 fill_rust.py --wasmoutdir $WASM_FILE_DIR --rustcodedir $RUST_CODE_DIR --inputvectorsdir $INPUT_VECTORS_DIR --nativeoutdir /rust-bin
+python3.8 fill_rust.py --wasmminifieddir $WASM_MINIFIED_DIR --wasmoutdir $WASM_FILE_DIR --rustcodedir $RUST_CODE_DIR --inputvectorsdir $INPUT_VECTORS_DIR --nativeoutdir /rust-bin
