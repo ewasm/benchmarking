@@ -1,0 +1,8 @@
+durationpy==0.5
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+numpy==1.19.2
+pandas==1.1.3
+python-dateutil==2.8.1
+pytz==2020.1
+six==1.15.0

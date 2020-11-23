@@ -13,14 +13,6 @@ import glob
 import argparse
 import sys
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--wasmoutdir', help='full path of dir containing wasm files')
-parser.add_argument('--csvresults', help='full path of csv result file')
-parser.add_argument('--rustcodedir', help='comma-separated list of engines to benchmark')
-parser.add_argument('--inputvectorsdir', help='comma-separated list of engines to benchmark')
-
-args = vars(parser.parse_args())
-
 
 # how many times to run native exec
 RUST_BENCH_REPEATS = 50
@@ -32,21 +24,17 @@ def get_rust_bytes(hex_str):
     tmp = reduce(lambda x, y: x+', '+y, tmp)
     return '[ '+tmp+' ]'
 
-def bench_rust_binary(rustdir, input_name, native_exec):
-    print("running rust native {}...\n{}".format(input_name, native_exec))
-    bench_times = []
-    for i in range(1,RUST_BENCH_REPEATS):
-        rust_process = subprocess.Popen(native_exec, cwd=rustdir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
-        rust_process.wait(None)
-        stdoutlines = [str(line, 'utf8') for line in rust_process.stdout]
-        print(("").join(stdoutlines), end="")
-        elapsedline = stdoutlines[0]
-        elapsedmatch = re.search("Time elapsed in bench\(\) is: ([\w\.]+)", elapsedline)
-        elapsed_time = durationpy.from_str(elapsedmatch[1])
-        bench_times.append(elapsed_time.total_seconds())
-    return bench_times
+def minify_wasm(wasm_out_dir, wasm_minified_dir):
+    rust_wasm_minify_cmd = "/scripts/wasm_minify.sh {} {}".format(wasm_out_dir, wasm_minified_dir)
+    proc = subprocess.Popen(rust_wasm_minify_cmd, cwd='/root', stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
+    return_code = proc.wait(None)
+    if return_code != 0:
+        stdoutlines = [str(line, 'utf8') for line in proc.stdout]
+        print("error:")
+        print("".join(stdoutlines))
+        sys.exit(-1)
 
-def do_rust_bench(benchname, input, rust_code_dir, wasm_out_dir):
+def fill_rust(benchname, input, rust_code_dir, wasm_out_dir, native_out_dir):
     #rustsrc = "{}/rust-code/src/bench.rs".format(os.path.abspath(benchname))
     #rustsrc = "{}/rust-code".format(os.path.abspath(benchname))
     rust_code_path = os.path.abspath(os.path.join(rust_code_dir, benchname))
@@ -59,7 +47,7 @@ def do_rust_bench(benchname, input, rust_code_dir, wasm_out_dir):
         return False
 
     #filldir = os.path.abspath("{}/rust-code-filled".format(benchname))
-    filldir = os.path.abspath(os.path.join("./rust-code-filled/", benchname))
+    filldir = os.path.abspath(os.path.join("/results/rust-code-filled", benchname))
     if os.path.exists(filldir):
         shutil.rmtree(filldir)
     shutil.copytree(rustsrc, filldir)
@@ -93,7 +81,7 @@ def do_rust_bench(benchname, input, rust_code_dir, wasm_out_dir):
 
     # compile rust code
     benchname_rust = benchname.replace("-", "_")
-    rust_native_cmd = "cargo build --release --bin {}_native".format(benchname_rust)
+    rust_native_cmd = "cargo build --release -j4 --bin {}_native".format(benchname_rust)
     print("compiling rust native {}...\n{}".format(input['name'], rust_native_cmd))
     rust_process = subprocess.Popen(rust_native_cmd, cwd=filldir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
     return_code = rust_process.wait(None)
@@ -111,7 +99,7 @@ def do_rust_bench(benchname, input, rust_code_dir, wasm_out_dir):
     # TODO: also build with optimization turned off
 
     # TODO: run wasm through wasm-gc
-    rust_wasm_cmd = "cargo build --release --lib --target wasm32-unknown-unknown"
+    rust_wasm_cmd = "cargo build --release -j4 --lib --target wasm32-unknown-unknown"
     print("compiling rust wasm {}...\n{}".format(input['name'], rust_wasm_cmd))
     rust_process = subprocess.Popen(rust_wasm_cmd, cwd=filldir, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
     return_code = rust_process.wait(None)
@@ -119,54 +107,33 @@ def do_rust_bench(benchname, input, rust_code_dir, wasm_out_dir):
     print(("").join(stdoutlines), end="")
     if return_code != 0:
         sys.exit(-1)
-    # wasm is at ./target/wasm32-unknown-unkown/release/sha1_wasm.wasm
+    exec_out_path=os.path.join(native_out_dir, input['name'])
+
     wasmbin = "{}/target/wasm32-unknown-unknown/release/{}_wasm.wasm".format(filldir, benchname_rust)
     wasmdir = os.path.abspath(wasm_out_dir)
     wasmoutfile = os.path.join(wasmdir, "{}.wasm".format(input['name']))
     if not os.path.exists(wasmdir):
         os.mkdir(wasmdir)
+
     shutil.copy(wasmbin, wasmoutfile)
-
-    # TODO: get cargo build compiler time and report along with exec time.
-
-    # run rust binary
-    native_times = bench_rust_binary(filldir, input['name'], "./target/release/{}_native".format(benchname_rust))
-    return { 'bench_times': native_times, 'exec_size': exec_size }
-
-
-def saveResults(native_benchmarks, result_file):
-    #result_file = os.path.join(RESULT_CSV_OUTPUT_PATH, RESULT_CSV_FILENAME)
-    # move existing files to old-datetime-folder
-    ts = time.time()
-    date_str = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d')
-    ts_folder_name = "{}-{}".format(date_str, round(ts))
-    result_path = os.path.dirname(result_file)
-    dest_backup_path = os.path.join(result_path, ts_folder_name)
-    os.makedirs(dest_backup_path)
-
-    #for file in glob.glob(r"{}/*.csv".format(RESULT_CSV_OUTPUT_PATH)):
-    #    print("backing up existing {}".format(file))
-    #    shutil.move(file, dest_backup_path)
-    if os.path.isfile(result_file):
-        print("backing up existing {}".format(result_file))
-        shutil.move(result_file, dest_backup_path)
-    print("existing csv file backed up to {}".format(dest_backup_path))
-
-    with open(result_file, 'w', newline='') as bench_result_file:
-        fieldnames = ['test_name', 'elapsed_times', 'native_file_size']
-        writer = csv.DictWriter(bench_result_file, fieldnames=fieldnames)
-        writer.writeheader()
-        for test_name, test_results in native_benchmarks.items():
-            bench_times = [str(t) for t in test_results['bench_times']]
-            times_str = ", ".join(bench_times)
-            writer.writerow({"test_name" : test_name, "elapsed_times" : times_str, "native_file_size" : test_results['exec_size']})
-
+    shutil.copy(exec_path, native_out_dir+"/"+input['name']+'_native')
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--wasmminifieddir", help='full path to output minified wasm files')
+    parser.add_argument('--wasmoutdir', help='full path of dir containing non-minified wasm files')
+    parser.add_argument('--rustcodedir', help='comma-separated list of engines to benchmark')
+    parser.add_argument('--inputvectorsdir', help='comma-separated list of engines to benchmark')
+    parser.add_argument('--nativeoutdir', help='directory to put binaries compiled from rust code')
+
+    args = vars(parser.parse_args())
+
     wasm_out_dir = args['wasmoutdir']
-    csv_file_path = args['csvresults']
+    wasm_minified_dir = args['wasmminifieddir']
+    native_out_dir = args['nativeoutdir']
     rust_code_dir = args['rustcodedir']
     input_vectors_dir = args['inputvectorsdir']
+
     rustcodes = [dI for dI in os.listdir(rust_code_dir) if os.path.isdir(os.path.join(rust_code_dir,dI))]
     #benchdirs = [dI for dI in os.listdir('./') if os.path.isdir(os.path.join('./',dI))]
     native_benchmarks = {}
@@ -185,16 +152,9 @@ def main():
 
             for input in bench_inputs:
                 print("bench input:", input['name'])
-                native_input_times = do_rust_bench(benchname, input, rust_code_dir, wasm_out_dir)
-                if native_input_times:
-                    native_benchmarks[input['name']] = native_input_times
-
-                print("done with input:", input['name'])
-
-        print("done benching: ", benchname)
-
-    print("got native_benchmarks:", native_benchmarks)
-    saveResults(native_benchmarks, csv_file_path)
+                fill_rust(benchname, input, rust_code_dir, wasm_out_dir, native_out_dir)
+        
+    minify_wasm(wasm_out_dir, wasm_minified_dir)
 
 if __name__ == "__main__":
     main()

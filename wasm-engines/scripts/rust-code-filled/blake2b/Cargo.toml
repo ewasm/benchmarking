@@ -1,0 +1,30 @@
+[package]
+name = "ewasm-bench-blake2b"
+version = "0.1.0"
+license = "Apache-2.0"
+description = "Ethereum BLAKE2b benchmark in Rust"
+publish = false
+edition = "2018"
+
+[dependencies]
+blake2 = "0.7"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wee_alloc = "0.4.2"
+
+[lib]
+name = "blake2b_wasm"
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[[bin]]
+name = "blake2b_native"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = 3
+debug = false
+lto = true
+debug-assertions = false
+overflow-checks = false
+panic = "abort"

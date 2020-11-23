@@ -1540,7 +1540,7 @@ df_native_raw = read_results(join(CSV_RESULT_DIR, NATIVE_RESULT_FILE))
 native_results = {}
 for i in range(len(df_native_raw)):
     test_name = df_native_raw['test_name'][i]
-    native_results[test_name] = df_native_raw['elapsed_times'][i].split(', ')
+    native_results[test_name] = df_native_raw['elapsed_times'][i].strip(' ').split(',')
 
     
 test_names = df_native_raw['test_name'].tolist()

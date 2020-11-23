@@ -24,10 +24,10 @@ class VMDescriptor:
         A relative path to VM binary in its main folder.
     vm_launch_cmd : str
         An format string with command for launch this vm with provided test.
-    is_compiler_type : bool
-        True, if vm is compiler-type (JIT, AOT, ...).
-
+    script_invoke : bool
+        The engine is invoked via a script (expected to be located under the scripts/ directory)
     """
-    def __init__(self, vm_binary_path="", vm_launch_cmd=""):
-        self.vm_binary_path = vm_binary_path
+    def __init__(self, vm_binary_name="", vm_launch_cmd="", script_invoke=False):
+        self.vm_binary_name = vm_binary_name
         self.vm_launch_cmd = vm_launch_cmd
+        self.script_invoke = script_invoke

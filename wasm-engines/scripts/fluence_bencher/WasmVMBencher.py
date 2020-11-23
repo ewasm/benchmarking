@@ -25,6 +25,7 @@ import logging
 import durationpy
 import re
 import shlex
+import os
 
 
 class Record:
@@ -58,7 +59,7 @@ class WasmVMBencher:
         self.logger.info(error_msg)
         print(error_msg, file=open(self.error_log, 'a'))
 
-    def run_tests(self, test_descriptors, vm_descriptors):
+    def run_tests(self, test_descriptors, vm_bin_path, vm_descriptors):
         """Launches provided tests and returns their execution time.
 
         Parameters
@@ -86,10 +87,11 @@ class WasmVMBencher:
                 if vm not in vm_descriptors:
                     continue
 
-                vm_binary_full_path = join(vm_descriptors[vm].vm_binary_path)
+                vm_binary_full_path = join(vm_bin_path, vm_descriptors[vm].vm_binary_name)
+
                 cmd = vm_binary_full_path + " " \
                       + vm_descriptors[vm].vm_launch_cmd.format(wasm_file_path=test_path,
-                                                                function_name=test_export_function_name)
+                                                                    function_name=test_export_function_name)
 
                 # determine repititions for a benchmark by checking the time it takes for one run
                 # if its very short, then do many repetitions

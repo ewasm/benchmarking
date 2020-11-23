@@ -1,0 +1,8 @@
+model name	: Intel(R) Core(TM) i5-6600K CPU @ 3.50GHz
+cpu MHz		: 2013.215
+model name	: Intel(R) Core(TM) i5-6600K CPU @ 3.50GHz
+cpu MHz		: 2936.006
+model name	: Intel(R) Core(TM) i5-6600K CPU @ 3.50GHz
+cpu MHz		: 2583.646
+model name	: Intel(R) Core(TM) i5-6600K CPU @ 3.50GHz
+cpu MHz		: 2611.170
