@@ -4319,7 +4319,32 @@ fig_plt.savefig('../images/evm384-bls12-pairings-synth-loop-rust-wasm.png', bbox
 # In[ ]:
 
 
+df_evm384_versions_and_native = df_evm384_wasm_native.copy()
+df_evm384_versions_and_native.reset_index(inplace=True)
 
+df_evm384_versions_and_native = df_evm384_versions_and_native[~df_evm384_versions_and_native['engine_bench_name'].isin([
+   'fizzy-with-bignums--bls12-synth-loop',
+    'fizzy-with-bignums--bls12-two-pairings',
+    'wabt-with-bignums--bls12-synth-loop',
+    'wabt-with-bignums--bls12-two-pairings'
+])]
+
+df_evm384_versions_and_native.loc[df_evm384_versions_and_native['engine_bench_name'].str.contains(pat='evmone'), 'time'] *= 1.25
+
+#df_evm384_versions_and_native.drop(df_evm384_versions_and_native['engine_bench_name'].isin([
+#    'fizzy-with-bignums--bls12-synth-loop',
+#    'fizzy-with-bignums--bls12-two-pairings',
+#    'wabt-with-bignums--bls12-synth-loop',
+#    'wabt-with-bignums--bls12-two-pairings'
+#]))
+
+df_evm384_versions_and_native.set_index('engine_bench_name', inplace=True)
+
+fig_plt = plotOneTestUsingTimeCol(df_evm384_versions_and_native,
+            suptitle="bls12-pairing: evm384 (estimated via adjustment factor) vs rust native",
+            suptitle_pos=1.02)
+
+fig_plt.savefig('../images/evm384-versions-vs-rust-native.png', bbox_inches='tight')
 
 
 # In[ ]:
@@ -4333,6 +4358,8 @@ fig_plt.savefig('../images/evm384-bls12-pairings-synth-loop-rust-wasm.png', bbox
 
 df_evm384_wasm_synth_loop = df_evm384_wasm_native.copy()
 df_evm384_wasm_synth_loop.reset_index(inplace=True)
+
+df_evm384_wasm_synth_loop
 
 
 # In[ ]:

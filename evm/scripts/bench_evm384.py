@@ -18,16 +18,36 @@ RESULT_CSV_FILENAME = "evm_benchmarks_evmone384.csv"
 
 EVMONE_BENCH_INFOS = [
   {
-    "command": "/root/evmone-evm384-v1/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v1-f6m_mul_bench.bin 00 74229fc665e6c3f4401905c1a454ea57c8931739d05a074fd60400f19684d680a9e1305c25f13613dcc6cdd6e6e57d0800000000000000000000000000000000",
+    "command": "/root/evmone-evm384-v1/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v1-f6m_mul_bench.hex 00 74229fc665e6c3f4401905c1a454ea57c8931739d05a074fd60400f19684d680a9e1305c25f13613dcc6cdd6e6e57d0800000000000000000000000000000000",
     "bench_name": "evm384-synth-loop-v1"
   },
   {
-    "command": "/root/evmone-evm384-v2/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v2-f6m_mul_bench.bin 00 74229fc665e6c3f4401905c1a454ea57c8931739d05a074fd60400f19684d680a9e1305c25f13613dcc6cdd6e6e57d0800000000000000000000000000000000",
+    "command": "/root/evmone-evm384-v2/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v2-f6m_mul_bench.hex 00 74229fc665e6c3f4401905c1a454ea57c8931739d05a074fd60400f19684d680a9e1305c25f13613dcc6cdd6e6e57d0800000000000000000000000000000000",
     "bench_name": "evm384-synth-loop-v2"
   },
   {
-    "command": "/root/evmone-evm384-v2-unsafe/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/mem-check-disable-evm384_f6m_mul/build/v2-f6m_mul_bench.bin 00 74229fc665e6c3f4401905c1a454ea57c8931739d05a074fd60400f19684d680a9e1305c25f13613dcc6cdd6e6e57d0800000000000000000000000000000000",
+    "command": "/root/evmone-evm384-v3/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v3-f6m_mul_bench.hex 00 74229fc665e6c3f4401905c1a454ea57c8931739d05a074fd60400f19684d680a9e1305c25f13613dcc6cdd6e6e57d0800000000000000000000000000000000",
     "bench_name": "evm384-synth-loop-v3"
+  },
+  {
+    "command": "/root/evmone-evm384-v4/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v4-f6m_mul_bench.hex 00 74229fc665e6c3f4401905c1a454ea57c8931739d05a074fd60400f19684d680a9e1305c25f13613dcc6cdd6e6e57d0800000000000000000000000000000000",
+    "bench_name": "evm384-synth-loop-v4"
+  },
+  {
+    "command": "/root/evmone-evm384-v5/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v5-f6m_mul_bench.hex 00 3eb4cfbedd75a21a29701b4f4672232c52318353acdeef6d435d19a2681e023d153b8d400893da3b1525258aa820610e00000000000000000000000000000000",
+    "bench_name": "evm384-synth-loop-v5"
+  },
+  {
+    "command": "/root/evmone-evm384-v6/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v6-f6m_mul_bench.hex 00 ff",
+    "bench_name": "evm384-synth-loop-v6"
+  },
+  {
+    "command": "/root/evmone-evm384-v4/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v4-huff-f6m_mul_bench.hex 00 ff",
+    "bench_name": "evm384-synth-loop-v4-huff"
+  },
+  {
+    "command": "/root/evmone-evm384-v7/build/bin/evmone-bench --benchmark_format=json --benchmark_color=false --benchmark_min_time=5 /root/evm384_f6m_mul/build/v7-f6m_mul_bench.hex \"\" \"\"",
+    "bench_name": "evm384-synth-loop-v7-huff"
   }
 ]
 
